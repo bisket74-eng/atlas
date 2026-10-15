@@ -5,26 +5,54 @@
 <meta name="theme-color" content="#0d1421"><title>Atlas Adventures</title>
 <style>
 :root{color-scheme:dark;--bg:#0d1421;--panel:#151f30;--panel2:#101a29;--line:#2a3a50;--text:#f1f5fb;--muted:#9baac0;--accent:#9294ff;--mint:#76e2bd;--gold:#ffd18a}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 20% -10%,#263858,transparent 42%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--mint);outline-offset:2px}.shell{width:min(1200px,calc(100% - 28px));margin:auto;padding:24px 0 35px}header{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px}.brand{display:flex;gap:12px;align-items:center}.mark{width:45px;height:45px;border-radius:15px;background:linear-gradient(135deg,#9294ff,#5ac9c0);display:grid;place-items:center;color:#101725;font-size:25px}.eyebrow{color:var(--mint);font-size:10px;letter-spacing:2px;font-weight:800;margin:0 0 5px}h1{font-size:clamp(25px,4vw,35px);letter-spacing:-1.2px;margin:0}h1 span{color:var(--accent)}.sub{color:var(--muted);font-size:12px;line-height:1.5;margin:6px 0 0}.badge{border:1px solid var(--line);border-radius:99px;padding:9px 12px;color:var(--mint);font-size:10px;white-space:nowrap}.layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(340px,.95fr);gap:16px;align-items:start}.panel{background:linear-gradient(155deg,#19263a,#131d2c);border:1px solid var(--line);border-radius:18px;overflow:hidden}.pad{padding:18px}.head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}h2{font-size:16px;margin:0}h3{font-size:13px;margin:0 0 12px}.mini{font-size:9px;color:var(--muted);letter-spacing:1.2px;font-weight:800;text-transform:uppercase}.field{width:100%;background:#0c1421;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:11px;min-width:0}.label{display:block;margin-bottom:7px}.globe-wrap{height:390px;position:relative;background:radial-gradient(ellipse at center,#203852,#0c1421 72%);border-block:1px solid var(--line)}#globeViz{width:100%;height:100%;touch-action:pan-y;position:relative;z-index:1}#globeFallback{display:none!important}#globeViz canvas{display:block;max-width:100%;}.globe-note{position:absolute;bottom:10px;left:12px;right:12px;display:flex;justify-content:space-between;pointer-events:none;color:#c0cce0;font-size:9px;letter-spacing:.7px;text-transform:uppercase;text-shadow:0 1px 5px #000}.actions{display:flex;gap:8px;flex-wrap:wrap;padding:14px 18px}.btn{border:1px solid var(--line);border-radius:9px;padding:10px 12px;color:var(--text);background:#202d42;font-size:11px;font-weight:750}.btn:hover{background:#2c3d56}.btn.primary{background:#8e91ff;color:#101725;border-color:#a9abff}.select-wrap{margin-top:13px}.statusline{color:var(--muted);font-size:11px;margin:0}.desttitle{display:flex;align-items:center;gap:12px}.flag{font-size:32px}.desttitle h2{font-size:23px;letter-spacing:-.6px}.pill{display:inline-block;margin-top:6px;padding:4px 8px;border:1px solid #76e2bd50;border-radius:99px;color:var(--mint);font-size:10px}.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:16px 0}.fact,.tool{background:#101a29;border:1px solid var(--line);border-radius:12px;padding:12px;min-width:0}.fact-button{display:block;width:100%;text-align:left;color:var(--text);cursor:pointer;transition:background .15s,border-color .15s,transform .15s;position:relative;border:2px solid #344760;box-shadow:0 3px 0 #070d16;padding:14px 12px;border-radius:14px;background:linear-gradient(145deg,#1a2a40,#111c2d)}.fact-button:before{content:"OPEN DETAILS  ↗";display:block;font-size:9px;letter-spacing:1px;font-weight:800;color:#9eafc5;margin-top:10px}.fact-button[aria-expanded="true"]{border-color:var(--mint);background:linear-gradient(145deg,#203b48,#142738);box-shadow:0 0 0 2px #76e2bd28,0 3px 0 #070d16}.fact-button[aria-expanded="true"]:before{content:"DETAILS OPEN  ✓";color:var(--mint)}.fact-button:hover{border-color:#8ca1bf;transform:translateY(-1px)}.fact-button:active{transform:translateY(1px);box-shadow:0 1px 0 #070d16}.fact-button[data-panel="powerPanel"]{border-top:3px solid #e16a77}.fact-button[data-panel="distancePanel"]{border-top:3px solid #e3bd55}.fact-button[data-panel="currencyPanel"]{border-top:3px solid #55c995}.fact-button[data-panel="phrasesPanel"]{border-top:3px solid #67a9f5}.detail-panel{display:none}.detail-panel.open{display:block}.phrase-table{display:grid;gap:7px;margin-top:12px}.phrase-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;background:#0c1421;border:1px solid var(--line);border-radius:9px}.phrase-row strong{display:block;font-size:12px}.phrase-row small{display:block;color:var(--muted);font-size:10px;margin-top:4px}.phrase-tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.phrase-row button{margin-top:7px}.plug-views{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.plug-view{background:#0c1421;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}.plug-view svg{max-width:100%;height:125px}.plug-view img{display:block;width:100%;height:150px;object-fit:contain;border-radius:8px;background:#f4f4f4}.socket-photo-loading,.photo-unavailable{min-height:150px;display:grid;place-items:center;color:var(--muted);font-size:11px;padding:12px}.photo-credit{display:block;color:var(--muted);font-size:9px;overflow-wrap:anywhere;margin-top:5px}.plug-view strong{display:block;font-size:12px;margin-top:6px}.plug-view small{color:var(--muted);font-size:10px}.fact .mini{display:block;margin-bottom:7px}.fact strong{font-size:13px;display:block}.fact small{font-size:10px;color:var(--muted);display:block;margin-top:4px;line-height:1.4}.divider{height:1px;background:var(--line);margin:15px 0}.plug{display:flex;gap:13px;align-items:center;background:#101a29;border:1px solid var(--line);padding:12px;border-radius:12px}.plugicon{width:68px;height:76px;flex:none;border-radius:10px;background:#202d42;display:grid;place-items:center}.plugicon svg{width:52px;height:60px}.plug p{font-size:11px;color:var(--muted);line-height:1.5;margin:5px 0 0}.notice{margin-top:9px;border:1px solid #ffd18a38;background:#ffd18a0c;border-radius:9px;padding:10px;font-size:10px;line-height:1.5;color:#e3d1ac}.tools{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}.tool h3{margin-bottom:10px}.tool .field{margin-top:7px}.result{color:var(--mint);font-size:12px;font-weight:750;margin-top:10px;min-height:17px;overflow-wrap:anywhere}.toolnote{font-size:10px;color:var(--muted);line-height:1.5;margin:8px 0 0}.convert-line{display:grid;grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr);gap:8px;align-items:end}.convert-side{min-width:0}.convert-side label{display:block;margin-bottom:6px}.swap{height:41px;width:42px;padding:0;font-size:19px;border-radius:10px;color:var(--mint)}.amount-line{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:8px;align-items:end}.amount-line label{display:block;margin-bottom:6px}.amount-line .field{margin-top:0}.tool .convert-line .field{margin-top:0}.tripform{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.triplist{display:grid;gap:8px;margin-top:12px}.trip{display:flex;gap:9px;align-items:center;padding:10px;background:#101a29;border:1px solid var(--line);border-radius:10px}.tripinfo{flex:1;min-width:0}.trip strong{display:block;font-size:12px}.trip small{font-size:10px;color:var(--muted)}.trip button{background:none;border:0;color:#ff9b9b;font-size:18px}.empty{color:var(--muted);font-size:11px}.wide{grid-column:1/-1}footer{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:10px;padding:18px 3px 0}.api{color:var(--muted);font-size:10px;line-height:1.5;margin-top:12px}.api a{color:#b5b6ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 20% -10%,#263858,transparent 42%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--mint);outline-offset:2px}.shell{width:min(1200px,calc(100% - 28px));margin:auto;padding:24px 0 35px}header{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px}.brand{display:flex;gap:12px;align-items:center}.mark{width:45px;height:45px;border-radius:15px;background:linear-gradient(135deg,#9294ff,#5ac9c0);display:grid;place-items:center;color:#101725;font-size:25px}.eyebrow{color:var(--mint);font-size:10px;letter-spacing:2px;font-weight:800;margin:0 0 5px}h1{font-size:clamp(25px,4vw,35px);letter-spacing:-1.2px;margin:0}h1 span{color:var(--accent)}.sub{color:var(--muted);font-size:12px;line-height:1.5;margin:6px 0 0}.badge{border:1px solid var(--line);border-radius:99px;padding:9px 12px;color:var(--mint);font-size:10px;white-space:nowrap}.layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(340px,.95fr);gap:16px;align-items:start}.panel{background:linear-gradient(155deg,#19263a,#131d2c);border:1px solid var(--line);border-radius:18px;overflow:hidden}.pad{padding:18px}.head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}h2{font-size:16px;margin:0}h3{font-size:13px;margin:0 0 12px}.mini{font-size:9px;color:var(--muted);letter-spacing:1.2px;font-weight:800;text-transform:uppercase}.field{width:100%;background:#0c1421;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:11px;min-width:0}.label{display:block;margin-bottom:7px}.globe-wrap{height:390px;position:relative;background:radial-gradient(ellipse at center,#203852,#0c1421 72%);border-block:1px solid var(--line)}#globeViz{width:100%;height:100%;touch-action:pan-y;position:relative;z-index:1}#globeFallback{display:none!important}#globeViz canvas{display:block!important;width:100%;height:100%;max-width:100%;outline:0;}.globe-note{position:absolute;bottom:10px;left:12px;right:12px;display:flex;justify-content:space-between;pointer-events:none;color:#c0cce0;font-size:9px;letter-spacing:.7px;text-transform:uppercase;text-shadow:0 1px 5px #000}.actions{display:flex;gap:8px;flex-wrap:wrap;padding:14px 18px}.btn{border:1px solid var(--line);border-radius:9px;padding:10px 12px;color:var(--text);background:#202d42;font-size:11px;font-weight:750}.btn:hover{background:#2c3d56}.btn.primary{background:#8e91ff;color:#101725;border-color:#a9abff}.select-wrap{margin-top:13px}.statusline{color:var(--muted);font-size:11px;margin:0}.desttitle{display:flex;align-items:center;gap:12px}.flag{font-size:32px}.desttitle h2{font-size:23px;letter-spacing:-.6px}.pill{display:inline-block;margin-top:6px;padding:4px 8px;border:1px solid #76e2bd50;border-radius:99px;color:var(--mint);font-size:10px}.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:16px 0}.fact,.tool{background:#101a29;border:1px solid var(--line);border-radius:12px;padding:12px;min-width:0}.fact-button{display:block;width:100%;text-align:left;color:var(--text);cursor:pointer;transition:background .15s,border-color .15s,transform .15s;position:relative;border:2px solid #344760;box-shadow:0 3px 0 #070d16;padding:14px 12px;border-radius:14px;background:linear-gradient(145deg,#1a2a40,#111c2d)}.fact-button:before{content:"OPEN DETAILS  ↗";display:block;font-size:9px;letter-spacing:1px;font-weight:800;color:#9eafc5;margin-top:10px}.fact-button[aria-expanded="true"]{border-color:var(--mint);background:linear-gradient(145deg,#203b48,#142738);box-shadow:0 0 0 2px #76e2bd28,0 3px 0 #070d16}.fact-button[aria-expanded="true"]:before{content:"DETAILS OPEN  ✓";color:var(--mint)}.fact-button:hover{border-color:#8ca1bf;transform:translateY(-1px)}.fact-button:active{transform:translateY(1px);box-shadow:0 1px 0 #070d16}.fact-button[data-panel="powerPanel"]{border-top:3px solid #e16a77}.fact-button[data-panel="distancePanel"]{border-top:3px solid #e3bd55}.fact-button[data-panel="currencyPanel"]{border-top:3px solid #55c995}.fact-button[data-panel="phrasesPanel"]{border-top:3px solid #67a9f5}.detail-panel{display:none}.detail-panel.open{display:block}.phrase-table{display:grid;gap:7px;margin-top:12px}.phrase-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;background:#0c1421;border:1px solid var(--line);border-radius:9px}.phrase-row strong{display:block;font-size:12px}.phrase-row small{display:block;color:var(--muted);font-size:10px;margin-top:4px}.phrase-tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.phrase-row button{margin-top:7px}.plug-views{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.plug-view{background:#0c1421;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}.plug-view svg{max-width:100%;height:125px}.plug-view img{display:block;width:100%;height:150px;object-fit:contain;border-radius:8px;background:#f4f4f4}.socket-photo-loading,.photo-unavailable{min-height:150px;display:grid;place-items:center;color:var(--muted);font-size:11px;padding:12px}.photo-credit{display:block;color:var(--muted);font-size:9px;overflow-wrap:anywhere;margin-top:5px}.plug-view strong{display:block;font-size:12px;margin-top:6px}.plug-view small{color:var(--muted);font-size:10px}.fact .mini{display:block;margin-bottom:7px}.fact strong{font-size:13px;display:block}.fact small{font-size:10px;color:var(--muted);display:block;margin-top:4px;line-height:1.4}.divider{height:1px;background:var(--line);margin:15px 0}.plug{display:flex;gap:13px;align-items:center;background:#101a29;border:1px solid var(--line);padding:12px;border-radius:12px}.plugicon{width:68px;height:76px;flex:none;border-radius:10px;background:#202d42;display:grid;place-items:center}.plugicon svg{width:52px;height:60px}.plug p{font-size:11px;color:var(--muted);line-height:1.5;margin:5px 0 0}.notice{margin-top:9px;border:1px solid #ffd18a38;background:#ffd18a0c;border-radius:9px;padding:10px;font-size:10px;line-height:1.5;color:#e3d1ac}.tools{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}.tool h3{margin-bottom:10px}.tool .field{margin-top:7px}.result{color:var(--mint);font-size:12px;font-weight:750;margin-top:10px;min-height:17px;overflow-wrap:anywhere}.toolnote{font-size:10px;color:var(--muted);line-height:1.5;margin:8px 0 0}.convert-line{display:grid;grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr);gap:8px;align-items:end}.convert-side{min-width:0}.convert-side label{display:block;margin-bottom:6px}.swap{height:41px;width:42px;padding:0;font-size:19px;border-radius:10px;color:var(--mint)}.amount-line{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:8px;align-items:end}.amount-line label{display:block;margin-bottom:6px}.amount-line .field{margin-top:0}.tool .convert-line .field{margin-top:0}.tripform{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.triplist{display:grid;gap:8px;margin-top:12px}.trip{display:flex;gap:9px;align-items:center;padding:10px;background:#101a29;border:1px solid var(--line);border-radius:10px}.tripinfo{flex:1;min-width:0}.trip strong{display:block;font-size:12px}.trip small{font-size:10px;color:var(--muted)}.trip button{background:none;border:0;color:#ff9b9b;font-size:18px}.empty{color:var(--muted);font-size:11px}.wide{grid-column:1/-1}footer{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:10px;padding:18px 3px 0}.api{color:var(--muted);font-size:10px;line-height:1.5;margin-top:12px}.api a{color:#b5b6ff}
 @media(max-width:850px){.layout{grid-template-columns:1fr}.globe-wrap{height:370px}}@media(max-width:520px){.shell{width:calc(100% - 18px);padding-top:16px}.badge{display:none}.globe-wrap{height:340px}.pad{padding:14px}.tools{grid-template-columns:1fr}.actions{padding:12px}.btn{flex:1 1 42%}.facts{gap:7px}.fact{padding:10px}.tripform{grid-template-columns:1fr}.wide{grid-column:auto}footer{flex-direction:column}}
 </style>
 <script>
 (function(){
-  const sources=[
+  // Load the official browser (UMD) build, trying more than one CDN.
+  const sources = [
     "https://cdn.jsdelivr.net/npm/globe.gl@2.46.2/dist/globe.gl.min.js",
     "https://unpkg.com/globe.gl@2.46.2/dist/globe.gl.min.js",
-    "https://cdn.jsdelivr.net/npm/globe.gl@2.46.2"
+    "https://cdn.jsdelivr.net/npm/globe.gl/dist/globe.gl.min.js",
+    "https://unpkg.com/globe.gl/dist/globe.gl.min.js"
   ];
-  let i=0;
-  function loadNext(){
-    if(i>=sources.length){window.__atlasGlobeFailed=true;window.dispatchEvent(new Event("atlas-globe-failed"));return;}
-    const script=document.createElement("script");
-    script.src=sources[i++];script.async=true;
-    script.onload=()=>{if(typeof window.Globe==="function"){window.__atlasGlobeReady=true;window.dispatchEvent(new Event("atlas-globe-ready"));}else loadNext();};
-    script.onerror=loadNext;
+  let index = 0;
+  let finished = false;
+  function reportFailure(){
+    if (finished) return;
+    finished = true;
+    window.__atlasGlobeFailed = true;
+    window.__atlasGlobeReady = false;
+    window.dispatchEvent(new Event("atlas-globe-failed"));
+  }
+  function trySource(){
+    if (typeof window.Globe === "function") {
+      finished = true;
+      window.__atlasGlobeReady = true;
+      window.__atlasGlobeFailed = false;
+      window.dispatchEvent(new Event("atlas-globe-ready"));
+      return;
+    }
+    if (index >= sources.length) { reportFailure(); return; }
+    const src = sources[index++];
+    const script = document.createElement("script");
+    script.src = src;
+    script.async = true;
+    script.onload = function(){
+      if (typeof window.Globe === "function") {
+        finished = true;
+        window.__atlasGlobeReady = true;
+        window.__atlasGlobeFailed = false;
+        window.dispatchEvent(new Event("atlas-globe-ready"));
+      } else { trySource(); }
+    };
+    script.onerror = trySource;
     document.head.appendChild(script);
   }
-  loadNext();
+  trySource();
+  // A few browsers report a successful script load even if the global was not exposed.
+  setTimeout(function(){ if (!finished && typeof window.Globe !== "function") reportFailure(); }, 18000);
 })();
 </script>
 </head>
@@ -244,21 +272,77 @@ if(needsLive){translatePhrase(en,target).then(value=>{localPhraseValue(value,row
 if(!count)box.innerHTML='<p class="empty">No phrases match your search.</p>';
 }
 function localPhraseValue(value,row,target,dir){const strong=row.querySelectorAll("strong");if(strong.length>1){const targetNode=dir==="local"?strong[0]:strong[1];targetNode.textContent=value}const small=row.querySelectorAll("small");if(small.length>1){const targetSmall=dir==="local"?small[0]:small[1];targetSmall.textContent=langNames[target]||target}}
+let globeInitializing = false;
 function initGlobe(){
-if(typeof Globe!=="function"){
-  if(!window.__atlasGlobeFailed && !window.__atlasGlobeReady){
-    $("globeStatus").textContent="Loading the interactive 3D globe…";
-    setTimeout(initGlobe,400);
+  const host = $("globeViz");
+  if (!host) return;
+  if (globe) {
+    try { globe.width(Math.max(1, host.clientWidth)).height(Math.max(1, host.clientHeight)); } catch(e) {}
     return;
   }
-  $("globeStatus").textContent="The 3D globe library could not load. Check the internet connection and reload; no fake globe is being substituted.";
-  return;
-}
-try{
-globe=Globe()($("globeViz")).width($("globeViz").clientWidth).height($("globeViz").clientHeight).backgroundColor("rgba(0,0,0,0)").globeImageUrl("https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg").bumpImageUrl("https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png").showAtmosphere(true).atmosphereColor("#6fa9ff").atmosphereAltitude(.16).showGraticules(true).polygonsData([]).polygonAltitude(.008).polygonCapColor(d=>{const code=d.properties.ISO_A2_EH||d.properties.ISO_A2||"";return code===selected?"rgba(255,209,138,0.72)":"rgba(90,190,172,0.20)"}).polygonSideColor(()=>"rgba(100,180,210,0.12)").polygonStrokeColor(()=>"rgba(180,220,245,0.65)").polygonLabel(d=>`<b>${d.properties.ADMIN||d.properties.NAME||"Country"}</b><br>Click to select`).onPolygonClick(d=>{const code=d.properties.ISO_A2_EH||d.properties.ISO_A2; if(byCode[code]){selected=code;$("countrySelect").value=code;renderCountry();globe.polygonCapColor(x=>(x===d)?"rgba(255,209,138,0.78)":"rgba(90,190,172,0.20)");}}).pointColor(d=>d.kind==="Visited"?"#76e2bd":d.kind==="Planning"?"#9294ff":"#ffd18a").pointAltitude(.025).pointRadius(.45).pointLabel(d=>`${d.label} · ${d.kind}`).pointsData([]);
-globe.controls().autoRotate=true;globe.controls().autoRotateSpeed=.35;globe.controls().enableDamping=true;globe.pointOfView({lat:25,lng:10,altitude:2.25},900);
-fetch("https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson").then(r=>{if(!r.ok)throw Error("Country map request failed");return r.json()}).then(data=>{features=data.features.filter(f=>{const p=f.properties;return (p.ISO_A2_EH||p.ISO_A2)!=="AQ"});globe.polygonsData(features);$("globeStatus").textContent=`Real Earth imagery and ${features.length} country/territory outlines loaded. Tap a country outline to select it.`;}).catch(()=>{$("globeStatus").textContent="Earth imagery is shown, but country borders could not load. Check internet access.";});
- }catch(err){console.error("Atlas globe initialization failed",err);$("globeStatus").textContent="The interactive globe hit a rendering error. Try reloading the page; the country picker remains available.";}
+  if (globeInitializing) return;
+  if (typeof window.Globe !== "function") {
+    $("globeStatus").textContent = window.__atlasGlobeFailed
+      ? "The globe library could not be downloaded. Check that your browser allows jsDelivr or unpkg, then reload."
+      : "Loading the interactive spinning globe…";
+    if (!window.__atlasGlobeFailed) setTimeout(initGlobe, 600);
+    return;
+  }
+  globeInitializing = true;
+  try {
+    host.innerHTML = "";
+    globe = window.Globe()(host)
+      .width(Math.max(1, host.clientWidth))
+      .height(Math.max(1, host.clientHeight))
+      .backgroundColor("rgba(0,0,0,0)")
+      .globeImageUrl("https://cdn.jsdelivr.net/npm/three-globe@2.45.0/example/img/earth-blue-marble.jpg")
+      .bumpImageUrl("https://cdn.jsdelivr.net/npm/three-globe@2.45.0/example/img/earth-topology.png")
+      .showAtmosphere(true)
+      .atmosphereColor("#6fa9ff")
+      .atmosphereAltitude(.16)
+      .showGraticules(true)
+      .polygonsData([])
+      .polygonAltitude(.008)
+      .polygonCapColor(d => {
+        const code = d.properties.ISO_A2_EH || d.properties.ISO_A2 || "";
+        return code === selected ? "rgba(255,209,138,0.72)" : "rgba(90,190,172,0.20)";
+      })
+      .polygonSideColor(() => "rgba(100,180,210,0.12)")
+      .polygonStrokeColor(() => "rgba(180,220,245,0.65)")
+      .polygonLabel(d => `<b>${d.properties.ADMIN || d.properties.NAME || "Country"}</b><br>Tap to select`)
+      .onPolygonClick(d => {
+        const code = d.properties.ISO_A2_EH || d.properties.ISO_A2;
+        if (byCode[code]) { selected = code; $("countrySelect").value = code; renderCountry(); }
+      })
+      .pointColor(d => d.kind === "Visited" ? "#76e2bd" : d.kind === "Planning" ? "#9294ff" : "#ffd18a")
+      .pointAltitude(.025)
+      .pointRadius(.45)
+      .pointLabel(d => `${d.label} · ${d.kind}`)
+      .pointsData([]);
+    const controls = globe.controls();
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = .42;
+    controls.enableDamping = true;
+    controls.enablePan = false;
+    globe.pointOfView({lat: 25, lng: 10, altitude: 2.25}, 900);
+    $("globeStatus").textContent = "Spinning Earth loading…";
+    // Earth imagery is independent from the country-border data request.
+    fetch("https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson")
+      .then(r => { if (!r.ok) throw Error("Country borders unavailable"); return r.json(); })
+      .then(data => {
+        if (!globe) return;
+        features = data.features.filter(f => (f.properties.ISO_A2_EH || f.properties.ISO_A2) !== "AQ");
+        globe.polygonsData(features);
+        $("globeStatus").textContent = `Interactive spinning Earth ready · ${features.length} country outlines. Tap a country to select it.`;
+      })
+      .catch(() => { $("globeStatus").textContent = "Interactive spinning Earth ready. Country outlines could not load, but you can still choose a country below."; });
+  } catch (err) {
+    console.error("Atlas globe initialization failed:", err);
+    globe = null;
+    $("globeStatus").textContent = "The globe could not start in this browser. Make sure WebGL is enabled and reload the page.";
+  } finally {
+    globeInitializing = false;
+  }
 }
 $("countrySelect").addEventListener("change",e=>{selected=e.target.value;renderCountry();loadRates(currencyReversed?"USD":byCode[selected][5]);const p=byCode[selected];if(globe)globe.pointOfView({lat:p[10],lng:p[11],altitude:1.7},1000);});
 document.querySelectorAll(".fact-button").forEach(btn=>btn.addEventListener("click",()=>{const target=$(btn.dataset.panel),willOpen=!target.classList.contains("open");document.querySelectorAll(".detail-panel").forEach(panel=>panel.classList.remove("open"));document.querySelectorAll(".fact-button").forEach(b=>b.setAttribute("aria-expanded","false"));if(willOpen){target.classList.add("open");btn.setAttribute("aria-expanded","true");if(btn.dataset.panel==="phrasesPanel")renderPhrases();target.scrollIntoView({behavior:"smooth",block:"nearest"});}}));
@@ -275,6 +359,6 @@ $("moneyInput").addEventListener("input",updateMoney);
 $("moneySwap").addEventListener("click",()=>{currencyReversed=!currencyReversed;loadRates(currencyReversed?"USD":byCode[selected][5]);updateMoney()});
 $("refreshRates").onclick=()=>loadRates(currencyReversed?"USD":byCode[selected][5]);
 try{const stored=JSON.parse(localStorage.getItem(key)||"[]");if(Array.isArray(stored))trips=stored}catch(e){trips=[]}
-fillCountries();renderTrips();renderCountry();initGlobe();window.addEventListener("atlas-globe-ready",initGlobe,{once:true});window.addEventListener("atlas-globe-failed",()=>{if(!globe)initGlobe()},{once:true});loadRates(byCode[selected][5]);
+fillCountries();renderTrips();renderCountry();window.addEventListener("atlas-globe-ready",initGlobe);window.addEventListener("atlas-globe-failed",()=>{if(!globe)initGlobe()});initGlobe();loadRates(byCode[selected][5]);
 window.addEventListener("resize",()=>{if(globe)globe.width($("globeViz").clientWidth).height($("globeViz").clientHeight)});
 </script></body></html>
