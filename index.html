@@ -5,75 +5,28 @@
 <meta name="theme-color" content="#0d1421"><title>Atlas Adventures</title>
 <style>
 :root{color-scheme:dark;--bg:#0d1421;--panel:#151f30;--panel2:#101a29;--line:#2a3a50;--text:#f1f5fb;--muted:#9baac0;--accent:#9294ff;--mint:#76e2bd;--gold:#ffd18a}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 20% -10%,#263858,transparent 42%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--mint);outline-offset:2px}.shell{width:min(1200px,calc(100% - 28px));margin:auto;padding:24px 0 35px}header{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px}.brand{display:flex;gap:12px;align-items:center}.mark{width:45px;height:45px;border-radius:15px;background:linear-gradient(135deg,#9294ff,#5ac9c0);display:grid;place-items:center;color:#101725;font-size:25px}.eyebrow{color:var(--mint);font-size:10px;letter-spacing:2px;font-weight:800;margin:0 0 5px}h1{font-size:clamp(25px,4vw,35px);letter-spacing:-1.2px;margin:0}h1 span{color:var(--accent)}.sub{color:var(--muted);font-size:12px;line-height:1.5;margin:6px 0 0}.badge{border:1px solid var(--line);border-radius:99px;padding:9px 12px;color:var(--mint);font-size:10px;white-space:nowrap}.layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(340px,.95fr);gap:16px;align-items:start}.panel{background:linear-gradient(155deg,#19263a,#131d2c);border:1px solid var(--line);border-radius:18px;overflow:hidden}.pad{padding:18px}.head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}h2{font-size:16px;margin:0}h3{font-size:13px;margin:0 0 12px}.mini{font-size:9px;color:var(--muted);letter-spacing:1.2px;font-weight:800;text-transform:uppercase}.field{width:100%;background:#0c1421;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:11px;min-width:0}.label{display:block;margin-bottom:7px}.globe-wrap{height:390px;position:relative;background:radial-gradient(ellipse at center,#203852,#0c1421 72%);border-block:1px solid var(--line)}#globeViz{width:100%;height:100%;touch-action:pan-y;position:relative;z-index:1}#globeFallback{display:none!important}#globeViz canvas{display:block!important;width:100%;height:100%;max-width:100%;outline:0;}.globe-note{position:absolute;bottom:10px;left:12px;right:12px;display:flex;justify-content:space-between;pointer-events:none;color:#c0cce0;font-size:9px;letter-spacing:.7px;text-transform:uppercase;text-shadow:0 1px 5px #000}.actions{display:flex;gap:8px;flex-wrap:wrap;padding:14px 18px}.btn{border:1px solid var(--line);border-radius:9px;padding:10px 12px;color:var(--text);background:#202d42;font-size:11px;font-weight:750}.btn:hover{background:#2c3d56}.btn.primary{background:#8e91ff;color:#101725;border-color:#a9abff}.select-wrap{margin-top:13px}.statusline{color:var(--muted);font-size:11px;margin:0}.desttitle{display:flex;align-items:center;gap:12px}.flag{font-size:32px}.desttitle h2{font-size:23px;letter-spacing:-.6px}.pill{display:inline-block;margin-top:6px;padding:4px 8px;border:1px solid #76e2bd50;border-radius:99px;color:var(--mint);font-size:10px}.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:16px 0}.fact,.tool{background:#101a29;border:1px solid var(--line);border-radius:12px;padding:12px;min-width:0}.fact-button{display:block;width:100%;text-align:left;color:var(--text);cursor:pointer;transition:background .15s,border-color .15s,transform .15s;position:relative;border:2px solid #344760;box-shadow:0 3px 0 #070d16;padding:14px 12px;border-radius:14px;background:linear-gradient(145deg,#1a2a40,#111c2d)}.fact-button:before{content:"OPEN DETAILS  ↗";display:block;font-size:9px;letter-spacing:1px;font-weight:800;color:#9eafc5;margin-top:10px}.fact-button[aria-expanded="true"]{border-color:var(--mint);background:linear-gradient(145deg,#203b48,#142738);box-shadow:0 0 0 2px #76e2bd28,0 3px 0 #070d16}.fact-button[aria-expanded="true"]:before{content:"DETAILS OPEN  ✓";color:var(--mint)}.fact-button:hover{border-color:#8ca1bf;transform:translateY(-1px)}.fact-button:active{transform:translateY(1px);box-shadow:0 1px 0 #070d16}.fact-button[data-panel="powerPanel"]{border-top:3px solid #e16a77}.fact-button[data-panel="distancePanel"]{border-top:3px solid #e3bd55}.fact-button[data-panel="currencyPanel"]{border-top:3px solid #55c995}.fact-button[data-panel="phrasesPanel"]{border-top:3px solid #67a9f5}.detail-panel{display:none}.detail-panel.open{display:block}.phrase-table{display:grid;gap:7px;margin-top:12px}.phrase-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;background:#0c1421;border:1px solid var(--line);border-radius:9px}.phrase-row strong{display:block;font-size:12px}.phrase-row small{display:block;color:var(--muted);font-size:10px;margin-top:4px}.phrase-tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.phrase-row button{margin-top:7px}.plug-views{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.plug-view{background:#0c1421;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}.plug-view svg{max-width:100%;height:125px}.plug-view img{display:block;width:100%;height:150px;object-fit:contain;border-radius:8px;background:#f4f4f4}.socket-photo-loading,.photo-unavailable{min-height:150px;display:grid;place-items:center;color:var(--muted);font-size:11px;padding:12px}.photo-credit{display:block;color:var(--muted);font-size:9px;overflow-wrap:anywhere;margin-top:5px}.plug-view strong{display:block;font-size:12px;margin-top:6px}.plug-view small{color:var(--muted);font-size:10px}.fact .mini{display:block;margin-bottom:7px}.fact strong{font-size:13px;display:block}.fact small{font-size:10px;color:var(--muted);display:block;margin-top:4px;line-height:1.4}.divider{height:1px;background:var(--line);margin:15px 0}.plug{display:flex;gap:13px;align-items:center;background:#101a29;border:1px solid var(--line);padding:12px;border-radius:12px}.plugicon{width:68px;height:76px;flex:none;border-radius:10px;background:#202d42;display:grid;place-items:center}.plugicon svg{width:52px;height:60px}.plug p{font-size:11px;color:var(--muted);line-height:1.5;margin:5px 0 0}.notice{margin-top:9px;border:1px solid #ffd18a38;background:#ffd18a0c;border-radius:9px;padding:10px;font-size:10px;line-height:1.5;color:#e3d1ac}.tools{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}.tool h3{margin-bottom:10px}.tool .field{margin-top:7px}.result{color:var(--mint);font-size:12px;font-weight:750;margin-top:10px;min-height:17px;overflow-wrap:anywhere}.toolnote{font-size:10px;color:var(--muted);line-height:1.5;margin:8px 0 0}.convert-line{display:grid;grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr);gap:8px;align-items:end}.convert-side{min-width:0}.convert-side label{display:block;margin-bottom:6px}.swap{height:41px;width:42px;padding:0;font-size:19px;border-radius:10px;color:var(--mint)}.amount-line{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:8px;align-items:end}.amount-line label{display:block;margin-bottom:6px}.amount-line .field{margin-top:0}.tool .convert-line .field{margin-top:0}.tripform{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.triplist{display:grid;gap:8px;margin-top:12px}.trip{display:flex;gap:9px;align-items:center;padding:10px;background:#101a29;border:1px solid var(--line);border-radius:10px}.tripinfo{flex:1;min-width:0}.trip strong{display:block;font-size:12px}.trip small{font-size:10px;color:var(--muted)}.trip button{background:none;border:0;color:#ff9b9b;font-size:18px}.empty{color:var(--muted);font-size:11px}.wide{grid-column:1/-1}footer{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:10px;padding:18px 3px 0}.api{color:var(--muted);font-size:10px;line-height:1.5;margin-top:12px}.api a{color:#b5b6ff}
-@media(max-width:850px){.layout{grid-template-columns:1fr}.globe-wrap{height:370px}}@media(max-width:520px){.shell{width:calc(100% - 18px);padding-top:16px}.badge{display:none}.globe-wrap{height:340px}.pad{padding:14px}.tools{grid-template-columns:1fr}.actions{padding:12px}.btn{flex:1 1 42%}.facts{gap:7px}.fact{padding:10px}.tripform{grid-template-columns:1fr}.wide{grid-column:auto}footer{flex-direction:column}}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 20% -10%,#263858,transparent 42%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--mint);outline-offset:2px}.shell{width:min(1200px,calc(100% - 28px));margin:auto;padding:24px 0 35px}header{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px}.brand{display:flex;gap:12px;align-items:center}.mark{width:45px;height:45px;border-radius:15px;background:linear-gradient(135deg,#9294ff,#5ac9c0);display:grid;place-items:center;color:#101725;font-size:25px}.eyebrow{color:var(--mint);font-size:10px;letter-spacing:2px;font-weight:800;margin:0 0 5px}h1{font-size:clamp(25px,4vw,35px);letter-spacing:-1.2px;margin:0}h1 span{color:var(--accent)}.sub{color:var(--muted);font-size:12px;line-height:1.5;margin:6px 0 0}.badge{border:1px solid var(--line);border-radius:99px;padding:9px 12px;color:var(--mint);font-size:10px;white-space:nowrap}.layout{display:grid;grid-template-columns:minmax(280px,.78fr) minmax(0,1.22fr);gap:16px;align-items:start}.panel{background:linear-gradient(155deg,#19263a,#131d2c);border:1px solid var(--line);border-radius:18px;overflow:hidden}.pad{padding:18px}.head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}h2{font-size:16px;margin:0}h3{font-size:13px;margin:0 0 12px}.mini{font-size:9px;color:var(--muted);letter-spacing:1.2px;font-weight:800;text-transform:uppercase}.field{width:100%;background:#0c1421;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:11px;min-width:0}.label{display:block;margin-bottom:7px}.actions{display:flex;gap:8px;flex-wrap:wrap;padding:14px 18px}.btn{border:1px solid var(--line);border-radius:9px;padding:10px 12px;color:var(--text);background:#202d42;font-size:11px;font-weight:750}.btn:hover{background:#2c3d56}.btn.primary{background:#8e91ff;color:#101725;border-color:#a9abff}.select-wrap{margin-top:13px}.statusline{color:var(--muted);font-size:11px;margin:0}.desttitle{display:flex;align-items:center;gap:12px}.flag{font-size:32px}.desttitle h2{font-size:23px;letter-spacing:-.6px}.pill{display:inline-block;margin-top:6px;padding:4px 8px;border:1px solid #76e2bd50;border-radius:99px;color:var(--mint);font-size:10px}.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:16px 0}.fact,.tool{background:#101a29;border:1px solid var(--line);border-radius:12px;padding:12px;min-width:0}.fact-button{display:flex;flex-direction:column;align-items:stretch;gap:0;width:100%;min-height:150px;text-align:left;color:var(--text);cursor:pointer;transition:background .15s,border-color .15s,transform .15s;position:relative;border:2px solid #344760;box-shadow:0 3px 0 #070d16;padding:15px 13px;border-radius:14px;background:linear-gradient(145deg,#1a2a40,#111c2d)}.fact-button .mini{font-size:11px;letter-spacing:1.1px;margin-bottom:12px;color:#bdcbe0}.fact-button strong{font-size:clamp(19px,2vw,25px);line-height:1.18;display:flex;align-items:center;justify-content:center;text-align:center;flex:1;min-height:48px;overflow-wrap:anywhere}.fact-button small{font-size:10px;line-height:1.35;text-align:center;color:#aebbd0;margin-top:10px}.fact-button[aria-expanded="true"]{border-color:var(--mint);background:linear-gradient(145deg,#203b48,#142738);box-shadow:0 0 0 2px #76e2bd28,0 3px 0 #070d16}.fact-button:hover{border-color:#8ca1bf;transform:translateY(-1px)}.fact-button:active{transform:translateY(1px);box-shadow:0 1px 0 #070d16}.fact-button[data-panel="powerPanel"]{border-top:3px solid #e16a77}.fact-button[data-panel="distancePanel"]{border-top:3px solid #e3bd55}.fact-button[data-panel="currencyPanel"]{border-top:3px solid #55c995}.fact-button[data-panel="phrasesPanel"]{border-top:3px solid #67a9f5}.fact-button[data-panel="powerPanel"]:after{content:"View plug guide  ↗"}.fact-button[data-panel="distancePanel"]:after{content:"Convert distance  ↗"}.fact-button[data-panel="currencyPanel"]:after{content:"Convert currency  ↗"}.fact-button[data-panel="phrasesPanel"]:after{content:"Explore phrases  ↗"}.fact-button:after{display:block;margin-top:10px;font-size:10px;letter-spacing:.3px;font-weight:800;color:#bdcbe0;text-align:center}.fact-button[aria-expanded="true"]:after{content:"Hide this section  ↑";color:var(--mint)}.detail-panel{display:none}.detail-panel.open{display:block}.phrase-table{display:grid;gap:7px;margin-top:12px}.phrase-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;background:#0c1421;border:1px solid var(--line);border-radius:9px}.phrase-row strong{display:block;font-size:12px}.phrase-row small{display:block;color:var(--muted);font-size:10px;margin-top:4px}.phrase-tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.phrase-row button{margin-top:7px}.plug-views{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.plug-view{background:#0c1421;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}.plug-view svg{max-width:100%;height:125px}.plug-view img{display:block;width:100%;height:150px;object-fit:contain;border-radius:8px;background:#f4f4f4}.socket-photo-loading,.photo-unavailable{min-height:150px;display:grid;place-items:center;color:var(--muted);font-size:11px;padding:12px}.photo-credit{display:block;color:var(--muted);font-size:9px;overflow-wrap:anywhere;margin-top:5px}.plug-view strong{display:block;font-size:12px;margin-top:6px}.plug-view small{color:var(--muted);font-size:10px}.fact .mini{display:block;margin-bottom:7px}.fact strong{font-size:13px;display:block}.fact small{font-size:10px;color:var(--muted);display:block;margin-top:4px;line-height:1.4}.fact-button[data-panel="distancePanel"] strong{white-space:pre-line;font-size:clamp(17px,1.8vw,22px);line-height:1.4}.divider{height:1px;background:var(--line);margin:15px 0}.plug{display:flex;gap:13px;align-items:center;background:#101a29;border:1px solid var(--line);padding:12px;border-radius:12px}.plugicon{width:68px;height:76px;flex:none;border-radius:10px;background:#202d42;display:grid;place-items:center}.plugicon svg{width:52px;height:60px}.plug p{font-size:11px;color:var(--muted);line-height:1.5;margin:5px 0 0}.notice{margin-top:9px;border:1px solid #ffd18a38;background:#ffd18a0c;border-radius:9px;padding:10px;font-size:10px;line-height:1.5;color:#e3d1ac}.tools{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}.tool h3{margin-bottom:10px}.tool .field{margin-top:7px}.result{color:var(--mint);font-size:12px;font-weight:750;margin-top:10px;min-height:17px;overflow-wrap:anywhere}.toolnote{font-size:10px;color:var(--muted);line-height:1.5;margin:8px 0 0}.convert-line{display:grid;grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr);gap:8px;align-items:end}.convert-side{min-width:0}.convert-side label{display:block;margin-bottom:6px}.swap{height:41px;width:42px;padding:0;font-size:19px;border-radius:10px;color:var(--mint)}.amount-line{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:8px;align-items:end}.amount-line label{display:block;margin-bottom:6px}.amount-line .field{margin-top:0}.tool .convert-line .field{margin-top:0}.tripform{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.triplist{display:grid;gap:8px;margin-top:12px}.trip{display:flex;gap:9px;align-items:center;padding:10px;background:#101a29;border:1px solid var(--line);border-radius:10px}.tripinfo{flex:1;min-width:0}.trip strong{display:block;font-size:12px}.trip small{font-size:10px;color:var(--muted)}.trip button{background:none;border:0;color:#ff9b9b;font-size:18px}.empty{color:var(--muted);font-size:11px}.wide{grid-column:1/-1}footer{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:10px;padding:18px 3px 0}.api{color:var(--muted);font-size:10px;line-height:1.5;margin-top:12px}.api a{color:#b5b6ff}
+@media(max-width:850px){.layout{grid-template-columns:1fr}}@media(max-width:520px){.shell{width:calc(100% - 18px);padding-top:16px}.badge{display:none}.pad{padding:14px}.tools{grid-template-columns:1fr}.actions{padding:12px}.btn{flex:1 1 42%}.facts{gap:7px}.fact{padding:10px}.tripform{grid-template-columns:1fr}.wide{grid-column:auto}footer{flex-direction:column}}
 </style>
-<script>
-(function(){
-  // Load the official browser (UMD) build, trying more than one CDN.
-  const sources = [
-    "https://cdn.jsdelivr.net/npm/globe.gl@2.46.2/dist/globe.gl.min.js",
-    "https://unpkg.com/globe.gl@2.46.2/dist/globe.gl.min.js",
-    "https://cdn.jsdelivr.net/npm/globe.gl/dist/globe.gl.min.js",
-    "https://unpkg.com/globe.gl/dist/globe.gl.min.js"
-  ];
-  let index = 0;
-  let finished = false;
-  function reportFailure(){
-    if (finished) return;
-    finished = true;
-    window.__atlasGlobeFailed = true;
-    window.__atlasGlobeReady = false;
-    window.dispatchEvent(new Event("atlas-globe-failed"));
-  }
-  function trySource(){
-    if (typeof window.Globe === "function") {
-      finished = true;
-      window.__atlasGlobeReady = true;
-      window.__atlasGlobeFailed = false;
-      window.dispatchEvent(new Event("atlas-globe-ready"));
-      return;
-    }
-    if (index >= sources.length) { reportFailure(); return; }
-    const src = sources[index++];
-    const script = document.createElement("script");
-    script.src = src;
-    script.async = true;
-    script.onload = function(){
-      if (typeof window.Globe === "function") {
-        finished = true;
-        window.__atlasGlobeReady = true;
-        window.__atlasGlobeFailed = false;
-        window.dispatchEvent(new Event("atlas-globe-ready"));
-      } else { trySource(); }
-    };
-    script.onerror = trySource;
-    document.head.appendChild(script);
-  }
-  trySource();
-  // A few browsers report a successful script load even if the global was not exposed.
-  setTimeout(function(){ if (!finished && typeof window.Globe !== "function") reportFailure(); }, 18000);
-})();
-</script>
+
 </head>
 <body><main class="shell">
 <header><div class="brand"><div class="mark">◎</div><div><p class="eyebrow">YOUR PERSONAL TRAVEL WORLD</p><h1>Atlas <span>Adventures</span></h1><p class="sub">Every place has a story. This is where yours live.</p></div></div><div class="badge">✦ YOUR WORLD, YOUR WAY</div></header>
 <div class="layout">
 <section class="panel">
-<div class="pad"><div class="head"><div><h2>Explore your world</h2><p class="sub">Spin the real globe, or pick a destination.</p></div><span class="mini">EXPLORE · DREAM · GO</span></div>
-<label class="mini label" for="countrySelect">Choose a country</label><select class="field" id="countrySelect"></select>
-<p class="sub" id="globeStatus">Loading real country borders and globe imagery…</p></div>
-<div class="globe-wrap"><div id="globeViz" aria-label="Interactive 3D Earth with selectable country borders"></div><div class="globe-note"><span>✦ Drag to rotate · scroll to zoom</span><span>Click a country</span></div></div>
+<div class="pad"><div class="head"><div><p class="eyebrow">YOUR NEXT ADVENTURE</p><h2>Choose a destination</h2><p class="sub">Pick a country to see its language, money, plugs, and road rules.</p></div><span class="mini">EXPLORE · DREAM · GO</span></div>
+<label class="mini label" for="countrySelect">Country or destination</label><select class="field" id="countrySelect"></select>
+<div class="destination-prompt"><span class="destination-icon">✈</span><div><strong>Where will you go next?</strong><p class="sub">Your destination profile updates when you choose a country.</p></div></div>
 <div class="actions"><button class="btn primary" id="visitedBtn">✓ Mark visited</button><button class="btn" id="wishBtn">＋ Add to wishlist</button><button class="btn" id="jumpTrips">▤ My journeys</button></div>
-<div class="pad" style="padding-top:0"><p class="statusline" id="savedStatus" aria-live="polite">Your saved destinations stay in this browser.</p></div>
+<p class="statusline" id="savedStatus" aria-live="polite">Your saved destinations stay in this browser.</p></div>
 </section>
 <section class="panel"><div class="pad">
 <div class="head"><div><p class="eyebrow">DESTINATION PROFILE</p><div class="desttitle"><span class="flag" id="flag">🇵🇹</span><div><h2 id="countryName">Portugal</h2><span class="pill" id="countryStatus">Ready to explore</span></div></div></div><span class="mini" id="region">EUROPE</span></div>
 <div class="facts">
-<button type="button" class="fact fact-button" data-panel="phrasesPanel" aria-expanded="false"><span class="mini">LANGUAGE · PHRASES</span><strong id="language">Portuguese</strong><small>Tap for 50 useful tourist phrases and translations</small></button>
-<button type="button" class="fact fact-button" data-panel="currencyPanel" aria-expanded="false"><span class="mini">CURRENCY</span><strong id="currency">Euro (EUR)</strong><small>Tap to convert destination currency ↔ USD</small></button>
-<button type="button" class="fact fact-button" data-panel="powerPanel" aria-expanded="false"><span class="mini">POWER & PLUGS</span><strong id="voltage">230 V · 50 Hz</strong><small>Tap for plug types, voltage, and what to pack</small></button>
-<button type="button" class="fact fact-button" data-panel="distancePanel" aria-expanded="false"><span class="mini">DISTANCE & DRIVING</span><strong id="distanceCountrySummary">Kilometers · Drive on the right</strong><small id="distanceCountryHint">Tap for distance conversion and road-side information</small></button>
+<button type="button" class="fact fact-button" data-panel="phrasesPanel" aria-expanded="false"><span class="mini">LANGUAGE · PHRASES</span><strong id="language">Portuguese</strong><small>50 phrases and translations</small></button>
+<button type="button" class="fact fact-button" data-panel="currencyPanel" aria-expanded="false"><span class="mini">CURRENCY</span><strong id="currency">Euro (EUR)</strong><small>Convert destination currency ↔ USD</small></button>
+<button type="button" class="fact fact-button" data-panel="powerPanel" aria-expanded="false"><span class="mini">POWER & PLUGS</span><strong id="voltage">230 V · 50 Hz</strong><small>Plug types, voltage, and what to pack</small></button>
+<button type="button" class="fact fact-button" data-panel="distancePanel" aria-expanded="false"><span class="mini">DISTANCE & DRIVING</span><strong id="distanceCountrySummary">Kilometers · Drive on the right</strong><small id="distanceCountryHint">Distance converter and road-side information</small></button>
 </div>
 <div class="detail-panel" id="powerPanel"><div class="divider"></div><div class="head"><div><h2>⚡ Power & plug guide</h2><p class="sub">Plug types and electrical standards for this country.</p></div><span class="mini">PACK SMART</span></div>
 <div class="plug"><div class="plugicon" id="plugIcon"></div><div><span class="mini">PLUG TYPE(S)</span><strong id="plugTypes">C, F</strong><p id="plugDesc">Two round pins.</p></div></div><div class="plug-views"><div class="plug-view"><div id="plugFrontView"></div><strong>Front view</strong><small>Plug pin arrangement</small></div><div class="plug-view"><div id="plugTopView"></div><strong>Top view</strong><small>Socket opening layout</small></div></div>
@@ -91,7 +44,7 @@
 </div><p class="toolnote" id="rateUpdated">Rates are indicative, not bank or card fees.</p><button class="btn" id="refreshRates" style="margin-top:9px">↻ Refresh rates</button></div></div>
 <div class="detail-panel" id="phrasesPanel"><div class="divider"></div><div class="head"><div><h2>🗣️ 50 useful tourist phrases</h2><p class="sub">English and the selected country's language. Tap the speaker to hear a phrase when your browser supports speech.</p></div></div><div class="phrase-tools"><div><label class="mini" for="phraseSearch">Find a phrase</label><input class="field" id="phraseSearch" placeholder="bathroom, thank you…" /></div><div><label class="mini" for="phraseDirection">Translation direction</label><select class="field" id="phraseDirection"><option value="both">English ↔ local language</option><option value="en">English → local language</option><option value="local">Local language → English</option></select></div><div class="wide"><label class="mini" for="phraseLanguage">Phrase language pack</label><select class="field" id="phraseLanguage"><option value="auto">Use selected country's language</option><option value="nl">Dutch</option><option value="ko">Korean</option><option value="th">Thai</option><option value="vi">Vietnamese</option><option value="hi">Hindi</option><option value="tr">Turkish</option><option value="el">Greek</option><option value="id">Indonesian</option><option value="he">Hebrew</option><option value="ru">Russian</option><option value="ar">Arabic</option><option value="it">Italian</option><option value="de">German</option><option value="zh">Chinese</option><option value="ja">Japanese</option><option value="fr">French</option><option value="es">Spanish</option><option value="pt">Portuguese</option></select></div></div><div class="phrase-table" id="phraseList"></div><p class="api">Translations in this first phrase pack are available for common travel languages. For other languages, the app will show English and a translation-service prompt rather than inventing a translation. Machine translations may need checking.</p></div>
 </div>
-<div class="api">Exchange-rate source: <a href="https://www.exchangerate-api.com/docs/free" target="_blank" rel="noopener">ExchangeRate-API open access</a>. The 3D globe and country boundaries load from public CDNs, so an internet connection is needed for those features.</div>
+<div class="api">Exchange-rate source: <a href="https://www.exchangerate-api.com/docs/free" target="_blank" rel="noopener">ExchangeRate-API open access</a>. Exchange rates and some phrase translations require an internet connection.</div>
 </div></section>
 </div>
 <section class="panel" id="journeys" style="margin-top:16px"><div class="pad"><div class="head"><div><h2>My journeys</h2><p class="sub">Save places you dream of, plan, or have visited.</p></div><span class="mini">YOUR TRAVEL STORY</span></div>
@@ -153,7 +106,7 @@ const places=[
 ["LK","Sri Lanka","🇱🇰","Asia","Sinhala, Tamil","LKR","Sri Lankan rupee","230 V · 50 Hz","D, G","Older Type D and newer Type G sockets can occur.",6.9,79.9]
 ];
 const byCode=Object.fromEntries(places.map(p=>[p[0],p]));
-const $=id=>document.getElementById(id);let selected="PT",globe=null,features=[],trips=[],rates=null,rateBase="USD";
+const $=id=>document.getElementById(id);let selected="PT",trips=[],rates=null,rateBase="USD";
 const key="atlas-adventures-trips-v2";
 function plugSVG(types){let t=types.includes("G")?"G":types.includes("I")?"I":types.includes("A")?"A":types.includes("L")?"L":types.includes("D")?"D":types.includes("N")?"N":"C";let pins;
 if(t==="G")pins='<rect x="22" y="4" width="8" height="24" rx="2" fill="#c4d2e4"/><rect x="50" y="4" width="8" height="24" rx="2" fill="#c4d2e4"/><rect x="36" y="0" width="8" height="24" rx="2" fill="#c4d2e4"/>';
@@ -169,13 +122,13 @@ function plugTopSVG(types){const t=primaryPlugType(types);return `<div class="so
 function plugFrontSVG(types){const t=primaryPlugType(types);return `<div class="socket-photo-loading" data-plug-photo="${t}">Loading real Type ${t} socket photo…</div>`}
 function loadSocketPhotos(types){const t=primaryPlugType(types);const targets=[[$("plugTopView"),`Type ${t} electrical socket close up`],[$("plugFrontView"),`Type ${t} electrical wall socket front view`]];targets.forEach(([node,query])=>{node.innerHTML=`<div class="socket-photo-loading">Finding a real reference photo…</div>`;const url=`https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(query)}&gsrnamespace=6&gsrlimit=8&prop=imageinfo&iiprop=url&iiurlwidth=700&format=json&origin=*`;fetch(url).then(r=>{if(!r.ok)throw Error("photo search failed");return r.json()}).then(data=>{const pages=Object.values(data.query?.pages||{});const page=pages.find(x=>x.imageinfo?.[0]?.thumburl&&/\.(jpg|jpeg|png|webp)/i.test(x.title||""));if(!page)throw Error("no photo found");const info=page.imageinfo[0];node.innerHTML=`<img src="${info.thumburl}" alt="Real reference image: ${page.title.replace(/^File:/,"").replace(/\.[^.]+$/,"")}" loading="lazy"><small class="photo-credit">${page.title.replace(/^File:/,"")}</small>`;}).catch(()=>{node.innerHTML=`<div class="photo-unavailable">Real Type ${t} photo unavailable right now. The type label and electrical details above remain available.</div>`;});});}
 function renderCountry(){const p=byCode[selected];$("countrySelect").value=selected;$("flag").textContent=p[2];$("countryName").textContent=p[1];$("region").textContent=p[3].toUpperCase();$("language").textContent=p[4];$("currency").textContent=p[6]+" ("+p[5]+")";$("voltage").textContent=p[7];$("plugTypes").textContent=p[8];$("plugDesc").textContent=p[9];$("plugIcon").innerHTML=plugSVG(p[8]);$("plugFrontView").innerHTML=plugFrontSVG(p[8]);$("plugTopView").innerHTML=plugTopSVG(p[8]);loadSocketPhotos(p[8]);$("powerNote").textContent="Electrical supply: "+p[7]+". A travel adapter changes plug shape, not voltage. Check device labels; many modern chargers support 100–240 V, but verify before use.";
-const drive=drivingInfo[selected]||drivingInfo.default;$("distanceCountrySummary").textContent=drive[0]+" · Drive on the "+drive[1];$("distanceCountryHint").textContent="Tap for "+drive[0].toLowerCase()+" conversion and road-side guidance.";
+const drive=drivingInfo[selected]||drivingInfo.default;$("distanceCountrySummary").textContent=drive[0]+"\nDrive on the "+drive[1];$("distanceCountryHint").textContent="Distance conversion and road-side guidance.";
 
 const imperial=["US","GB"].includes(selected);$("distanceFromLabel").textContent=imperial?"U.S. miles (mi)":"Kilometers (km)";$("distanceToLabel").textContent=imperial?"Kilometers (km)":"U.S. miles (mi)";$("distanceHint").textContent=imperial?"This destination commonly uses miles. Switch direction any time.":"This destination commonly uses kilometers. Switch direction any time.";
 const prevFrom=$("fromCurrency").value, prevTo=$("toCurrency").value;
 $("moneyFromLabel").textContent=currencyReversed?"U.S. dollars (USD)":`${p[6]} (${p[5]})`;$("moneyToLabel").textContent=currencyReversed?`${p[6]} (${p[5]})`:"U.S. dollars (USD)";
-updateDistance();updateMoney();const t=trips.find(x=>x.code===selected);$("countryStatus").textContent=t?t.kind:"Ready to explore";if(globe){globe.pointsData(trips.filter(t=>t.lat!=null).map(t=>({lat:t.lat,lng:t.lng,label:t.name,kind:t.kind})));}}
-function saveTrips(){try{localStorage.setItem(key,JSON.stringify(trips));$("savedStatus").textContent="Saved in this browser."}catch(e){$("savedStatus").textContent="Browser storage unavailable; changes may not persist."}renderTrips();renderCountry();if(globe)globe.pointsData(trips.filter(t=>t.lat!=null).map(t=>({lat:t.lat,lng:t.lng,label:t.name,kind:t.kind})));}
+updateDistance();updateMoney();const t=trips.find(x=>x.code===selected);$("countryStatus").textContent=t?t.kind:"Ready to explore";}
+function saveTrips(){try{localStorage.setItem(key,JSON.stringify(trips));$("savedStatus").textContent="Saved in this browser."}catch(e){$("savedStatus").textContent="Browser storage unavailable; changes may not persist."}renderTrips();renderCountry();}
 function addTrip(name,kind,date="",code=selected){const p=byCode[code];trips=trips.filter(t=>!(t.code===code&&t.kind===kind));trips.unshift({id:Date.now()+Math.random(),name,kind,date,code,lat:p?.[10],lng:p?.[11]});saveTrips();}
 function renderTrips(){const el=$("tripList");el.innerHTML="";if(!trips.length){el.innerHTML='<p class="empty">Your travel story starts here. Add a destination above or mark a country as visited.</p>';return}trips.forEach(t=>{const row=document.createElement("div");row.className="trip";const icon=document.createElement("span");icon.textContent=t.kind==="Visited"?"✓":t.kind==="Planning"?"✈":"☆";icon.style.color=t.kind==="Visited"?"var(--mint)":"var(--gold)";const info=document.createElement("div");info.className="tripinfo";const strong=document.createElement("strong");strong.textContent=t.name;const small=document.createElement("small");small.textContent=t.kind+(t.date?" · "+t.date:"");info.append(strong,small);const del=document.createElement("button");del.textContent="×";del.setAttribute("aria-label","Remove "+t.name);del.onclick=()=>{trips=trips.filter(x=>x.id!==t.id);saveTrips()};row.append(icon,info,del);el.append(row)})}
 let distanceReversed=false;
@@ -272,79 +225,7 @@ if(needsLive){translatePhrase(en,target).then(value=>{localPhraseValue(value,row
 if(!count)box.innerHTML='<p class="empty">No phrases match your search.</p>';
 }
 function localPhraseValue(value,row,target,dir){const strong=row.querySelectorAll("strong");if(strong.length>1){const targetNode=dir==="local"?strong[0]:strong[1];targetNode.textContent=value}const small=row.querySelectorAll("small");if(small.length>1){const targetSmall=dir==="local"?small[0]:small[1];targetSmall.textContent=langNames[target]||target}}
-let globeInitializing = false;
-function initGlobe(){
-  const host = $("globeViz");
-  if (!host) return;
-  if (globe) {
-    try { globe.width(Math.max(1, host.clientWidth)).height(Math.max(1, host.clientHeight)); } catch(e) {}
-    return;
-  }
-  if (globeInitializing) return;
-  if (typeof window.Globe !== "function") {
-    $("globeStatus").textContent = window.__atlasGlobeFailed
-      ? "The globe library could not be downloaded. Check that your browser allows jsDelivr or unpkg, then reload."
-      : "Loading the interactive spinning globe…";
-    if (!window.__atlasGlobeFailed) setTimeout(initGlobe, 600);
-    return;
-  }
-  globeInitializing = true;
-  try {
-    host.innerHTML = "";
-    globe = window.Globe()(host)
-      .width(Math.max(1, host.clientWidth))
-      .height(Math.max(1, host.clientHeight))
-      .backgroundColor("rgba(0,0,0,0)")
-      .globeImageUrl("https://cdn.jsdelivr.net/npm/three-globe@2.45.0/example/img/earth-blue-marble.jpg")
-      .bumpImageUrl("https://cdn.jsdelivr.net/npm/three-globe@2.45.0/example/img/earth-topology.png")
-      .showAtmosphere(true)
-      .atmosphereColor("#6fa9ff")
-      .atmosphereAltitude(.16)
-      .showGraticules(true)
-      .polygonsData([])
-      .polygonAltitude(.008)
-      .polygonCapColor(d => {
-        const code = d.properties.ISO_A2_EH || d.properties.ISO_A2 || "";
-        return code === selected ? "rgba(255,209,138,0.72)" : "rgba(90,190,172,0.20)";
-      })
-      .polygonSideColor(() => "rgba(100,180,210,0.12)")
-      .polygonStrokeColor(() => "rgba(180,220,245,0.65)")
-      .polygonLabel(d => `<b>${d.properties.ADMIN || d.properties.NAME || "Country"}</b><br>Tap to select`)
-      .onPolygonClick(d => {
-        const code = d.properties.ISO_A2_EH || d.properties.ISO_A2;
-        if (byCode[code]) { selected = code; $("countrySelect").value = code; renderCountry(); }
-      })
-      .pointColor(d => d.kind === "Visited" ? "#76e2bd" : d.kind === "Planning" ? "#9294ff" : "#ffd18a")
-      .pointAltitude(.025)
-      .pointRadius(.45)
-      .pointLabel(d => `${d.label} · ${d.kind}`)
-      .pointsData([]);
-    const controls = globe.controls();
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = .42;
-    controls.enableDamping = true;
-    controls.enablePan = false;
-    globe.pointOfView({lat: 25, lng: 10, altitude: 2.25}, 900);
-    $("globeStatus").textContent = "Spinning Earth loading…";
-    // Earth imagery is independent from the country-border data request.
-    fetch("https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson")
-      .then(r => { if (!r.ok) throw Error("Country borders unavailable"); return r.json(); })
-      .then(data => {
-        if (!globe) return;
-        features = data.features.filter(f => (f.properties.ISO_A2_EH || f.properties.ISO_A2) !== "AQ");
-        globe.polygonsData(features);
-        $("globeStatus").textContent = `Interactive spinning Earth ready · ${features.length} country outlines. Tap a country to select it.`;
-      })
-      .catch(() => { $("globeStatus").textContent = "Interactive spinning Earth ready. Country outlines could not load, but you can still choose a country below."; });
-  } catch (err) {
-    console.error("Atlas globe initialization failed:", err);
-    globe = null;
-    $("globeStatus").textContent = "The globe could not start in this browser. Make sure WebGL is enabled and reload the page.";
-  } finally {
-    globeInitializing = false;
-  }
-}
-$("countrySelect").addEventListener("change",e=>{selected=e.target.value;renderCountry();loadRates(currencyReversed?"USD":byCode[selected][5]);const p=byCode[selected];if(globe)globe.pointOfView({lat:p[10],lng:p[11],altitude:1.7},1000);});
+$("countrySelect").addEventListener("change",e=>{selected=e.target.value;renderCountry();loadRates(currencyReversed?"USD":byCode[selected][5]);});
 document.querySelectorAll(".fact-button").forEach(btn=>btn.addEventListener("click",()=>{const target=$(btn.dataset.panel),willOpen=!target.classList.contains("open");document.querySelectorAll(".detail-panel").forEach(panel=>panel.classList.remove("open"));document.querySelectorAll(".fact-button").forEach(b=>b.setAttribute("aria-expanded","false"));if(willOpen){target.classList.add("open");btn.setAttribute("aria-expanded","true");if(btn.dataset.panel==="phrasesPanel")renderPhrases();target.scrollIntoView({behavior:"smooth",block:"nearest"});}}));
 $("phraseSearch").addEventListener("input",renderPhrases);$("phraseDirection").addEventListener("change",renderPhrases);$("phraseLanguage").addEventListener("change",renderPhrases);
 $("visitedBtn").onclick=()=>addTrip(byCode[selected][1],"Visited");
@@ -359,6 +240,5 @@ $("moneyInput").addEventListener("input",updateMoney);
 $("moneySwap").addEventListener("click",()=>{currencyReversed=!currencyReversed;loadRates(currencyReversed?"USD":byCode[selected][5]);updateMoney()});
 $("refreshRates").onclick=()=>loadRates(currencyReversed?"USD":byCode[selected][5]);
 try{const stored=JSON.parse(localStorage.getItem(key)||"[]");if(Array.isArray(stored))trips=stored}catch(e){trips=[]}
-fillCountries();renderTrips();renderCountry();window.addEventListener("atlas-globe-ready",initGlobe);window.addEventListener("atlas-globe-failed",()=>{if(!globe)initGlobe()});initGlobe();loadRates(byCode[selected][5]);
-window.addEventListener("resize",()=>{if(globe)globe.width($("globeViz").clientWidth).height($("globeViz").clientHeight)});
+fillCountries();renderTrips();renderCountry();loadRates(byCode[selected][5]);
 </script></body></html>
