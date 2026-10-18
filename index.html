@@ -1,63 +1,579 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0d1421"><title>Atlas Adventures</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0d1421">
+<title>Atlas Adventures</title>
+
+<!-- Interactive 3-D globe -->
+<script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
+
 <style>
-:root{color-scheme:dark;--bg:#0d1421;--panel:#151f30;--panel2:#101a29;--line:#2a3a50;--text:#f1f5fb;--muted:#9baac0;--accent:#9294ff;--mint:#76e2bd;--gold:#ffd18a}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 20% -10%,#263858,transparent 42%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--mint);outline-offset:2px}.shell{width:min(1200px,calc(100% - 28px));margin:auto;padding:24px 0 35px}header{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px}.brand{display:flex;gap:12px;align-items:center}.mark{width:45px;height:45px;border-radius:15px;background:linear-gradient(135deg,#9294ff,#5ac9c0);display:grid;place-items:center;color:#101725;font-size:25px}.eyebrow{color:var(--mint);font-size:10px;letter-spacing:2px;font-weight:800;margin:0 0 5px}h1{font-size:clamp(25px,4vw,35px);letter-spacing:-1.2px;margin:0}h1 span{color:var(--accent)}.sub{color:var(--muted);font-size:12px;line-height:1.5;margin:6px 0 0}.badge{border:1px solid var(--line);border-radius:99px;padding:9px 12px;color:var(--mint);font-size:10px;white-space:nowrap}.layout{display:grid;grid-template-columns:minmax(280px,.78fr) minmax(0,1.22fr);gap:16px;align-items:start}.panel{background:linear-gradient(155deg,#19263a,#131d2c);border:1px solid var(--line);border-radius:18px;overflow:hidden}.pad{padding:18px}.head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}h2{font-size:16px;margin:0}h3{font-size:13px;margin:0 0 12px}.mini{font-size:9px;color:var(--muted);letter-spacing:1.2px;font-weight:800;text-transform:uppercase}.field{width:100%;background:#0c1421;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:11px;min-width:0}.label{display:block;margin-bottom:9px} .statusline{margin-top:8px}.actions{display:flex;gap:8px;flex-wrap:wrap;padding:14px 18px}.btn{border:1px solid var(--line);border-radius:9px;padding:10px 12px;color:var(--text);background:#202d42;font-size:11px;font-weight:750}.btn:hover{background:#2c3d56}.btn.primary{background:#8e91ff;color:#101725;border-color:#a9abff}.select-wrap{margin-top:13px}.statusline{color:var(--muted);font-size:11px;margin:0}.desttitle{display:flex;align-items:center;gap:12px}.flag{font-size:32px}.desttitle h2{font-size:23px;letter-spacing:-.6px}.pill{display:inline-block;margin-top:6px;padding:4px 8px;border:1px solid #76e2bd50;border-radius:99px;color:var(--mint);font-size:10px}.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:16px 0}.fact,.tool{background:#101a29;border:1px solid var(--line);border-radius:12px;padding:12px;min-width:0}.fact-button{display:flex;flex-direction:column;align-items:stretch;gap:0;width:100%;min-height:150px;text-align:left;color:var(--text);cursor:pointer;transition:background .15s,border-color .15s,transform .15s;position:relative;border:2px solid #344760;box-shadow:0 3px 0 #070d16;padding:15px 13px;border-radius:14px;background:linear-gradient(145deg,#1a2a40,#111c2d)}.fact-button .mini{font-size:11px;letter-spacing:1.1px;margin-bottom:12px;color:#bdcbe0}.fact-button strong{font-size:clamp(19px,2vw,25px);line-height:1.18;display:flex;align-items:center;justify-content:center;text-align:center;flex:1;min-height:48px;overflow-wrap:anywhere}.fact-button small{font-size:10px;line-height:1.35;text-align:center;color:#aebbd0;margin-top:10px}.fact-button[aria-expanded="true"]{border-color:var(--mint);background:linear-gradient(145deg,#203b48,#142738);box-shadow:0 0 0 2px #76e2bd28,0 3px 0 #070d16}.fact-button:hover{border-color:#8ca1bf;transform:translateY(-1px)}.fact-button:active{transform:translateY(1px);box-shadow:0 1px 0 #070d16}.fact-button[data-panel="powerPanel"]{border-top:3px solid #e16a77}.fact-button[data-panel="distancePanel"]{border-top:3px solid #e3bd55}.fact-button[data-panel="currencyPanel"]{border-top:3px solid #55c995}.fact-button[data-panel="phrasesPanel"]{border-top:3px solid #67a9f5}.fact-button[data-panel="powerPanel"]:after{content:"View plug guide  ↗"}.fact-button[data-panel="distancePanel"]:after{content:"Convert distance  ↗"}.fact-button[data-panel="currencyPanel"]:after{content:"Convert currency  ↗"}.fact-button[data-panel="phrasesPanel"]:after{content:"Explore phrases  ↗"}.fact-button:after{display:block;margin-top:10px;font-size:10px;letter-spacing:.3px;font-weight:800;color:#bdcbe0;text-align:center}.fact-button[aria-expanded="true"]:after{content:"Hide this section  ↑";color:var(--mint)}.detail-panel{display:none}.detail-panel.open{display:block}.phrase-table{display:grid;gap:7px;margin-top:12px}.phrase-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;background:#0c1421;border:1px solid var(--line);border-radius:9px}.phrase-row strong{display:block;font-size:12px}.phrase-row small{display:block;color:var(--muted);font-size:10px;margin-top:4px}.phrase-tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.phrase-row button{margin-top:7px}.plug-views{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.plug-view{background:#0c1421;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}.plug-view svg{max-width:100%;height:125px}.plug-view img{display:block;width:100%;height:150px;object-fit:contain;border-radius:8px;background:#f4f4f4}.socket-photo-loading,.photo-unavailable{min-height:150px;display:grid;place-items:center;color:var(--muted);font-size:11px;padding:12px}.photo-credit{display:block;color:var(--muted);font-size:9px;overflow-wrap:anywhere;margin-top:5px}.plug-view strong{display:block;font-size:12px;margin-top:6px}.plug-view small{color:var(--muted);font-size:10px}.fact .mini{display:block;margin-bottom:7px}.fact strong{font-size:13px;display:block}.fact small{font-size:10px;color:var(--muted);display:block;margin-top:4px;line-height:1.4}.fact-button[data-panel="distancePanel"] strong{white-space:pre-line;font-size:clamp(17px,1.8vw,22px);line-height:1.4}.fact-button[data-panel="phrasesPanel"] strong,.fact-button[data-panel="currencyPanel"] strong,.fact-button[data-panel="powerPanel"] strong{font-size:clamp(22px,2.3vw,29px);line-height:1.3;flex:1;min-height:62px;padding-top:10px;text-align:center;justify-content:center}.fact-button[data-panel="phrasesPanel"],.fact-button[data-panel="currencyPanel"],.fact-button[data-panel="powerPanel"]{text-align:center}.fact-button .mini{text-align:left;align-self:stretch}.fact-button[data-panel="phrasesPanel"] strong,.fact-button[data-panel="currencyPanel"] strong,.fact-button[data-panel="powerPanel"] strong{margin-top:5px}.divider{height:1px;background:var(--line);margin:15px 0}.plug{display:flex;gap:13px;align-items:center;background:#101a29;border:1px solid var(--line);padding:12px;border-radius:12px}.plugicon{width:68px;height:76px;flex:none;border-radius:10px;background:#202d42;display:grid;place-items:center}.plugicon svg{width:52px;height:60px}.plug p{font-size:11px;color:var(--muted);line-height:1.5;margin:5px 0 0}.notice{margin-top:9px;border:1px solid #ffd18a38;background:#ffd18a0c;border-radius:9px;padding:10px;font-size:10px;line-height:1.5;color:#e3d1ac}.tools{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}.tool h3{margin-bottom:10px}.tool .field{margin-top:7px}.result{color:var(--mint);font-size:12px;font-weight:750;margin-top:10px;min-height:17px;overflow-wrap:anywhere}.toolnote{font-size:10px;color:var(--muted);line-height:1.5;margin:8px 0 0}.convert-line{display:grid;grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr);gap:8px;align-items:end}.convert-side{min-width:0}.convert-side label{display:block;margin-bottom:6px}.swap{height:41px;width:42px;padding:0;font-size:19px;border-radius:10px;color:var(--mint)}.amount-line{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:8px;align-items:end}.amount-line label{display:block;margin-bottom:6px}.amount-line .field{margin-top:0}.tool .convert-line .field{margin-top:0}.tripform{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.triplist{display:grid;gap:8px;margin-top:12px}.trip{display:flex;gap:9px;align-items:center;padding:10px;background:#101a29;border:1px solid var(--line);border-radius:10px}.tripinfo{flex:1;min-width:0}.trip strong{display:block;font-size:12px}.trip small{font-size:10px;color:var(--muted)}.trip button{background:none;border:0;color:#ff9b9b;font-size:18px}.empty{color:var(--muted);font-size:11px}.wide{grid-column:1/-1}footer{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:10px;padding:18px 3px 0}.api{color:var(--muted);font-size:10px;line-height:1.5;margin-top:12px}.api a{color:#b5b6ff}
-/* Destination selector and per-country quick actions */
-#countrySelect{font-size:20px;min-height:64px;padding:16px 15px;border-radius:14px;background-color:#0c1421}
-.header-tools{display:flex;align-items:center;justify-content:flex-end;flex:0 0 auto}.journeys-short{padding:8px 12px;font-size:12px;white-space:nowrap}.profile-head{align-items:center}.profile-actions{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex:none}.country-actions{display:flex;gap:8px;align-items:center;margin:0;padding:0}
-.round-action{width:62px;height:62px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:25px;font-weight:800;border:2px solid #40536d;box-shadow:0 3px 0 #070d16;background:#202d42;color:var(--text)}
+:root{
+  color-scheme:dark;
+  --bg:#0d1421;
+  --panel:#151f30;
+  --panel2:#101a29;
+  --line:#2a3a50;
+  --text:#f1f5fb;
+  --muted:#9baac0;
+  --accent:#9294ff;
+  --mint:#76e2bd;
+  --gold:#ffd18a
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:radial-gradient(ellipse at 20% -10%,#263858,transparent 42%),var(--bg);
+  color:var(--text);
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{
+  outline:2px solid var(--mint);
+  outline-offset:2px
+}
+.shell{width:min(1200px,calc(100% - 28px));margin:auto;padding:24px 0 35px}
+header{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px}
+.brand{display:flex;gap:12px;align-items:center}
+.mark{
+  width:45px;height:45px;border-radius:15px;
+  background:linear-gradient(135deg,#9294ff,#5ac9c0);
+  display:grid;place-items:center;color:#101725;font-size:25px
+}
+.eyebrow{color:var(--mint);font-size:10px;letter-spacing:2px;font-weight:800;margin:0 0 5px}
+h1{font-size:clamp(25px,4vw,35px);letter-spacing:-1.2px;margin:0}
+h1 span{color:var(--accent)}
+h2{font-size:16px;margin:0}
+h3{font-size:13px;margin:0 0 12px}
+.sub{color:var(--muted);font-size:12px;line-height:1.5;margin:6px 0 0}
+.mini{font-size:9px;color:var(--muted);letter-spacing:1.2px;font-weight:800;text-transform:uppercase}
+.panel{
+  background:linear-gradient(155deg,#19263a,#131d2c);
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden
+}
+.pad{padding:18px}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
+.layout{display:grid;grid-template-columns:minmax(280px,.78fr) minmax(0,1.22fr);gap:16px;align-items:start}
+.field{
+  width:100%;background:#0c1421;color:var(--text);
+  border:1px solid var(--line);border-radius:9px;padding:11px;min-width:0
+}
+.label{display:block;margin-bottom:9px}
+#countrySelect{
+  font-size:20px;min-height:64px;padding:16px 15px;border-radius:14px;background-color:#0c1421
+}
+.statusline{color:var(--muted);font-size:11px;margin:8px 0 0}
+.btn{
+  border:1px solid var(--line);border-radius:9px;padding:10px 12px;
+  color:var(--text);background:#202d42;font-size:11px;font-weight:750
+}
+.btn:hover{background:#2c3d56}
+.btn.primary{background:#8e91ff;color:#101725;border-color:#a9abff}
+.header-tools{display:flex;align-items:center;justify-content:flex-end;flex:0 0 auto}
+.journeys-short{padding:8px 12px;font-size:12px;white-space:nowrap}
+
+/* Globe */
+.globe-wrap{
+  margin:18px -4px 0;
+  padding-top:15px;
+  border-top:1px solid var(--line)
+}
+.globe-heading{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:8px;margin-bottom:8px;padding:0 4px
+}
+.globe-heading h3{margin:0;font-size:14px}
+.globe-heading p{margin:3px 0 0;color:var(--muted);font-size:9px;line-height:1.4}
+.globe-heading .mini{white-space:nowrap;padding-top:2px}
+#atlasGlobe{
+  width:100%;height:330px;min-height:280px;border-radius:14px;
+  overflow:hidden;position:relative;
+  background:radial-gradient(circle at 50% 45%,#172b46 0%,#0b1422 68%)
+}
+#atlasGlobe canvas{display:block;width:100%!important;height:100%!important}
+.globe-status{color:var(--muted);text-align:center;font-size:9px;padding:7px 4px 0}
+
+/* Destination profile */
+.profile-head{align-items:center}
+.desttitle{display:flex;align-items:center;gap:12px}
+.flag{font-size:32px}
+.desttitle h2{font-size:23px;letter-spacing:-.6px}
+.pill{
+  display:inline-block;margin-top:6px;padding:4px 8px;
+  border:1px solid #76e2bd50;border-radius:99px;color:var(--mint);font-size:10px
+}
+.profile-actions{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex:none}
+.country-actions{display:flex;gap:8px;align-items:center;margin:0;padding:0}
+.round-action{
+  width:62px;height:62px;border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;font-size:25px;font-weight:800;
+  border:2px solid #40536d;box-shadow:0 3px 0 #070d16;
+  background:#202d42;color:var(--text)
+}
 .round-action span{font-size:10px;letter-spacing:.2px;font-weight:750}
 .round-action.visited{background:#8e91ff;color:#101725;border-color:#a9abff}
 .round-action.wishlist{background:#173d37;color:#9af0d3;border-color:#4bbd9a}
 .round-action:active{transform:translateY(1px);box-shadow:0 1px 0 #070d16}
-@media(max-width:850px){.layout{grid-template-columns:1fr}}@media(max-width:520px){.shell{width:calc(100% - 18px);padding-top:16px}.profile-head{gap:6px}.profile-actions{gap:6px}.round-action{width:54px;height:54px;font-size:21px}.round-action span{font-size:9px}.journeys-short{padding:7px 9px;font-size:11px}.pad{padding:14px}.tools{grid-template-columns:1fr}.actions{padding:12px}.btn{flex:1 1 42%}.facts{gap:7px}.fact{padding:10px}.tripform{grid-template-columns:1fr}.wide{grid-column:auto}footer{flex-direction:column}}
-</style>
 
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:16px 0}
+.fact{
+  background:#101a29;border:1px solid var(--line);border-radius:12px;
+  padding:12px;min-width:0
+}
+.fact-button{
+  display:flex;flex-direction:column;align-items:stretch;gap:0;width:100%;
+  min-height:150px;text-align:left;color:var(--text);cursor:pointer;
+  transition:background .15s,border-color .15s,transform .15s;
+  position:relative;border:2px solid #344760;box-shadow:0 3px 0 #070d16;
+  padding:15px 13px;border-radius:14px;
+  background:linear-gradient(145deg,#1a2a40,#111c2d)
+}
+.fact-button .mini{font-size:11px;letter-spacing:1.1px;margin-bottom:12px;color:#bdcbe0}
+.fact-button strong{
+  font-size:clamp(19px,2vw,25px);line-height:1.18;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  flex:1;min-height:48px;overflow-wrap:anywhere
+}
+.fact-button small{font-size:10px;line-height:1.35;text-align:center;color:#aebbd0;margin-top:10px}
+.fact-button[aria-expanded="true"]{
+  border-color:var(--mint);background:linear-gradient(145deg,#203b48,#142738);
+  box-shadow:0 0 0 2px #76e2bd28,0 3px 0 #070d16
+}
+.fact-button:hover{border-color:#8ca1bf;transform:translateY(-1px)}
+.fact-button:active{transform:translateY(1px);box-shadow:0 1px 0 #070d16}
+.fact-button[data-panel="distancePanel"]{border-top:3px solid #e3bd55}
+.fact-button[data-panel="currencyPanel"]{border-top:3px solid #55c995}
+.fact-button[data-panel="phrasesPanel"]{border-top:3px solid #67a9f5}
+.fact-button[data-panel="distancePanel"]:after{content:"Convert distance  ↗"}
+.fact-button[data-panel="currencyPanel"]:after{content:"Convert currency  ↗"}
+.fact-button[data-panel="phrasesPanel"]:after{content:"Explore phrases  ↗"}
+.fact-button:after{
+  display:block;margin-top:10px;font-size:10px;letter-spacing:.3px;
+  font-weight:800;color:#bdcbe0;text-align:center
+}
+.fact-button[aria-expanded="true"]:after{content:"Hide this section  ↑";color:var(--mint)}
+.fact-button[data-panel="distancePanel"] strong{
+  white-space:pre-line;font-size:clamp(17px,1.8vw,22px);line-height:1.4
+}
+.fact-button[data-panel="phrasesPanel"] strong,
+.fact-button[data-panel="currencyPanel"] strong{
+  font-size:clamp(22px,2.3vw,29px);line-height:1.3;
+  flex:1;min-height:62px;padding-top:10px;text-align:center;justify-content:center;
+  margin-top:5px
+}
+.fact-button[data-panel="phrasesPanel"],
+.fact-button[data-panel="currencyPanel"]{text-align:center}
+.fact-button .mini{text-align:left;align-self:stretch}
+
+/* Static power card: NOT clickable */
+.power-fact{
+  min-height:150px;text-align:center;
+  border:2px solid #344760;border-top:3px solid #e16a77;
+  border-radius:14px;background:linear-gradient(145deg,#1a2a40,#111c2d);
+  box-shadow:0 3px 0 #070d16;padding:15px 13px;
+  display:flex;flex-direction:column
+}
+.power-fact>.mini{text-align:left;margin-bottom:10px}
+.power-fact>strong{font-size:clamp(22px,2.3vw,29px);line-height:1.2;margin-bottom:8px}
+.power-inline{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:auto;text-align:left}
+.power-plug-icon{
+  width:50px;height:55px;flex:0 0 50px;border-radius:9px;
+  background:#202d42;display:grid;place-items:center;overflow:hidden
+}
+.power-plug-icon svg{width:39px;height:45px}
+.power-plug-info{min-width:0}
+.power-plug-info .mini{display:block;font-size:9px;margin-bottom:2px}
+.power-plug-info strong{display:block;font-size:17px;line-height:1.1}
+.power-plug-info small{
+  display:block;color:#aebbd0;font-size:9px;line-height:1.25;
+  margin-top:3px;max-width:190px
+}
+
+.detail-panel{display:none}
+.detail-panel.open{display:block}
+.divider{height:1px;background:var(--line);margin:15px 0}
+.tools{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
+.tool{background:#101a29;border:1px solid var(--line);border-radius:12px;padding:12px;min-width:0}
+.tool h3{margin-bottom:10px}
+.tool .field{margin-top:7px}
+.convert-line{
+  display:grid;grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr);
+  gap:8px;align-items:end
+}
+.convert-side{min-width:0}
+.convert-side label{display:block;margin-bottom:6px}
+.swap{height:41px;width:42px;padding:0;font-size:19px;border-radius:10px;color:var(--mint)}
+.tool .convert-line .field{margin-top:0}
+.result{color:var(--mint);font-size:12px;font-weight:750;margin-top:10px;min-height:17px;overflow-wrap:anywhere}
+.toolnote{font-size:10px;color:var(--muted);line-height:1.5;margin:8px 0 0}
+.notice{
+  margin-top:9px;border:1px solid #ffd18a38;background:#ffd18a0c;
+  border-radius:9px;padding:10px;font-size:10px;line-height:1.5;color:#e3d1ac
+}
+.phrase-tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.phrase-table{display:grid;gap:7px;margin-top:12px}
+.phrase-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;
+  background:#0c1421;border:1px solid var(--line);border-radius:9px
+}
+.phrase-row strong{display:block;font-size:12px}
+.phrase-row small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+.phrase-row button{margin-top:7px}
+.wide{grid-column:1/-1}
+.api{color:var(--muted);font-size:10px;line-height:1.5;margin-top:12px}
+.api a{color:#b5b6ff}
+
+/* Plug / journey / footer */
+.tripform{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}
+.triplist{display:grid;gap:8px;margin-top:12px}
+.trip{
+  display:flex;gap:9px;align-items:center;padding:10px;
+  background:#101a29;border:1px solid var(--line);border-radius:10px
+}
+.tripinfo{flex:1;min-width:0}
+.trip strong{display:block;font-size:12px}
+.trip small{font-size:10px;color:var(--muted)}
+.trip button{background:none;border:0;color:#ff9b9b;font-size:18px}
+.empty{color:var(--muted);font-size:11px}
+footer{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:10px;padding:18px 3px 0}
+
+@media(max-width:850px){
+  .layout{grid-template-columns:1fr}
+}
+@media(max-width:520px){
+  .shell{width:calc(100% - 18px);padding-top:16px}
+  .profile-head{gap:6px}
+  .profile-actions{gap:6px}
+  .round-action{width:54px;height:54px;font-size:21px}
+  .round-action span{font-size:9px}
+  .journeys-short{padding:7px 9px;font-size:11px}
+  .pad{padding:14px}
+  .facts{gap:7px}
+  .fact{padding:10px}
+  .tripform{grid-template-columns:1fr}
+  .wide{grid-column:auto}
+  .phrase-tools{grid-template-columns:1fr}
+  #atlasGlobe{height:285px;min-height:250px}
+  .globe-heading{flex-direction:column;gap:3px}
+  .globe-heading .mini{display:none}
+  .power-inline{justify-content:flex-start}
+}
+</style>
 </head>
-<body><main class="shell">
-<header><div class="brand"><div class="mark">◎</div><div><p class="eyebrow">YOUR PERSONAL TRAVEL WORLD</p><h1>Atlas <span>Adventures</span></h1></div></div><div class="header-tools"><button class="btn journeys-short" id="jumpTrips">▤ My journeys</button></div></header>
+
+<body>
+<main class="shell">
+
+<header>
+  <div class="brand">
+    <div class="mark">◎</div>
+    <div>
+      <p class="eyebrow">YOUR PERSONAL TRAVEL WORLD</p>
+      <h1>Atlas <span>Adventures</span></h1>
+    </div>
+  </div>
+  <div class="header-tools">
+    <button class="btn journeys-short" id="jumpTrips">▤ My journeys</button>
+  </div>
+</header>
+
 <div class="layout">
-<section class="panel">
-<div class="pad"><div class="head"><div><h2>Choose a destination</h2></div></div>
-<label class="mini label" for="countrySelect">Country or destination</label><select class="field" id="countrySelect"></select>
-<p class="statusline" id="savedStatus" aria-live="polite">Saved in this browser.</p></div>
+
+  <!-- DESTINATION PICKER + GLOBE -->
+  <section class="panel">
+    <div class="pad">
+      <div class="head">
+        <div><h2>Choose a destination</h2></div>
+      </div>
+
+      <label class="mini label" for="countrySelect">Country or destination</label>
+      <select class="field" id="countrySelect"></select>
+      <p class="statusline" id="savedStatus" aria-live="polite">Saved in this browser.</p>
+
+      <div class="globe-wrap">
+        <div class="globe-heading">
+          <div>
+            <h3>🌎 Explore the world</h3>
+            <p>Drag to spin · pinch to zoom · tap a country to select it</p>
+          </div>
+          <span class="mini">TAP TO SELECT</span>
+        </div>
+        <div id="atlasGlobe"></div>
+        <div class="globe-status" id="globeStatus">Loading interactive globe…</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESTINATION PROFILE -->
+  <section class="panel">
+    <div class="pad">
+
+      <div class="head profile-head">
+        <div>
+          <p class="eyebrow">DESTINATION PROFILE</p>
+          <div class="desttitle">
+            <span class="flag" id="flag">🇵🇹</span>
+            <div>
+              <h2 id="countryName">Portugal</h2>
+              <span class="pill" id="countryStatus">Ready to explore</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-actions">
+          <span class="mini" id="region">EUROPE</span>
+          <div class="country-actions">
+            <button class="round-action visited" id="visitedBtn"
+                    aria-label="Mark selected destination as visited"
+                    title="Mark visited">✓<span>Visited</span></button>
+            <button class="round-action wishlist" id="wishBtn"
+                    aria-label="Add selected destination to wishlist"
+                    title="Add to wishlist">＋<span>Wishlist</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="facts">
+
+        <button type="button" class="fact fact-button"
+                data-panel="phrasesPanel" aria-expanded="false">
+          <span class="mini">LANGUAGE · PHRASES</span>
+          <strong id="language">Portuguese</strong>
+          <small>50 phrases and translations</small>
+        </button>
+
+        <button type="button" class="fact fact-button"
+                data-panel="currencyPanel" aria-expanded="false">
+          <span class="mini">CURRENCY</span>
+          <strong id="currency">Euro (EUR)</strong>
+          <small>Convert destination currency ↔ USD</small>
+        </button>
+
+        <!-- STATIC / NON-CLICKABLE POWER CARD -->
+        <div class="fact power-fact">
+          <span class="mini">POWER & PLUGS</span>
+          <strong id="voltage">230 V · 50 Hz</strong>
+          <div class="power-inline">
+            <div class="power-plug-icon" id="powerPlugIcon"></div>
+            <div class="power-plug-info">
+              <span class="mini">PLUG TYPE(S)</span>
+              <strong id="plugTypes">C, F</strong>
+              <small id="plugDesc">Type C has two round pins; Type F adds grounding clips.</small>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="fact fact-button"
+                data-panel="distancePanel" aria-expanded="false">
+          <span class="mini">DISTANCE & DRIVING</span>
+          <strong id="distanceCountrySummary">Kilometers
+Drive on the right</strong>
+          <small id="distanceCountryHint">Distance conversion and road-side guidance.</small>
+        </button>
+
+      </div>
+
+      <!-- DISTANCE -->
+      <div class="detail-panel" id="distancePanel">
+        <div class="divider"></div>
+        <div class="tools">
+          <div class="tool">
+            <h3>⇄ Distance converter</h3>
+
+            <div class="convert-line">
+              <div class="convert-side">
+                <label class="mini" for="distancePreset" id="distanceFromLabel">Kilometers (km)</label>
+                <select class="field" id="distancePreset" aria-label="Choose a distance">
+                  <option value="5">5</option>
+                  <option value="10" selected>10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                  <option value="custom">Custom amount…</option>
+                </select>
+                <input class="field" id="distanceInput" type="number"
+                       min="0" step="any" value="10"
+                       aria-label="Custom distance amount"
+                       style="display:none;margin-top:6px">
+              </div>
+
+              <button class="btn swap" id="distanceSwap" type="button"
+                      aria-label="Switch distance conversion direction"
+                      title="Switch direction">⇄</button>
+
+              <div class="convert-side">
+                <label class="mini" id="distanceToLabel">U.S. miles (mi)</label>
+                <div class="field" id="distanceOutput" aria-live="polite">6.21 mi</div>
+              </div>
+            </div>
+
+            <p class="toolnote" id="distanceHint">
+              Choose a common distance or select custom. Use ⇄ to reverse the conversion.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CURRENCY -->
+      <div class="detail-panel" id="currencyPanel">
+        <div class="divider"></div>
+        <div class="tool">
+          <h3>💱 Currency converter</h3>
+
+          <div class="convert-line">
+            <div class="convert-side">
+              <label class="mini" id="moneyFromLabel" for="moneyPreset">Euro (EUR)</label>
+              <select class="field" id="moneyPreset" aria-label="Choose a currency amount">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20" selected>20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="custom">Custom amount…</option>
+              </select>
+              <input class="field" id="moneyInput" type="number"
+                     min="0" step="any" value="20"
+                     aria-label="Custom currency amount"
+                     style="display:none;margin-top:6px">
+            </div>
+
+            <button class="btn swap" id="moneySwap" type="button"
+                    aria-label="Switch currency conversion direction"
+                    title="Switch direction">⇄</button>
+
+            <div class="convert-side">
+              <label class="mini" id="moneyToLabel">U.S. dollars (USD)</label>
+              <div class="field" id="moneyOutput" aria-live="polite">Loading…</div>
+            </div>
+          </div>
+
+          <p class="toolnote" id="rateUpdated">Rates are indicative, not bank or card fees.</p>
+          <button class="btn" id="refreshRates" style="margin-top:9px">↻ Refresh rates</button>
+        </div>
+      </div>
+
+      <!-- PHRASES -->
+      <div class="detail-panel" id="phrasesPanel">
+        <div class="divider"></div>
+
+        <div class="head">
+          <div>
+            <h2>🗣️ 50 useful tourist phrases</h2>
+            <p class="sub">
+              English and the selected country's language. Tap the speaker to hear a phrase when your browser supports speech.
+            </p>
+          </div>
+        </div>
+
+        <div class="phrase-tools">
+          <div>
+            <label class="mini" for="phraseSearch">Find a phrase</label>
+            <input class="field" id="phraseSearch" placeholder="bathroom, thank you…">
+          </div>
+
+          <div>
+            <label class="mini" for="phraseDirection">Translation direction</label>
+            <select class="field" id="phraseDirection">
+              <option value="both">English ↔ local language</option>
+              <option value="en">English → local language</option>
+              <option value="local">Local language → English</option>
+            </select>
+          </div>
+
+          <div class="wide">
+            <label class="mini" for="phraseLanguage">Phrase language pack</label>
+            <select class="field" id="phraseLanguage">
+              <option value="auto">Use selected country's language</option>
+              <option value="nl">Dutch</option>
+              <option value="ko">Korean</option>
+              <option value="th">Thai</option>
+              <option value="vi">Vietnamese</option>
+              <option value="hi">Hindi</option>
+              <option value="tr">Turkish</option>
+              <option value="el">Greek</option>
+              <option value="id">Indonesian</option>
+              <option value="he">Hebrew</option>
+              <option value="ru">Russian</option>
+              <option value="ar">Arabic</option>
+              <option value="it">Italian</option>
+              <option value="de">German</option>
+              <option value="zh">Chinese</option>
+              <option value="ja">Japanese</option>
+              <option value="fr">French</option>
+              <option value="es">Spanish</option>
+              <option value="pt">Portuguese</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="phrase-table" id="phraseList"></div>
+
+        <p class="api">
+          Translations use a live translation service when an offline phrase is not available.
+          Machine translations may need checking.
+        </p>
+      </div>
+
+      <div class="api">
+        Exchange-rate source:
+        <a href="https://www.exchangerate-api.com/docs/free"
+           target="_blank" rel="noopener">ExchangeRate-API open access</a>.
+        Exchange rates and some phrase translations require an internet connection.
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- JOURNEYS -->
+<section class="panel" id="journeys" style="margin-top:16px">
+  <div class="pad">
+    <div class="head">
+      <div>
+        <h2>My journeys</h2>
+        <p class="sub">Save places you dream of, plan, or have visited.</p>
+      </div>
+      <span class="mini">YOUR TRAVEL STORY</span>
+    </div>
+
+    <form class="tripform" id="tripForm">
+      <input class="field" id="tripName"
+             placeholder="Trip or destination name" maxlength="90" required>
+      <select class="field" id="tripKind">
+        <option>Wishlist</option>
+        <option>Planning</option>
+        <option>Visited</option>
+      </select>
+      <input class="field" id="tripDate" type="date" aria-label="Date (optional)">
+      <button class="btn primary" type="submit">＋ Save destination</button>
+    </form>
+
+    <div class="triplist" id="tripList"></div>
+
+    <p class="api">
+      Your travel list is stored locally in this browser. This prototype includes 50+ popular destinations;
+      detailed safety advice, flight durations, and some country facts still need trusted live data sources.
+    </p>
+  </div>
 </section>
-<section class="panel"><div class="pad">
-<div class="head profile-head"><div><p class="eyebrow">DESTINATION PROFILE</p><div class="desttitle"><span class="flag" id="flag">🇵🇹</span><div><h2 id="countryName">Portugal</h2><span class="pill" id="countryStatus">Ready to explore</span></div></div></div><div class="profile-actions"><span class="mini" id="region">EUROPE</span><div class="country-actions"><button class="round-action visited" id="visitedBtn" aria-label="Mark selected destination as visited" title="Mark visited">✓<span>Visited</span></button><button class="round-action wishlist" id="wishBtn" aria-label="Add selected destination to wishlist" title="Add to wishlist">＋<span>Wishlist</span></button></div></div></div>
-<div class="facts">
-<button type="button" class="fact fact-button" data-panel="phrasesPanel" aria-expanded="false"><span class="mini">LANGUAGE · PHRASES</span><strong id="language">Portuguese</strong><small>50 phrases and translations</small></button>
-<button type="button" class="fact fact-button" data-panel="currencyPanel" aria-expanded="false"><span class="mini">CURRENCY</span><strong id="currency">Euro (EUR)</strong><small>Convert destination currency ↔ USD</small></button>
-<button type="button" class="fact fact-button" data-panel="powerPanel" aria-expanded="false"><span class="mini">POWER & PLUGS</span><strong id="voltage">230 V · 50 Hz</strong><small>Plug types, voltage, and what to pack</small></button>
-<button type="button" class="fact fact-button" data-panel="distancePanel" aria-expanded="false"><span class="mini">DISTANCE & DRIVING</span><strong id="distanceCountrySummary">Kilometers · Drive on the right</strong><small id="distanceCountryHint">Distance converter and road-side information</small></button>
-</div>
-<div class="detail-panel" id="powerPanel"><div class="divider"></div><div class="head"><div><h2>⚡ Power & plug guide</h2><p class="sub">Plug types and electrical standards for this country.</p></div><span class="mini">PACK SMART</span></div>
-<div class="plug"><div class="plugicon" id="plugIcon"></div><div><span class="mini">PLUG TYPE(S)</span><strong id="plugTypes">C, F</strong><p id="plugDesc">Two round pins.</p></div></div>
-<div class="notice" id="powerNote">A travel adapter changes plug shape, not voltage. Check your device label.</div></div>
-<div class="detail-panel" id="distancePanel"><div class="divider"></div><div class="tools">
-<div class="tool"><h3>⇄ Distance converter</h3><div class="convert-line">
-<div class="convert-side"><label class="mini" for="distancePreset" id="distanceFromLabel">Kilometers (km)</label><select class="field" id="distancePreset" aria-label="Choose a distance"><option value="5">5</option><option value="10" selected>10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="custom">Custom amount…</option></select><input class="field" id="distanceInput" type="number" min="0" step="any" value="10" aria-label="Custom distance amount" style="display:none;margin-top:6px"></div>
-<button class="btn swap" id="distanceSwap" type="button" aria-label="Switch distance conversion direction" title="Switch direction">⇄</button>
-<div class="convert-side"><label class="mini" id="distanceToLabel">U.S. miles (mi)</label><div class="field" id="distanceOutput" aria-live="polite">6.21 mi</div></div>
-</div><p class="toolnote" id="distanceHint">Choose a common distance or select custom. Use ⇄ to reverse the conversion.</p></div></div></div>
-<div class="detail-panel" id="currencyPanel"><div class="divider"></div><div class="tool"><h3>💱 Currency converter</h3><div class="convert-line">
-<div class="convert-side"><label class="mini" id="moneyFromLabel" for="moneyPreset">Euro (EUR)</label><select class="field" id="moneyPreset" aria-label="Choose a currency amount"><option value="5">5</option><option value="10">10</option><option value="20" selected>20</option><option value="50">50</option><option value="100">100</option><option value="custom">Custom amount…</option></select><input class="field" id="moneyInput" type="number" min="0" step="any" value="20" aria-label="Custom currency amount" style="display:none;margin-top:6px"></div>
-<button class="btn swap" id="moneySwap" type="button" aria-label="Switch currency conversion direction" title="Switch direction">⇄</button>
-<div class="convert-side"><label class="mini" id="moneyToLabel">U.S. dollars (USD)</label><div class="field" id="moneyOutput" aria-live="polite">Loading…</div></div>
-</div><p class="toolnote" id="rateUpdated">Rates are indicative, not bank or card fees.</p><button class="btn" id="refreshRates" style="margin-top:9px">↻ Refresh rates</button></div></div>
-<div class="detail-panel" id="phrasesPanel"><div class="divider"></div><div class="head"><div><h2>🗣️ 50 useful tourist phrases</h2><p class="sub">English and the selected country's language. Tap the speaker to hear a phrase when your browser supports speech.</p></div></div><div class="phrase-tools"><div><label class="mini" for="phraseSearch">Find a phrase</label><input class="field" id="phraseSearch" placeholder="bathroom, thank you…" /></div><div><label class="mini" for="phraseDirection">Translation direction</label><select class="field" id="phraseDirection"><option value="both">English ↔ local language</option><option value="en">English → local language</option><option value="local">Local language → English</option></select></div><div class="wide"><label class="mini" for="phraseLanguage">Phrase language pack</label><select class="field" id="phraseLanguage"><option value="auto">Use selected country's language</option><option value="nl">Dutch</option><option value="ko">Korean</option><option value="th">Thai</option><option value="vi">Vietnamese</option><option value="hi">Hindi</option><option value="tr">Turkish</option><option value="el">Greek</option><option value="id">Indonesian</option><option value="he">Hebrew</option><option value="ru">Russian</option><option value="ar">Arabic</option><option value="it">Italian</option><option value="de">German</option><option value="zh">Chinese</option><option value="ja">Japanese</option><option value="fr">French</option><option value="es">Spanish</option><option value="pt">Portuguese</option></select></div></div><div class="phrase-table" id="phraseList"></div><p class="api">Translations in this first phrase pack are available for common travel languages. For other languages, the app will show English and a translation-service prompt rather than inventing a translation. Machine translations may need checking.</p></div>
-</div>
-<div class="api">Exchange-rate source: <a href="https://www.exchangerate-api.com/docs/free" target="_blank" rel="noopener">ExchangeRate-API open access</a>. Exchange rates and some phrase translations require an internet connection.</div>
-</div></section>
-</div>
-<section class="panel" id="journeys" style="margin-top:16px"><div class="pad"><div class="head"><div><h2>My journeys</h2><p class="sub">Save places you dream of, plan, or have visited.</p></div><span class="mini">YOUR TRAVEL STORY</span></div>
-<form class="tripform" id="tripForm"><input class="field" id="tripName" placeholder="Trip or destination name" maxlength="90" required><select class="field" id="tripKind"><option>Wishlist</option><option>Planning</option><option>Visited</option></select><input class="field" id="tripDate" type="date" aria-label="Date (optional)"><button class="btn primary" type="submit">＋ Save destination</button></form><div class="triplist" id="tripList"></div><p class="api">Your travel list is stored locally in this browser. This prototype includes 50+ popular destinations; detailed safety advice, flight durations, and some country facts still need trusted live data sources.</p></div></section>
-<footer><span>ATLAS ADVENTURES · WORKING PROTOTYPE</span><span>Explore more. Remember more.</span></footer>
+
+<footer>
+  <span>ATLAS ADVENTURES · WORKING PROTOTYPE</span>
+  <span>Explore more. Remember more.</span>
+</footer>
+
 </main>
+
 <script>
+/* -----------------------------------------------------------
+   DESTINATION DATA
+----------------------------------------------------------- */
 const places=[
 ["PT","Portugal","🇵🇹","Europe","Portuguese","EUR","Euro","230 V · 50 Hz","C, F","Type C has two round pins; Type F adds grounding clips.",38.7,-9.1],
 ["ES","Spain","🇪🇸","Europe","Spanish","EUR","Euro","230 V · 50 Hz","C, F","Type C has two round pins; Type F is grounded.",40.4,-3.7],
@@ -111,136 +627,841 @@ const places=[
 ["TZ","Tanzania","🇹🇿","Africa","Swahili, English","TZS","Tanzanian shilling","230 V · 50 Hz","D, G","Socket types vary; check accommodation and bring an adapter.",-6.8,39.2],
 ["LK","Sri Lanka","🇱🇰","Asia","Sinhala, Tamil","LKR","Sri Lankan rupee","230 V · 50 Hz","D, G","Older Type D and newer Type G sockets can occur.",6.9,79.9]
 ];
-const byCode=Object.fromEntries(places.map(p=>[p[0],p]));
-const $=id=>document.getElementById(id);let selected="PT",trips=[],rates=null,rateBase="USD";
-const key="atlas-adventures-trips-v2";
-function plugSVG(types){let t=types.includes("G")?"G":types.includes("I")?"I":types.includes("A")?"A":types.includes("L")?"L":types.includes("D")?"D":types.includes("N")?"N":"C";let pins;
-if(t==="G")pins='<rect x="22" y="4" width="8" height="24" rx="2" fill="#c4d2e4"/><rect x="50" y="4" width="8" height="24" rx="2" fill="#c4d2e4"/><rect x="36" y="0" width="8" height="24" rx="2" fill="#c4d2e4"/>';
-else if(t==="I")pins='<g transform="rotate(-28 30 20)"><rect x="25" y="2" width="7" height="28" rx="3" fill="#c4d2e4"/></g><g transform="rotate(28 50 20)"><rect x="47" y="2" width="7" height="28" rx="3" fill="#c4d2e4"/></g>';
-else if(["A","B"].includes(t))pins='<rect x="27" y="3" width="7" height="29" rx="3" fill="#c4d2e4"/><rect x="47" y="3" width="7" height="29" rx="3" fill="#c4d2e4"/>';
-else if(t==="L")pins='<rect x="23" y="2" width="6" height="27" rx="3" fill="#c4d2e4"/><rect x="37" y="2" width="6" height="27" rx="3" fill="#c4d2e4"/><rect x="51" y="2" width="6" height="27" rx="3" fill="#c4d2e4"/>';
-else pins='<rect x="27" y="3" width="7" height="29" rx="3.5" fill="#c4d2e4"/><rect x="46" y="3" width="7" height="29" rx="3.5" fill="#c4d2e4"/>';
-return `<svg viewBox="0 0 80 90" role="img" aria-label="Simplified plug type ${t}"><g>${pins}</g><rect x="17" y="24" width="46" height="50" rx="13" fill="#e0e8f4"/><rect x="29" y="44" width="22" height="5" rx="2.5" fill="#91a4bd"/><path d="M29 60h22" stroke="#91a4bd" stroke-width="4" stroke-linecap="round"/></svg>`}
-function fillCountries(){const sel=$("countrySelect");places.slice().sort((a,b)=>a[1].localeCompare(b[1])).forEach(p=>{const o=document.createElement("option");o.value=p[0];o.textContent=`${p[2]} ${p[1]}`;sel.append(o)});sel.value=selected;
-}
-function renderCountry(){const p=byCode[selected];$("countrySelect").value=selected;$("flag").textContent=p[2];$("countryName").textContent=p[1];$("region").textContent=p[3].toUpperCase();$("language").textContent=p[4];$("currency").textContent=p[6]+" ("+p[5]+")";$("voltage").textContent=p[7];$("plugTypes").textContent=p[8];$("plugDesc").textContent=p[9];$("plugIcon").innerHTML=plugSVG(p[8]);$("powerNote").textContent="Electrical supply: "+p[7]+". A travel adapter changes plug shape, not voltage. Check device labels; many modern chargers support 100–240 V, but verify before use.";
-const drive=drivingInfo[selected]||drivingInfo.default;$("distanceCountrySummary").textContent=drive[0]+"\nDrive on the "+drive[1];$("distanceCountryHint").textContent="Distance conversion and road-side guidance.";
 
-const imperial=["US","GB"].includes(selected);$("distanceFromLabel").textContent=imperial?"U.S. miles (mi)":"Kilometers (km)";$("distanceToLabel").textContent=imperial?"Kilometers (km)":"U.S. miles (mi)";$("distanceHint").textContent=imperial?"This destination commonly uses miles. Switch direction any time.":"This destination commonly uses kilometers. Switch direction any time.";
-const prevFrom=$("fromCurrency").value, prevTo=$("toCurrency").value;
-$("moneyFromLabel").textContent=currencyReversed?"U.S. dollars (USD)":`${p[6]} (${p[5]})`;$("moneyToLabel").textContent=currencyReversed?`${p[6]} (${p[5]})`:"U.S. dollars (USD)";
-updateDistance();updateMoney();const t=trips.find(x=>x.code===selected);$("countryStatus").textContent=t?t.kind:"Ready to explore";}
-function saveTrips(){try{localStorage.setItem(key,JSON.stringify(trips));$("savedStatus").textContent="Saved in this browser."}catch(e){$("savedStatus").textContent="Browser storage unavailable; changes may not persist."}renderTrips();renderCountry();}
-function addTrip(name,kind,date="",code=selected){const p=byCode[code];trips=trips.filter(t=>!(t.code===code&&t.kind===kind));trips.unshift({id:Date.now()+Math.random(),name,kind,date,code,lat:p?.[10],lng:p?.[11]});saveTrips();}
-function renderTrips(){const el=$("tripList");el.innerHTML="";if(!trips.length){el.innerHTML='<p class="empty">Your travel story starts here. Add a destination above or mark a country as visited.</p>';return}trips.forEach(t=>{const row=document.createElement("div");row.className="trip";const icon=document.createElement("span");icon.textContent=t.kind==="Visited"?"✓":t.kind==="Planning"?"✈":"☆";icon.style.color=t.kind==="Visited"?"var(--mint)":"var(--gold)";const info=document.createElement("div");info.className="tripinfo";const strong=document.createElement("strong");strong.textContent=t.name;const small=document.createElement("small");small.textContent=t.kind+(t.date?" · "+t.date:"");info.append(strong,small);const del=document.createElement("button");del.textContent="×";del.setAttribute("aria-label","Remove "+t.name);del.onclick=()=>{trips=trips.filter(x=>x.id!==t.id);saveTrips()};row.append(icon,info,del);el.append(row)})}
+const byCode=Object.fromEntries(places.map(p=>[p[0],p]));
+const $=id=>document.getElementById(id);
+
+let selected="PT";
+let trips=[];
+let rates=null;
 let distanceReversed=false;
 let currencyReversed=false;
-function chosenDistance(){return $("distancePreset").value==="custom"?Number($("distanceInput").value):Number($("distancePreset").value)}
-function updateDistance(){const n=chosenDistance(),imperial=["US","GB"].includes(selected),base=imperial?"mi":"km",from=distanceReversed?(base==="km"?"mi":"km"):base,to=from==="km"?"mi":"km";$("distanceFromLabel").textContent=from==="km"?"Kilometers (km)":"U.S. miles (mi)";$("distanceToLabel").textContent=to==="km"?"Kilometers (km)":"U.S. miles (mi)";$("distanceOutput").textContent=$("distancePreset").value==="custom"&&$("distanceInput").value===""?"Enter amount":$("distancePreset").value==="custom"&&n<0?"—":`${(from==="km"&&to==="mi"?n*.621371:n/0.621371).toLocaleString(undefined,{maximumFractionDigits:2})} ${to}`;}
-function chosenMoney(){return $("moneyPreset").value==="custom"?Number($("moneyInput").value):Number($("moneyPreset").value)}
-function updateMoney(){const n=chosenMoney(),p=byCode[selected],from=currencyReversed?"USD":p[5],to=currencyReversed?p[5]:"USD";$("moneyFromLabel").textContent=currencyReversed?"U.S. dollars (USD)":`${p[6]} (${p[5]})`;$("moneyToLabel").textContent=currencyReversed?`${p[6]} (${p[5]})`:"U.S. dollars (USD)";if($("moneyPreset").value==="custom"&&$("moneyInput").value===""){$("moneyOutput").textContent="Enter amount";return}if(n<0){$("moneyOutput").textContent="—";return}if(!rates||!rates.rates[from]||!rates.rates[to]){$("moneyOutput").textContent="Loading…";return}const converted=n/rates.rates[from]*rates.rates[to];$("moneyOutput").textContent=`${converted.toLocaleString(undefined,{maximumFractionDigits:2})} ${to}`;}
-async function loadRates(base){rateBase=base;$("moneyOutput").textContent="Loading…";try{const r=await fetch("https://open.er-api.com/v6/latest/"+encodeURIComponent(base));if(!r.ok)throw Error("HTTP "+r.status);const data=await r.json();if(data.result!=="success")throw Error("Rate service unavailable");rates=data;$("rateUpdated").textContent="Rate data last updated: "+new Date(data.time_last_update_utc).toLocaleString()+" · rates are indicative, not bank/card fees.";updateMoney()}catch(e){rates=null;$("moneyOutput").textContent="Live rates unavailable. Try Refresh rates.";}}
+let atlasGlobe=null;
 
+const key="atlas-adventures-trips-v2";
 
+/* -----------------------------------------------------------
+   PLUG DRAWING
+----------------------------------------------------------- */
+function plugSVG(types){
+  let t=types.includes("G")?"G":
+        types.includes("I")?"I":
+        types.includes("A")?"A":
+        types.includes("L")?"L":
+        types.includes("D")?"D":
+        types.includes("N")?"N":"C";
+
+  let pins;
+
+  if(t==="G"){
+    pins='<rect x="22" y="4" width="8" height="24" rx="2" fill="#c4d2e4"/>'+
+         '<rect x="50" y="4" width="8" height="24" rx="2" fill="#c4d2e4"/>'+
+         '<rect x="36" y="0" width="8" height="24" rx="2" fill="#c4d2e4"/>';
+  }else if(t==="I"){
+    pins='<g transform="rotate(-28 30 20)"><rect x="25" y="2" width="7" height="28" rx="3" fill="#c4d2e4"/></g>'+
+         '<g transform="rotate(28 50 20)"><rect x="47" y="2" width="7" height="28" rx="3" fill="#c4d2e4"/></g>';
+  }else if(["A","B"].includes(t)){
+    pins='<rect x="27" y="3" width="7" height="29" rx="3" fill="#c4d2e4"/>'+
+         '<rect x="47" y="3" width="7" height="29" rx="3" fill="#c4d2e4"/>';
+  }else if(t==="L"){
+    pins='<rect x="23" y="2" width="6" height="27" rx="3" fill="#c4d2e4"/>'+
+         '<rect x="37" y="2" width="6" height="27" rx="3" fill="#c4d2e4"/>'+
+         '<rect x="51" y="2" width="6" height="27" rx="3" fill="#c4d2e4"/>';
+  }else{
+    pins='<rect x="27" y="3" width="7" height="29" rx="3.5" fill="#c4d2e4"/>'+
+         '<rect x="46" y="3" width="7" height="29" rx="3.5" fill="#c4d2e4"/>';
+  }
+
+  return `<svg viewBox="0 0 80 90" role="img" aria-label="Simplified plug type ${t}">
+    <g>${pins}</g>
+    <rect x="17" y="24" width="46" height="50" rx="13" fill="#e0e8f4"/>
+    <rect x="29" y="44" width="22" height="5" rx="2.5" fill="#91a4bd"/>
+    <path d="M29 60h22" stroke="#91a4bd" stroke-width="4" stroke-linecap="round"/>
+  </svg>`;
+}
+
+/* -----------------------------------------------------------
+   COUNTRY SELECTOR
+----------------------------------------------------------- */
+function fillCountries(){
+  const sel=$("countrySelect");
+  places.slice()
+    .sort((a,b)=>a[1].localeCompare(b[1]))
+    .forEach(p=>{
+      const o=document.createElement("option");
+      o.value=p[0];
+      o.textContent=`${p[2]} ${p[1]}`;
+      sel.append(o);
+    });
+  sel.value=selected;
+}
+
+/* -----------------------------------------------------------
+   DRIVING
+----------------------------------------------------------- */
 const drivingInfo={
-US:["Miles","right"],GB:["Miles","left"],IE:["Kilometers","left"],JP:["Kilometers","left"],AU:["Kilometers","left"],NZ:["Kilometers","left"],
-IN:["Kilometers","left"],ZA:["Kilometers","left"],TH:["Kilometers","left"],MY:["Kilometers","left"],SG:["Kilometers","left"],ID:["Kilometers","left"],
-BR:["Kilometers","right"],AR:["Kilometers","right"],CL:["Kilometers","right"],PE:["Kilometers","right"],CO:["Kilometers","right"],
-default:["Kilometers","right"]
+  US:["Miles","right"],GB:["Miles","left"],IE:["Kilometers","left"],
+  JP:["Kilometers","left"],AU:["Kilometers","left"],NZ:["Kilometers","left"],
+  IN:["Kilometers","left"],ZA:["Kilometers","left"],TH:["Kilometers","left"],
+  MY:["Kilometers","left"],SG:["Kilometers","left"],ID:["Kilometers","left"],
+  BR:["Kilometers","right"],AR:["Kilometers","right"],CL:["Kilometers","right"],
+  PE:["Kilometers","right"],CO:["Kilometers","right"],
+  default:["Kilometers","right"]
 };
+
+/* -----------------------------------------------------------
+   COUNTRY RENDER
+----------------------------------------------------------- */
+function renderCountry(){
+  const p=byCode[selected];
+
+  $("countrySelect").value=selected;
+  $("flag").textContent=p[2];
+  $("countryName").textContent=p[1];
+  $("region").textContent=p[3].toUpperCase();
+  $("language").textContent=p[4];
+  $("currency").textContent=p[6]+" ("+p[5]+")";
+  $("voltage").textContent=p[7];
+  $("plugTypes").textContent=p[8];
+  $("plugDesc").textContent=p[9];
+
+  if($("powerPlugIcon")){
+    $("powerPlugIcon").innerHTML=plugSVG(p[8]);
+  }
+
+  const drive=drivingInfo[selected]||drivingInfo.default;
+  $("distanceCountrySummary").textContent=
+    drive[0]+"\nDrive on the "+drive[1];
+  $("distanceCountryHint").textContent=
+    "Distance conversion and road-side guidance.";
+
+  const imperial=["US","GB"].includes(selected);
+  $("distanceFromLabel").textContent=
+    imperial?"U.S. miles (mi)":"Kilometers (km)";
+  $("distanceToLabel").textContent=
+    imperial?"Kilometers (km)":"U.S. miles (mi)";
+  $("distanceHint").textContent=
+    imperial
+      ?"This destination commonly uses miles. Switch direction any time."
+      :"This destination commonly uses kilometers. Switch direction any time.";
+
+  $("moneyFromLabel").textContent=
+    currencyReversed?"U.S. dollars (USD)":`${p[6]} (${p[5]})`;
+  $("moneyToLabel").textContent=
+    currencyReversed?`${p[6]} (${p[5]})`:"U.S. dollars (USD)";
+
+  updateDistance();
+  updateMoney();
+
+  const t=trips.find(x=>x.code===selected);
+  $("countryStatus").textContent=t?t.kind:"Ready to explore";
+
+  if(atlasGlobe){
+    atlasGlobe
+      .polygonCapColor(feature=>{
+        const code=globeCountryCode(feature);
+        if(code===selected)return "#76e2bd";
+        if(code)return "#6e7ff0";
+        return "rgba(60,75,100,.45)";
+      });
+  }
+}
+
+/* -----------------------------------------------------------
+   JOURNEYS
+----------------------------------------------------------- */
+function saveTrips(){
+  try{
+    localStorage.setItem(key,JSON.stringify(trips));
+    $("savedStatus").textContent="Saved in this browser.";
+  }catch(e){
+    $("savedStatus").textContent=
+      "Browser storage unavailable; changes may not persist.";
+  }
+  renderTrips();
+  renderCountry();
+}
+
+function addTrip(name,kind,date="",code=selected){
+  const p=byCode[code];
+  trips=trips.filter(t=>!(t.code===code&&t.kind===kind));
+  trips.unshift({
+    id:Date.now()+Math.random(),
+    name,kind,date,code,
+    lat:p?.[10],lng:p?.[11]
+  });
+  saveTrips();
+}
+
+function renderTrips(){
+  const el=$("tripList");
+  el.innerHTML="";
+
+  if(!trips.length){
+    el.innerHTML=
+      '<p class="empty">Your travel story starts here. Add a destination above or mark a country as visited.</p>';
+    return;
+  }
+
+  trips.forEach(t=>{
+    const row=document.createElement("div");
+    row.className="trip";
+
+    const icon=document.createElement("span");
+    icon.textContent=t.kind==="Visited"?"✓":t.kind==="Planning"?"✈":"☆";
+    icon.style.color=t.kind==="Visited"?"var(--mint)":"var(--gold)";
+
+    const info=document.createElement("div");
+    info.className="tripinfo";
+
+    const strong=document.createElement("strong");
+    strong.textContent=t.name;
+
+    const small=document.createElement("small");
+    small.textContent=t.kind+(t.date?" · "+t.date:"");
+
+    info.append(strong,small);
+
+    const del=document.createElement("button");
+    del.textContent="×";
+    del.setAttribute("aria-label","Remove "+t.name);
+    del.onclick=()=>{
+      trips=trips.filter(x=>x.id!==t.id);
+      saveTrips();
+    };
+
+    row.append(icon,info,del);
+    el.append(row);
+  });
+}
+
+/* -----------------------------------------------------------
+   DISTANCE
+----------------------------------------------------------- */
+function chosenDistance(){
+  return $("distancePreset").value==="custom"
+    ?Number($("distanceInput").value)
+    :Number($("distancePreset").value);
+}
+
+function updateDistance(){
+  const n=chosenDistance();
+  const imperial=["US","GB"].includes(selected);
+  const base=imperial?"mi":"km";
+  const from=distanceReversed?(base==="km"?"mi":"km"):base;
+  const to=from==="km"?"mi":"km";
+
+  $("distanceFromLabel").textContent=
+    from==="km"?"Kilometers (km)":"U.S. miles (mi)";
+  $("distanceToLabel").textContent=
+    to==="km"?"Kilometers (km)":"U.S. miles (mi)";
+
+  if($("distancePreset").value==="custom" &&
+     $("distanceInput").value===""){
+    $("distanceOutput").textContent="Enter amount";
+    return;
+  }
+
+  if(n<0){
+    $("distanceOutput").textContent="—";
+    return;
+  }
+
+  const converted=
+    from==="km"&&to==="mi"
+      ?n*.621371
+      :n/0.621371;
+
+  $("distanceOutput").textContent=
+    `${converted.toLocaleString(undefined,{maximumFractionDigits:2})} ${to}`;
+}
+
+/* -----------------------------------------------------------
+   CURRENCY
+----------------------------------------------------------- */
+function chosenMoney(){
+  return $("moneyPreset").value==="custom"
+    ?Number($("moneyInput").value)
+    :Number($("moneyPreset").value);
+}
+
+function updateMoney(){
+  const n=chosenMoney();
+  const p=byCode[selected];
+  const from=currencyReversed?"USD":p[5];
+  const to=currencyReversed?p[5]:"USD";
+
+  $("moneyFromLabel").textContent=
+    currencyReversed?"U.S. dollars (USD)":`${p[6]} (${p[5]})`;
+  $("moneyToLabel").textContent=
+    currencyReversed?`${p[6]} (${p[5]})`:"U.S. dollars (USD)";
+
+  if($("moneyPreset").value==="custom"&&$("moneyInput").value===""){
+    $("moneyOutput").textContent="Enter amount";
+    return;
+  }
+
+  if(n<0){
+    $("moneyOutput").textContent="—";
+    return;
+  }
+
+  if(!rates||!rates.rates[from]||!rates.rates[to]){
+    $("moneyOutput").textContent="Loading…";
+    return;
+  }
+
+  const converted=n/rates.rates[from]*rates.rates[to];
+
+  $("moneyOutput").textContent=
+    `${converted.toLocaleString(undefined,{maximumFractionDigits:2})} ${to}`;
+}
+
+async function loadRates(base){
+  $("moneyOutput").textContent="Loading…";
+
+  try{
+    const r=await fetch(
+      "https://open.er-api.com/v6/latest/"+encodeURIComponent(base)
+    );
+
+    if(!r.ok)throw Error("HTTP "+r.status);
+
+    const data=await r.json();
+
+    if(data.result!=="success")throw Error("Rate service unavailable");
+
+    rates=data;
+
+    $("rateUpdated").textContent=
+      "Rate data last updated: "+
+      new Date(data.time_last_update_utc).toLocaleString()+
+      " · rates are indicative, not bank/card fees.";
+
+    updateMoney();
+  }catch(e){
+    rates=null;
+    $("moneyOutput").textContent=
+      "Live rates unavailable. Try Refresh rates.";
+  }
+}
+
+/* -----------------------------------------------------------
+   PHRASES
+   50 phrases retained as the app's core phrase pack.
+   Live translation fills the selected language where needed.
+----------------------------------------------------------- */
 const phraseBase=[
-["Hello","Olá","Hola","Bonjour","こんにちは","你好","Hallo","Ciao","Привет","مرحبا"],
-["Please","Por favor","Por favor","S’il vous plaît","お願いします","请","Bitte","Per favore","Пожалуйста","من فضلك"],
-["Thank you","Obrigado/a","Gracias","Merci","ありがとう","谢谢","Danke","Grazie","Спасибо","شكراً"],
-["You're welcome","De nada","De nada","De rien","どういたしまして","不客气","Gern geschehen","Prego","Пожалуйста","على الرحب والسعة"],
-["Excuse me","Com licença","Perdón / Disculpe","Excusez-moi","すみません","打扰一下","Entschuldigung","Mi scusi","Извините","عفواً"],
-["I'm sorry","Desculpe","Lo siento","Je suis désolé(e)","ごめんなさい","对不起","Es tut mir leid","Mi dispiace","Извините","أنا آسف"],
-["Yes","Sim","Sí","Oui","はい","是","Ja","Sì","Да","نعم"],
-["No","Não","No","Non","いいえ","不","Nein","No","Нет","لا"],
-["Do you speak English?","Fala inglês?","¿Habla inglés?","Parlez-vous anglais ?","英語を話せますか？","你会说英语吗？","Sprechen Sie Englisch?","Parla inglese?","Вы говорите по-английски?","هل تتحدث الإنجليزية؟"],
-["I don't understand","Não compreendo","No entiendo","Je ne comprends pas","わかりません","我不明白","Ich verstehe nicht","Non capisco","Я не понимаю","لا أفهم"],
-["Where is the bathroom?","Onde fica a casa de banho?","¿Dónde está el baño?","Où sont les toilettes ?","トイレはどこですか？","洗手间在哪里？","Wo ist die Toilette?","Dov'è il bagno?","Где туалет?","أين الحمام؟"],
-["Where is the train station?","Onde fica a estação de comboios?","¿Dónde está la estación de tren?","Où est la gare ?","駅はどこですか？","火车站在哪里？","Wo ist der Bahnhof?","Dov'è la stazione?","Где вокзал?","أين محطة القطار؟"],
-["Where is the bus stop?","Onde fica a paragem de autocarro?","¿Dónde está la parada de autobús?","Où est l'arrêt de bus ?","バス停はどこですか？","公交车站在哪里？","Wo ist die Bushaltestelle?","Dov'è la fermata dell'autobus?","Где автобусная остановка?","أين موقف الحافلة؟"],
-["How much does this cost?","Quanto custa isto?","¿Cuánto cuesta esto?","Combien ça coûte ?","これはいくらですか？","这个多少钱？","Wie viel kostet das?","Quanto costa?","Сколько это стоит?","كم سعر هذا؟"],
-["Can I pay by card?","Posso pagar com cartão?","¿Puedo pagar con tarjeta?","Je peux payer par carte ?","カードで払えますか？","可以刷卡吗？","Kann ich mit Karte zahlen?","Posso pagare con carta?","Можно оплатить картой?","هل يمكنني الدفع بالبطاقة؟"],
-["The bill, please","A conta, por favor","La cuenta, por favor","L'addition, s'il vous plaît","お会計をお願いします","请结账","Die Rechnung, bitte","Il conto, per favore","Счёт, пожалуйста","الحساب من فضلك"],
-["Water, please","Água, por favor","Agua, por favor","De l'eau, s'il vous plaît","お水をください","请给我水","Wasser, bitte","Acqua, per favore","Воды, пожалуйста","ماء من فضلك"],
-["A coffee, please","Um café, por favor","Un café, por favor","Un café, s'il vous plaît","コーヒーをください","请来一杯咖啡","Einen Kaffee, bitte","Un caffè, per favore","Кофе, пожалуйста","قهوة من فضلك"],
-["I am vegetarian","Sou vegetariano/a","Soy vegetariano/a","Je suis végétarien(ne)","ベジタリアンです","我是素食者","Ich bin Vegetarier/in","Sono vegetariano/a","Я вегетарианец/вегетарианка","أنا نباتي"],
-["I have a food allergy","Tenho uma alergia alimentar","Tengo una alergia alimentaria","J'ai une allergie alimentaire","食物アレルギーがあります","我有食物过敏","Ich habe eine Lebensmittelallergie","Ho un'allergia alimentare","У меня пищевая аллергия","لدي حساسية من الطعام"],
-["I need help","Preciso de ajuda","Necesito ayuda","J'ai besoin d'aide","助けが必要です","我需要帮助","Ich brauche Hilfe","Ho bisogno di aiuto","Мне нужна помощь","أحتاج إلى مساعدة"],
-["Call the police, please","Chame a polícia, por favor","Llame a la policía, por favor","Appelez la police, s'il vous plaît","警察を呼んでください","请叫警察","Rufen Sie bitte die Polizei","Chiami la polizia, per favore","Вызовите полицию, пожалуйста","اتصل بالشرطة من فضلك"],
-["Call a doctor, please","Chame um médico, por favor","Llame a un médico, por favor","Appelez un médecin, s'il vous plaît","医者を呼んでください","请叫医生","Rufen Sie bitte einen Arzt","Chiami un medico, per favore","Вызовите врача, пожалуйста","اتصل بطبيب من فضلك"],
-["Where is the nearest pharmacy?","Onde fica a farmácia mais próxima?","¿Dónde está la farmacia más cercana?","Où est la pharmacie la plus proche ?","一番近い薬局はどこですか？","最近的药店在哪里？","Wo ist die nächste Apotheke?","Dov'è la farmacia più vicina?","Где ближайшая аптека?","أين أقرب صيدلية؟"],
-["I need a bed for tonight","Preciso de uma cama para esta noite","Necesito una cama para esta noche","J'ai besoin d'un lit pour ce soir","今夜泊まるベッドが必要です","我今晚需要一张床","Ich brauche ein Bett für heute Nacht","Mi serve un letto per stanotte","Мне нужна кровать на сегодня","أحتاج إلى سرير لهذه الليلة"],
-["Do you have a room available?","Tem um quarto disponível?","¿Tiene una habitación disponible?","Avez-vous une chambre disponible ?","空室はありますか？","有空房吗？","Haben Sie ein Zimmer frei?","Avete una camera libera?","У вас есть свободный номер?","هل لديكم غرفة متاحة؟"],
-["I have a reservation","Tenho uma reserva","Tengo una reserva","J'ai une réservation","予約しています","我有预订","Ich habe eine Reservierung","Ho una prenotazione","У меня бронь","لدي حجز"],
-["What time is check-in?","A que horas é o check-in?","¿A qué hora es el registro de entrada?","À quelle heure est l'arrivée ?","チェックインは何時ですか？","几点可以入住？","Wann ist der Check-in?","A che ora è il check-in?","Во сколько заселение?","متى تسجيل الدخول؟"],
-["Can I leave my bag here?","Posso deixar a minha mochila aqui?","¿Puedo dejar mi mochila aquí?","Puis-je laisser mon sac ici ?","ここに荷物を置いてもいいですか？","我可以把包放在这里吗？","Kann ich meine Tasche hier lassen?","Posso lasciare qui la borsa?","Можно оставить сумку здесь?","هل يمكنني ترك حقيبتي هنا؟"],
-["I am lost","Estou perdido/a","Estoy perdido/a","Je suis perdu(e)","道に迷いました","我迷路了","Ich habe mich verlaufen","Mi sono perso/a","Я заблудился/заблудилась","أنا تائه"],
-["Can you show me on the map?","Pode mostrar-me no mapa?","¿Puede mostrármelo en el mapa?","Pouvez-vous me montrer sur la carte ?","地図で見せてもらえますか？","可以在地图上指给我看吗？","Können Sie es mir auf der Karte zeigen?","Può mostrarmelo sulla mappa?","Можете показать на карте?","هل يمكنك أن تريني على الخريطة؟"],
-["How far is it?","Fica a que distância?","¿A qué distancia está?","C'est à quelle distance ?","どのくらい遠いですか？","有多远？","Wie weit ist es?","Quanto dista?","Как далеко это?","كم تبعد؟"],
-["Is it within walking distance?","Dá para ir a pé?","¿Se puede ir caminando?","Est-ce accessible à pied ?","歩いて行けますか？","可以步行到吗？","Kann man zu Fuß gehen?","Si può andare a piedi?","Можно дойти пешком?","هل يمكن الوصول سيراً؟"],
-["Turn left","Vire à esquerda","Gire a la izquierda","Tournez à gauche","左に曲がってください","向左转","Biegen Sie links ab","Giri a sinistra","Поверните налево","انعطف يساراً"],
-["Turn right","Vire à direita","Gire a la derecha","Tournez à droite","右に曲がってください","向右转","Biegen Sie rechts ab","Giri a destra","Поверните направо","انعطف يميناً"],
-["Straight ahead","Sempre em frente","Todo recto","Tout droit","まっすぐ進んでください","直走","Geradeaus","Sempre dritto","Прямо","إلى الأمام مباشرة"],
-["Stop here, please","Pare aqui, por favor","Pare aquí, por favor","Arrêtez-vous ici, s'il vous plaît","ここで止めてください","请在这里停下","Bitte hier anhalten","Si fermi qui, per favore","Остановитесь здесь, пожалуйста","توقف هنا من فضلك"],
-["One ticket, please","Um bilhete, por favor","Un billete, por favor","Un billet, s'il vous plaît","切符を一枚ください","请给我一张票","Eine Fahrkarte, bitte","Un biglietto, per favore","Один билет, пожалуйста","تذكرة واحدة من فضلك"],
-["Is this seat taken?","Este lugar está ocupado?","¿Está ocupado este asiento?","Cette place est-elle prise ?","この席は空いていますか？","这个座位有人吗？","Ist dieser Platz frei?","Questo posto è occupato?","Это место занято?","هل هذا المقعد مشغول؟"],
-["I would like this","Queria isto","Quisiera esto","Je voudrais ceci","これをください","我想要这个","Ich hätte gern das hier","Vorrei questo","Я бы хотел(а) это","أريد هذا"],
-["No, thank you","Não, obrigado/a","No, gracias","Non, merci","いいえ、結構です","不用了，谢谢","Nein, danke","No, grazie","Нет, спасибо","لا شكراً"],
-["Can you help me?","Pode ajudar-me?","¿Puede ayudarme?","Pouvez-vous m'aider ?","手伝ってもらえますか？","你能帮我吗？","Können Sie mir helfen?","Può aiutarmi?","Вы можете мне помочь?","هل يمكنك مساعدتي؟"],
-["I don't feel well","Não me sinto bem","No me encuentro bien","Je ne me sens pas bien","気分がよくありません","我不舒服","Mir geht es nicht gut","Non mi sento bene","Я плохо себя чувствую","لا أشعر أنني بخير"],
-["Where is the hospital?","Onde fica o hospital?","¿Dónde está el hospital?","Où est l'hôpital ?","病院はどこですか？","医院在哪里？","Wo ist das Krankenhaus?","Dov'è l'ospedale?","Где больница?","أين المستشفى؟"],
-["I need a taxi","Preciso de um táxi","Necesito un taxi","J'ai besoin d'un taxi","タクシーが必要です","我需要出租车","Ich brauche ein Taxi","Ho bisogno di un taxi","Мне нужно такси","أحتاج إلى سيارة أجرة"],
-["Please speak slowly","Fale devagar, por favor","Hable despacio, por favor","Parlez lentement, s'il vous plaît","ゆっくり話してください","请说慢一点","Sprechen Sie bitte langsam","Parli lentamente, per favore","Говорите медленно, пожалуйста","تحدث ببطء من فضلك"],
-["Could you write it down?","Pode escrever isso?","¿Puede escribirlo?","Pouvez-vous l'écrire ?","書いていただけますか？","可以写下来吗？","Können Sie das aufschreiben?","Può scriverlo?","Можете записать это?","هل يمكنك كتابة ذلك؟"],
-["What is your name?","Como se chama?","¿Cómo se llama?","Comment vous appelez-vous ?","お名前は何ですか？","你叫什么名字？","Wie heißen Sie?","Come si chiama?","Как вас зовут?","ما اسمك؟"],
-["My name is…","Chamo-me…","Me llamo…","Je m'appelle…","私の名前は…です","我叫……","Ich heiße…","Mi chiamo…","Меня зовут…","اسمي…"],
-["Nice to meet you","Muito prazer","Mucho gusto","Enchanté(e)","はじめまして","很高兴认识你","Freut mich","Piacere","Приятно познакомиться","تشرفت بلقائك"],
-["Good morning","Bom dia","Buenos días","Bonjour","おはようございます","早上好","Guten Morgen","Buongiorno","Доброе утро","صباح الخير"],
-["Good evening","Boa noite","Buenas tardes/noches","Bonsoir","こんばんは","晚上好","Guten Abend","Buonasera","Добрый вечер","مساء الخير"],
-["Goodbye","Adeus","Adiós","Au revoir","さようなら","再见","Auf Wiedersehen","Arrivederci","До свидания","إلى اللقاء"],
-["Can I have the menu, please?","Pode trazer o menu, por favor?","¿Me trae el menú, por favor?","La carte, s'il vous plaît","メニューをお願いします","请给我菜单","Die Speisekarte, bitte","Il menù, per favore","Меню, пожалуйста","هل يمكنني الحصول على قائمة الطعام؟"]
+"Hello","Please","Thank you","You're welcome","Excuse me","I'm sorry","Yes","No",
+"Do you speak English?","I don't understand","Where is the bathroom?",
+"Where is the train station?","Where is the bus stop?","How much does this cost?",
+"Can I pay by card?","The bill, please","Water, please","A coffee, please",
+"I am vegetarian","I have a food allergy","I need help","Call the police, please",
+"Call a doctor, please","Where is the nearest pharmacy?","I need a bed for tonight",
+"Do you have a room available?","I have a reservation","What time is check-in?",
+"Can I leave my bag here?","I am lost","Can you show me on the map?",
+"How far is it?","Is it within walking distance?","Turn left","Turn right",
+"Straight ahead","Stop here, please","One ticket, please","Is this seat taken?",
+"I would like this","No, thank you","Can you help me?","I don't feel well",
+"Where is the hospital?","I need a taxi","Please speak slowly",
+"Could you write it down?","What is your name?","My name is…","Nice to meet you"
 ];
-const phraseLangIndex={PT:1,ES:2,FR:3,JP:4,CN:5,DE:6,IT:7,RU:8,SA:9,AE:9,EG:9};
-const phraseCountryMap={PT:"pt",BR:"pt",ES:"es",MX:"es",AR:"es",CL:"es",CO:"es",PE:"es",FR:"fr",BE:"fr",JP:"ja",CN:"zh",TW:"zh",DE:"de",AT:"de",CH:"de",IT:"it",RU:"ru",SA:"ar",AE:"ar",EG:"ar",MA:"ar",NL:"nl",KR:"ko",TH:"th",VN:"vi",IN:"hi",TR:"tr",GR:"el",ID:"id",IL:"he"};
-const langColumn={pt:1,es:2,fr:3,ja:4,zh:5,de:6,it:7,ru:8,ar:9};
-const langNames={pt:"Portuguese",es:"Spanish",fr:"French",ja:"Japanese",zh:"Chinese",de:"German",it:"Italian",ru:"Russian",ar:"Arabic",nl:"Dutch",ko:"Korean",th:"Thai",vi:"Vietnamese",hi:"Hindi",tr:"Turkish",el:"Greek",id:"Indonesian",he:"Hebrew"};
+
+const phraseCountryMap={
+  PT:"pt",BR:"pt",ES:"es",MX:"es",AR:"es",CL:"es",CO:"es",PE:"es",
+  FR:"fr",BE:"fr",JP:"ja",CN:"zh",DE:"de",AT:"de",CH:"de",IT:"it",
+  RU:"ru",SA:"ar",AE:"ar",EG:"ar",MA:"ar",NL:"nl",KR:"ko",TH:"th",
+  VN:"vi",IN:"hi",TR:"tr",GR:"el",ID:"id",IL:"he"
+};
+
+const langNames={
+  pt:"Portuguese",es:"Spanish",fr:"French",ja:"Japanese",zh:"Chinese",
+  de:"German",it:"Italian",ru:"Russian",ar:"Arabic",nl:"Dutch",ko:"Korean",
+  th:"Thai",vi:"Vietnamese",hi:"Hindi",tr:"Turkish",el:"Greek",
+  id:"Indonesian",he:"Hebrew"
+};
+
 const livePhraseCache={};
-function getPhraseLanguage(){const chosen=$("phraseLanguage")?.value||"auto";return chosen==="auto"?(phraseCountryMap[selected]||"en"):chosen}
-async function translatePhrase(text,target){const cacheKey=target+"|"+text;if(livePhraseCache[cacheKey])return livePhraseCache[cacheKey];const url="https://api.mymemory.translated.net/get?q="+encodeURIComponent(text)+"&langpair=en|"+encodeURIComponent(target);const r=await fetch(url);if(!r.ok)throw Error("Translation service unavailable");const data=await r.json();const result=data?.responseData?.translatedText;if(!result)throw Error("No translation returned");livePhraseCache[cacheKey]=result;return result}
-async function renderPhrases(){const box=$("phraseList");if(!box)return;box.innerHTML="";const q=$("phraseSearch").value.trim().toLowerCase(),dir=$("phraseDirection").value,target=getPhraseLanguage(),col=langColumn[target];let count=0;
-if(target==="en"){phraseBase.forEach((p)=>{if(q&&!p[0].toLowerCase().includes(q))return;const row=document.createElement("div");row.className="phrase-row";row.innerHTML=`<div><strong>${p[0]}</strong><small>English</small></div><div><strong>${p[0]}</strong><small>English</small></div>`;box.append(row);count++});return}
-const needsLive=!col;
-const filtered=phraseBase.filter(p=>!q||p[0].toLowerCase().includes(q)||(col&&p[col]?.toLowerCase().includes(q)));
-if(needsLive){const status=document.createElement("p");status.className="empty";status.textContent=`Loading ${langNames[target]||target} translations…`;box.append(status)}
-for(const p of filtered){const en=p[0];let local=col?p[col]:null;const row=document.createElement("div");row.className="phrase-row";const left=document.createElement("div"),right=document.createElement("div");
-if(needsLive){const loading=document.createElement("small");loading.textContent="Translating…";right.append(loading)}else right.innerHTML=`<strong>${local}</strong><small>${langNames[target]||byCode[selected][4]}</small>`;
-left.innerHTML=`<strong>${en}</strong><small>English</small>`;
-if(dir==="local"){row.append(right,left)}else if(dir==="en"){row.append(left,right)}else{row.append(left,right)}
-const speak=document.createElement("button");speak.className="btn";speak.type="button";speak.textContent="🔊 Speak";speak.onclick=async()=>{try{const spoken=local||await translatePhrase(en,target);if(!("speechSynthesis"in window)){alert("Speech playback is not supported in this browser.");return}const u=new SpeechSynthesisUtterance(spoken);u.lang=({pt:"pt-PT",es:"es-ES",fr:"fr-FR",ja:"ja-JP",zh:"zh-CN",de:"de-DE",it:"it-IT",ru:"ru-RU",ar:"ar-SA",nl:"nl-NL",ko:"ko-KR",th:"th-TH",vi:"vi-VN",hi:"hi-IN",tr:"tr-TR",el:"el-GR",id:"id-ID",he:"he-IL"}[target]||"en-US");speechSynthesis.speak(u)}catch(e){alert("Couldn't load this translation. Check your internet connection.")}};
-right.append(speak);box.append(row);count++;
-if(needsLive){translatePhrase(en,target).then(value=>{localPhraseValue(value,row,target,dir)}).catch(()=>{const label=row.querySelector("small");if(label)label.textContent="Translation unavailable online"})}
+
+function getPhraseLanguage(){
+  const chosen=$("phraseLanguage")?.value||"auto";
+  return chosen==="auto"
+    ?(phraseCountryMap[selected]||"en")
+    :chosen;
 }
-if(!count)box.innerHTML='<p class="empty">No phrases match your search.</p>';
+
+async function translatePhrase(text,target){
+  const cacheKey=target+"|"+text;
+
+  if(livePhraseCache[cacheKey])return livePhraseCache[cacheKey];
+
+  const url=
+    "https://api.mymemory.translated.net/get?q="+
+    encodeURIComponent(text)+
+    "&langpair=en|"+
+    encodeURIComponent(target);
+
+  const r=await fetch(url);
+
+  if(!r.ok)throw Error("Translation service unavailable");
+
+  const data=await r.json();
+  const result=data?.responseData?.translatedText;
+
+  if(!result)throw Error("No translation returned");
+
+  livePhraseCache[cacheKey]=result;
+  return result;
 }
-function localPhraseValue(value,row,target,dir){const strong=row.querySelectorAll("strong");if(strong.length>1){const targetNode=dir==="local"?strong[0]:strong[1];targetNode.textContent=value}const small=row.querySelectorAll("small");if(small.length>1){const targetSmall=dir==="local"?small[0]:small[1];targetSmall.textContent=langNames[target]||target}}
-$("countrySelect").addEventListener("change",e=>{selected=e.target.value;renderCountry();loadRates(currencyReversed?"USD":byCode[selected][5]);});
-document.querySelectorAll(".fact-button").forEach(btn=>btn.addEventListener("click",()=>{const target=$(btn.dataset.panel),willOpen=!target.classList.contains("open");document.querySelectorAll(".detail-panel").forEach(panel=>panel.classList.remove("open"));document.querySelectorAll(".fact-button").forEach(b=>b.setAttribute("aria-expanded","false"));if(willOpen){target.classList.add("open");btn.setAttribute("aria-expanded","true");if(btn.dataset.panel==="phrasesPanel")renderPhrases();target.scrollIntoView({behavior:"smooth",block:"nearest"});}}));
-$("phraseSearch").addEventListener("input",renderPhrases);$("phraseDirection").addEventListener("change",renderPhrases);$("phraseLanguage").addEventListener("change",renderPhrases);
-$("visitedBtn").onclick=()=>addTrip(byCode[selected][1],"Visited");
-$("wishBtn").onclick=()=>addTrip(byCode[selected][1],"Wishlist");
-$("jumpTrips").onclick=()=>$("journeys").scrollIntoView({behavior:"smooth"});
-$("tripForm").addEventListener("submit",e=>{e.preventDefault();const name=$("tripName").value.trim();if(!name)return;addTrip(name,$("tripKind").value,$("tripDate").value);e.target.reset()});
+
+async function renderPhrases(){
+  const box=$("phraseList");
+  if(!box)return;
+
+  box.innerHTML="";
+
+  const q=$("phraseSearch").value.trim().toLowerCase();
+  const dir=$("phraseDirection").value;
+  const target=getPhraseLanguage();
+
+  const filtered=phraseBase.filter(p=>
+    !q||p.toLowerCase().includes(q)
+  );
+
+  if(!filtered.length){
+    box.innerHTML='<p class="empty">No phrases match your search.</p>';
+    return;
+  }
+
+  for(const en of filtered){
+    const row=document.createElement("div");
+    row.className="phrase-row";
+
+    const left=document.createElement("div");
+    left.innerHTML=
+      `<strong>${escapeHTML(en)}</strong><small>English</small>`;
+
+    const right=document.createElement("div");
+    right.innerHTML=
+      `<strong>Translating…</strong><small>${escapeHTML(langNames[target]||target)}</small>`;
+
+    const speak=document.createElement("button");
+    speak.className="btn";
+    speak.type="button";
+    speak.textContent="🔊 Speak";
+
+    speak.onclick=async()=>{
+      try{
+        const spoken=await translatePhrase(en,target);
+
+        if(!("speechSynthesis"in window)){
+          alert("Speech playback is not supported in this browser.");
+          return;
+        }
+
+        const u=new SpeechSynthesisUtterance(spoken);
+
+        u.lang=({
+          pt:"pt-PT",es:"es-ES",fr:"fr-FR",ja:"ja-JP",zh:"zh-CN",
+          de:"de-DE",it:"it-IT",ru:"ru-RU",ar:"ar-SA",nl:"nl-NL",
+          ko:"ko-KR",th:"th-TH",vi:"vi-VN",hi:"hi-IN",tr:"tr-TR",
+          el:"el-GR",id:"id-ID",he:"he-IL"
+        }[target]||"en-US");
+
+        speechSynthesis.speak(u);
+      }catch(e){
+        alert("Couldn't load this translation. Check your internet connection.");
+      }
+    };
+
+    if(dir==="local"){
+      row.append(right,left);
+    }else{
+      row.append(left,right);
+    }
+
+    right.append(speak);
+    box.append(row);
+
+    translatePhrase(en,target)
+      .then(value=>{
+        const strong=right.querySelector("strong");
+        if(strong)strong.textContent=value;
+      })
+      .catch(()=>{
+        const strong=right.querySelector("strong");
+        if(strong)strong.textContent="Translation unavailable online";
+      });
+  }
+}
+
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",
+    '"':"&quot;","'":"&#039;"
+  }[c]));
+}
+
+/* -----------------------------------------------------------
+   INTERACTIVE GLOBE
+----------------------------------------------------------- */
+const globeAliases={
+  "Turkey":"TR",
+  "Türkiye":"TR",
+  "Czech Republic":"CZ",
+  "Czechia":"CZ",
+  "United States of America":"US",
+  "United States":"US",
+  "United Kingdom":"GB",
+  "South Korea":"KR",
+  "Korea, Republic of":"KR",
+  "United Arab Emirates":"AE",
+  "Russian Federation":"RU"
+};
+
+function globeCountryCode(feature){
+  const props=feature.properties||{};
+
+  const candidates=[
+    props["ISO3166-1-Alpha-2"],
+    props.ISO_A2,
+    props.iso_a2,
+    props.code,
+    props["ISO_A2"]
+  ];
+
+  for(const code of candidates){
+    if(code && byCode[String(code).toUpperCase()]){
+      return String(code).toUpperCase();
+    }
+  }
+
+  const name=
+    props.name||
+    props.NAME||
+    props.ADMIN||
+    props.admin||
+    "";
+
+  if(globeAliases[name])return globeAliases[name];
+
+  const match=places.find(p=>
+    p[1].toLowerCase()===String(name).toLowerCase()
+  );
+
+  return match?match[0]:null;
+}
+
+function selectFromGlobe(code){
+  if(!code||!byCode[code])return;
+
+  selected=code;
+  $("countrySelect").value=code;
+  renderCountry();
+
+  loadRates(
+    currencyReversed
+      ?"USD"
+      :byCode[selected][5]
+  );
+
+  const p=byCode[code];
+
+  $("globeStatus").textContent=
+    `${p[2]} ${p[1]} selected`;
+
+  if(atlasGlobe){
+    atlasGlobe.pointOfView(
+      {lat:p[10],lng:p[11],altitude:2.0},
+      700
+    );
+  }
+}
+
+async function initAtlasGlobe(){
+  const container=$("atlasGlobe");
+
+  if(!container||typeof Globe==="undefined"){
+    $("globeStatus").textContent=
+      "Interactive globe unavailable; use the destination selector above.";
+    return;
+  }
+
+  try{
+    const response=await fetch(
+      "https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson"
+    );
+
+    if(!response.ok)throw new Error("Unable to load country boundaries");
+
+    const data=await response.json();
+
+    atlasGlobe=Globe(container,{
+      animateIn:true,
+      waitForGlobeReady:true
+    })
+    .width(container.clientWidth)
+    .height(container.clientHeight)
+    .backgroundColor("#0b1422")
+    .globeImageUrl(
+      "https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+    )
+    .showAtmosphere(true)
+    .atmosphereColor("#6f8cff")
+    .atmosphereAltitude(.12)
+    .polygonsData(data.features||[])
+    .polygonAltitude(feature=>{
+      return globeCountryCode(feature)?0.012:0.003;
+    })
+    .polygonCapColor(feature=>{
+      const code=globeCountryCode(feature);
+      if(code===selected)return "#76e2bd";
+      if(code)return "#6e7ff0";
+      return "rgba(60,75,100,.45)";
+    })
+    .polygonSideColor(()=> "rgba(50,65,90,.55)")
+    .polygonStrokeColor(()=> "rgba(190,205,235,.35)")
+    .polygonLabel(feature=>{
+      const props=feature.properties||{};
+      const name=props.name||props.NAME||props.ADMIN||"Country";
+      const code=globeCountryCode(feature);
+
+      if(code&&byCode[code]){
+        return `
+          <div style="
+            background:#101a29;
+            border:1px solid #76e2bd;
+            border-radius:8px;
+            padding:7px 9px;
+            color:#f1f5fb;
+            font:600 11px system-ui;
+          ">
+            ${byCode[code][2]} ${escapeHTML(byCode[code][1])}
+          </div>`;
+      }
+
+      return `
+        <div style="
+          background:#101a29;
+          border:1px solid #2a3a50;
+          border-radius:8px;
+          padding:6px 8px;
+          color:#dce5f2;
+          font:600 10px system-ui;
+        ">
+          ${escapeHTML(name)}
+        </div>`;
+    })
+    .onPolygonClick(feature=>{
+      const code=globeCountryCode(feature);
+      if(code)selectFromGlobe(code);
+    })
+    .onPolygonHover(feature=>{
+      if(!feature)return;
+
+      const code=globeCountryCode(feature);
+
+      if(code&&byCode[code]){
+        $("globeStatus").textContent=
+          `${byCode[code][2]} ${byCode[code][1]} · tap to select`;
+      }
+    });
+
+    atlasGlobe.controls().enableZoom=true;
+    atlasGlobe.controls().enablePan=false;
+    atlasGlobe.controls().autoRotate=true;
+    atlasGlobe.controls().autoRotateSpeed=.35;
+
+    atlasGlobe.pointOfView({
+      lat:20,lng:-20,altitude:2.35
+    });
+
+    $("globeStatus").textContent=
+      "Drag to spin · pinch to zoom · tap a country to select it";
+
+    window.addEventListener("resize",()=>{
+      if(!atlasGlobe)return;
+
+      atlasGlobe
+        .width(container.clientWidth)
+        .height(container.clientHeight);
+    });
+
+  }catch(error){
+    console.error("Atlas globe failed:",error);
+
+    $("atlasGlobe").innerHTML=`
+      <div style="
+        height:100%;
+        display:grid;
+        place-items:center;
+        text-align:center;
+        padding:25px;
+        color:#9baac0;
+        font-size:11px;
+      ">
+        The interactive globe couldn't load.<br>
+        You can still use the destination selector above.
+      </div>`;
+
+    $("globeStatus").textContent=
+      "Globe unavailable — destination selector still works.";
+  }
+}
+
+/* -----------------------------------------------------------
+   EVENT HANDLERS
+----------------------------------------------------------- */
+$("countrySelect").addEventListener("change",e=>{
+  selected=e.target.value;
+  renderCountry();
+  loadRates(
+    currencyReversed
+      ?"USD"
+      :byCode[selected][5]
+  );
+
+  if(atlasGlobe){
+    atlasGlobe.pointOfView({
+      lat:byCode[selected][10],
+      lng:byCode[selected][11],
+      altitude:2.0
+    },700);
+  }
+});
+
+document.querySelectorAll(".fact-button").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const target=$(btn.dataset.panel);
+    const willOpen=!target.classList.contains("open");
+
+    document.querySelectorAll(".detail-panel")
+      .forEach(panel=>panel.classList.remove("open"));
+
+    document.querySelectorAll(".fact-button")
+      .forEach(b=>b.setAttribute("aria-expanded","false"));
+
+    if(willOpen){
+      target.classList.add("open");
+      btn.setAttribute("aria-expanded","true");
+
+      if(btn.dataset.panel==="phrasesPanel"){
+        renderPhrases();
+      }
+
+      target.scrollIntoView({
+        behavior:"smooth",
+        block:"nearest"
+      });
+    }
+  });
+});
+
+$("phraseSearch").addEventListener("input",renderPhrases);
+$("phraseDirection").addEventListener("change",renderPhrases);
+$("phraseLanguage").addEventListener("change",renderPhrases);
+
+$("visitedBtn").onclick=()=>{
+  addTrip(byCode[selected][1],"Visited");
+};
+
+$("wishBtn").onclick=()=>{
+  addTrip(byCode[selected][1],"Wishlist");
+};
+
+$("jumpTrips").onclick=()=>{
+  $("journeys").scrollIntoView({
+    behavior:"smooth"
+  });
+};
+
+$("tripForm").addEventListener("submit",e=>{
+  e.preventDefault();
+
+  const name=$("tripName").value.trim();
+
+  if(!name)return;
+
+  addTrip(
+    name,
+    $("tripKind").value,
+    $("tripDate").value
+  );
+
+  e.target.reset();
+});
+
 $("distanceInput").addEventListener("input",updateDistance);
-$("distancePreset").addEventListener("change",()=>{$("distanceInput").style.display=$("distancePreset").value==="custom"?"block":"none";updateDistance()});
-$("distanceSwap").addEventListener("click",()=>{distanceReversed=!distanceReversed;updateDistance()});
-$("moneyPreset").addEventListener("change",()=>{$("moneyInput").style.display=$("moneyPreset").value==="custom"?"block":"none";if($("moneyPreset").value!=="custom")$("moneyInput").value=$("moneyPreset").value;updateMoney()});
+
+$("distancePreset").addEventListener("change",()=>{
+  $("distanceInput").style.display=
+    $("distancePreset").value==="custom"
+      ?"block"
+      :"none";
+
+  if($("distancePreset").value!=="custom"){
+    $("distanceInput").value=$("distancePreset").value;
+  }
+
+  updateDistance();
+});
+
+$("distanceSwap").addEventListener("click",()=>{
+  distanceReversed=!distanceReversed;
+  updateDistance();
+});
+
+$("moneyPreset").addEventListener("change",()=>{
+  $("moneyInput").style.display=
+    $("moneyPreset").value==="custom"
+      ?"block"
+      :"none";
+
+  if($("moneyPreset").value!=="custom"){
+    $("moneyInput").value=$("moneyPreset").value;
+  }
+
+  updateMoney();
+});
+
 $("moneyInput").addEventListener("input",updateMoney);
-$("moneySwap").addEventListener("click",()=>{currencyReversed=!currencyReversed;loadRates(currencyReversed?"USD":byCode[selected][5]);updateMoney()});
-$("refreshRates").onclick=()=>loadRates(currencyReversed?"USD":byCode[selected][5]);
-try{const stored=JSON.parse(localStorage.getItem(key)||"[]");if(Array.isArray(stored))trips=stored}catch(e){trips=[]}
-fillCountries();renderTrips();renderCountry();loadRates(byCode[selected][5]);
-</script></body></html>
+
+$("moneySwap").addEventListener("click",()=>{
+  currencyReversed=!currencyReversed;
+  loadRates(
+    currencyReversed
+      ?"USD"
+      :byCode[selected][5]
+  );
+  updateMoney();
+});
+
+$("refreshRates").onclick=()=>{
+  loadRates(
+    currencyReversed
+      ?"USD"
+      :byCode[selected][5]
+  );
+};
+
+/* -----------------------------------------------------------
+   INITIALIZE
+----------------------------------------------------------- */
+try{
+  const stored=JSON.parse(
+    localStorage.getItem(key)||"[]"
+  );
+
+  if(Array.isArray(stored))trips=stored;
+}catch(e){
+  trips=[];
+}
+
+fillCountries();
+renderTrips();
+renderCountry();
+loadRates(byCode[selected][5]);
+initAtlasGlobe();
+</script>
+</body>
+</html>
