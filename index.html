@@ -93,7 +93,9 @@ h3{font-size:13px;margin:0 0 12px}
   background:radial-gradient(circle at 50% 45%,#172b46 0%,#0b1422 68%)
 }
 #atlasGlobe canvas{display:block;width:100%!important;height:100%!important}
-.globe-status{color:var(--muted);text-align:center;font-size:9px;padding:7px 4px 0}
+.globe-status{color:var(--muted);text-align:center;font-size:9px;padding:7px 4px 0;line-height:1.4}
+.globe-load{display:block;margin:10px auto 0}
+.globe-load[disabled]{opacity:.55;cursor:wait}
 
 /* Destination profile */
 .profile-head{align-items:center}
@@ -213,7 +215,10 @@ h3{font-size:13px;margin:0 0 12px}
   margin-top:9px;border:1px solid #ffd18a38;background:#ffd18a0c;
   border-radius:9px;padding:10px;font-size:10px;line-height:1.5;color:#e3d1ac
 }
-.phrase-tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.phrase-tools{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-top:12px}
+.phrase-tools.single{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);align-items:end}
+.phrase-fixed-note{min-height:43px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#0c1421;display:flex;flex-direction:column;justify-content:center;gap:3px}
+.phrase-fixed-note strong{font-size:11px;line-height:1.3;color:var(--text)}
 .phrase-table{display:grid;gap:7px;margin-top:12px}
 .phrase-row{
   display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;
@@ -269,7 +274,7 @@ footer{display:flex;justify-content:space-between;gap:10px;color:var(--muted);fo
   .fact{padding:10px}
   .journey-summary{grid-template-columns:1fr}
   .wide{grid-column:auto}
-  .phrase-tools{grid-template-columns:1fr}
+  .phrase-tools,.phrase-tools.single{grid-template-columns:1fr}
   #atlasGlobe{height:285px;min-height:250px}
   .globe-heading{flex-direction:column;gap:3px}
   .globe-heading .mini{display:none}
@@ -316,7 +321,8 @@ footer{display:flex;justify-content:space-between;gap:10px;color:var(--muted);fo
           <span class="mini">TAP TO SELECT</span>
         </div>
         <div id="atlasGlobe"></div>
-        <div class="globe-status" id="globeStatus">Loading interactive globe…</div>
+        <div class="globe-status" id="globeStatus">Globe is optional and loads separately so the rest of Atlas stays responsive.</div>
+        <button type="button" class="btn globe-load" id="loadGlobeBtn">🌎 Load interactive globe</button>
       </div>
     </div>
   </section>
@@ -482,52 +488,23 @@ Drive on the right</strong>
           </div>
         </div>
 
-        <div class="phrase-tools">
+        <div class="phrase-tools single">
           <div>
             <label class="mini" for="phraseSearch">Find a phrase</label>
             <input class="field" id="phraseSearch" placeholder="bathroom, thank you…">
           </div>
-
-          <div>
-            <label class="mini" for="phraseDirection">Translation direction</label>
-            <select class="field" id="phraseDirection">
-              <option value="both">English ↔ local language</option>
-              <option value="en">English → local language</option>
-              <option value="local">Local language → English</option>
-            </select>
-          </div>
-
-          <div class="wide">
-            <label class="mini" for="phraseLanguage">Phrase language pack</label>
-            <select class="field" id="phraseLanguage">
-              <option value="auto">Use selected country's language</option>
-              <option value="nl">Dutch</option>
-              <option value="ko">Korean</option>
-              <option value="th">Thai</option>
-              <option value="vi">Vietnamese</option>
-              <option value="hi">Hindi</option>
-              <option value="tr">Turkish</option>
-              <option value="el">Greek</option>
-              <option value="id">Indonesian</option>
-              <option value="he">Hebrew</option>
-              <option value="ru">Russian</option>
-              <option value="ar">Arabic</option>
-              <option value="it">Italian</option>
-              <option value="de">German</option>
-              <option value="zh">Chinese</option>
-              <option value="ja">Japanese</option>
-              <option value="fr">French</option>
-              <option value="es">Spanish</option>
-              <option value="pt">Portuguese</option>
-            </select>
+          <div class="phrase-fixed-note">
+            <span class="mini">TRANSLATION</span>
+            <strong>English → selected country's language</strong>
           </div>
         </div>
 
         <div class="phrase-table" id="phraseList"></div>
 
         <p class="api">
-          Translations use a live translation service when an offline phrase is not available.
-          Machine translations may need checking.
+          English is always on the left. The selected destination language is always on the right,
+          with the speaker button underneath it. Offline phrases are used first; live translation is
+          only used when needed.
         </p>
       </div>
 
@@ -1001,18 +978,41 @@ const langNames={
   id:"Indonesian",he:"Hebrew"
 };
 
+const speechLangs={
+  pt:"pt-PT",es:"es-ES",fr:"fr-FR",ja:"ja-JP",zh:"zh-CN",
+  de:"de-DE",it:"it-IT",ru:"ru-RU",ar:"ar-SA",nl:"nl-NL",
+  ko:"ko-KR",th:"th-TH",vi:"vi-VN",hi:"hi-IN",tr:"tr-TR",
+  el:"el-GR",id:"id-ID",he:"he-IL"
+};
+
+/* A small offline pack prevents a slow translation service from ever leaving
+   the UI stuck on "Translating…". Portuguese is included because it is the
+   default destination and the pack is used immediately when available. */
+const offlineTranslations={
+  pt:[
+    "Olá","Por favor","Obrigado","De nada","Com licença","Desculpe","Sim","Não",
+    "Você fala inglês?","Eu não entendo","Onde fica o banheiro?","Onde fica a estação de trem?",
+    "Onde fica o ponto de ônibus?","Quanto custa isto?","Posso pagar com cartão?","A conta, por favor",
+    "Água, por favor","Um café, por favor","Sou vegetariano","Tenho uma alergia alimentar",
+    "Preciso de ajuda","Chame a polícia, por favor","Chame um médico, por favor","Onde fica a farmácia mais próxima?",
+    "Preciso de uma cama para esta noite","Você tem um quarto disponível?","Tenho uma reserva","A que horas é o check-in?",
+    "Posso deixar minha bagagem aqui?","Estou perdido","Pode me mostrar no mapa?","A que distância fica?",
+    "Fica a uma distância que dá para caminhar?","Vire à esquerda","Vire à direita","Siga em frente",
+    "Pare aqui, por favor","Um bilhete, por favor","Este lugar está ocupado?","Eu gostaria deste",
+    "Não, obrigado","Pode me ajudar?","Não estou me sentindo bem","Onde fica o hospital?",
+    "Preciso de um táxi","Fale devagar, por favor","Pode escrever isso, por favor?","Qual é o seu nome?",
+    "Meu nome é…","Prazer em conhecê-lo"
+  ]
+};
+
 const livePhraseCache={};
 
 function getPhraseLanguage(){
-  const chosen=$("phraseLanguage")?.value||"auto";
-  return chosen==="auto"
-    ?(phraseCountryMap[selected]||"en")
-    :chosen;
+  return phraseCountryMap[selected]||"en";
 }
 
 async function translatePhrase(text,target){
   const cacheKey=target+"|"+text;
-
   if(livePhraseCache[cacheKey])return livePhraseCache[cacheKey];
 
   const url=
@@ -1021,17 +1021,24 @@ async function translatePhrase(text,target){
     "&langpair=en|"+
     encodeURIComponent(target);
 
-  const r=await fetch(url);
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),4500);
 
-  if(!r.ok)throw Error("Translation service unavailable");
+  try{
+    const r=await fetch(url,{signal:controller.signal});
+    if(!r.ok)throw Error("Translation service unavailable");
+    const data=await r.json();
+    const result=data?.responseData?.translatedText;
+    if(!result)throw Error("No translation returned");
+    livePhraseCache[cacheKey]=result;
+    return result;
+  }finally{
+    clearTimeout(timer);
+  }
+}
 
-  const data=await r.json();
-  const result=data?.responseData?.translatedText;
-
-  if(!result)throw Error("No translation returned");
-
-  livePhraseCache[cacheKey]=result;
-  return result;
+function offlineTranslation(target,index){
+  return offlineTranslations[target]?.[index]||null;
 }
 
 async function renderPhrases(){
@@ -1039,100 +1046,74 @@ async function renderPhrases(){
   if(!box)return;
 
   box.innerHTML="";
-
   const q=$("phraseSearch").value.trim().toLowerCase();
-  const dir=$("phraseDirection").value;
   const target=getPhraseLanguage();
-
-  const filtered=phraseBase.filter(p=>
-    !q||p.toLowerCase().includes(q)
-  );
+  const filtered=phraseBase
+    .map((en,index)=>({en,index}))
+    .filter(x=>!q||x.en.toLowerCase().includes(q));
 
   if(!filtered.length){
     box.innerHTML='<p class="empty">No phrases match your search.</p>';
     return;
   }
 
-  for(const en of filtered){
+  const rows=[];
+
+  filtered.forEach(({en,index})=>{
     const row=document.createElement("div");
     row.className="phrase-row";
 
     const left=document.createElement("div");
-    left.innerHTML=
-      `<strong>${escapeHTML(en)}</strong><small>English</small>`;
+    left.innerHTML=`<strong>${escapeHTML(en)}</strong><small>English</small>`;
 
     const right=document.createElement("div");
-    right.innerHTML=
-      `<strong>Translating…</strong><small>${escapeHTML(langNames[target]||target)}</small>`;
+    const translated=document.createElement("strong");
+    const available=offlineTranslation(target,index);
+    translated.textContent=available||"Translation unavailable yet";
+    const lang=document.createElement("small");
+    lang.textContent=langNames[target]||target;
 
     const speak=document.createElement("button");
     speak.className="btn";
     speak.type="button";
     speak.textContent="🔊 Speak";
-
     speak.onclick=async()=>{
       try{
-        const spoken=await translatePhrase(en,target);
-
-        if(!("speechSynthesis"in window)){
+        let spoken=offlineTranslation(target,index)||livePhraseCache[target+"|"+en];
+        if(!spoken)spoken=await translatePhrase(en,target);
+        if(!( "speechSynthesis" in window)){
           alert("Speech playback is not supported in this browser.");
           return;
         }
-
         const u=new SpeechSynthesisUtterance(spoken);
-
-        u.lang=({
-          pt:"pt-PT",es:"es-ES",fr:"fr-FR",ja:"ja-JP",zh:"zh-CN",
-          de:"de-DE",it:"it-IT",ru:"ru-RU",ar:"ar-SA",nl:"nl-NL",
-          ko:"ko-KR",th:"th-TH",vi:"vi-VN",hi:"hi-IN",tr:"tr-TR",
-          el:"el-GR",id:"id-ID",he:"he-IL"
-        }[target]||"en-US");
-
+        u.lang=speechLangs[target]||"en-US";
+        speechSynthesis.cancel();
         speechSynthesis.speak(u);
       }catch(e){
         alert("Couldn't load this translation. Check your internet connection.");
       }
     };
 
-    if(dir==="local"){
-      row.append(right,left);
-    }else{
-      row.append(left,right);
-    }
-
-    right.append(speak);
+    right.append(translated,lang,speak);
+    row.append(left,right);
     box.append(row);
+    rows.push({row,en,index,translated});
+  });
 
-    row.dataset.phrase=en;
-  }
-
-  // Queue translations in small batches instead of firing 50 requests at once.
-  const rows=[...box.querySelectorAll(".phrase-row")];
-  let cursor=0;
-
-  async function translateNextBatch(){
-    const batch=rows.slice(cursor,cursor+4);
-    cursor+=4;
-
-    await Promise.all(batch.map(async row=>{
-      const en=row.dataset.phrase;
-      const strong=row.querySelector("div:nth-child(2) strong");
-      if(!strong)return;
-
+  /* Only fetch rows that do not have an offline translation. Keep requests
+     strictly sequential so a slow service cannot flood or lock up the page. */
+  if(target!=="en"){
+    for(const item of rows){
+      if(offlineTranslation(target,item.index))continue;
       try{
-        const value=await translatePhrase(en,target);
-        strong.textContent=value;
+        const value=await translatePhrase(item.en,target);
+        if(document.body.contains(item.row))item.translated.textContent=value;
       }catch(e){
-        strong.textContent="Translation unavailable online";
+        if(document.body.contains(item.row))item.translated.textContent="Translation unavailable offline";
       }
-    }));
-
-    if(cursor<rows.length){
-      setTimeout(translateNextBatch,0);
+      await new Promise(resolve=>setTimeout(resolve,30));
     }
   }
-
-  translateNextBatch();
 }
 
 function escapeHTML(value){
@@ -1146,8 +1127,9 @@ function escapeHTML(value){
    INTERACTIVE GLOBE
    The globe is deliberately isolated from the rest of the app:
    - no synchronous CDN script in <head>
+   - the globe is loaded only after the user asks for it
    - a slow/failed globe can never hold up the destination controls
-   - the globe renders before country-boundary data is requested
+   - country boundaries have their own timeout
 ----------------------------------------------------------- */
 const globeAliases={
   "Turkey":"TR",
@@ -1441,8 +1423,6 @@ document.querySelectorAll(".fact-button").forEach(btn=>{
 });
 
 $("phraseSearch").addEventListener("input",renderPhrases);
-$("phraseDirection").addEventListener("change",renderPhrases);
-$("phraseLanguage").addEventListener("change",renderPhrases);
 
 $("visitedBtn").onclick=()=>{
   addTrip(byCode[selected][1],"Visited");
@@ -1532,13 +1512,22 @@ fillCountries();
 renderTrips();
 renderCountry();
 
-// Core app is ready before any globe network request begins.
+// Core app is ready immediately. Network features are deliberately opt-in
+// or independent so a slow globe/API cannot block destination controls.
 loadRates(byCode[selected][5]);
 
-// Start the globe separately so a CDN/API failure cannot freeze the page.
-setTimeout(()=>{
-  initAtlasGlobe();
-},0);
+$("loadGlobeBtn").addEventListener("click",async()=>{
+  const btn=$("loadGlobeBtn");
+  if(atlasGlobe)return;
+  btn.disabled=true;
+  btn.textContent="🌎 Loading globe…";
+  try{
+    await initAtlasGlobe();
+  }finally{
+    btn.disabled=false;
+    btn.textContent=atlasGlobe?"✓ Interactive globe loaded":"🌎 Try loading globe again";
+  }
+});
 
 window.addEventListener("resize",resizeAtlasGlobe);
 </script>
