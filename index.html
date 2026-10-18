@@ -749,7 +749,7 @@ function renderCountry(){
         const code=globeCountryCode(feature);
         if(code===selected)return "#76e2bd";
         if(code)return "#6e7ff0";
-        return "rgba(60,75,100,.45)";
+        return "#2b3a52";
       });
     refreshGlobePoints();
   }
@@ -1216,8 +1216,6 @@ function selectFromGlobe(code){
   );
 
   const p=byCode[code];
-  $("globeStatus").textContent=
-    `${p[2]} ${p[1]} selected`;
 
   if(atlasGlobe){
     atlasGlobe.pointOfView(
@@ -1330,60 +1328,19 @@ async function initAtlasGlobe(){
     .atmosphereAltitude(.12)
     .polygonsData([])
     .polygonAltitude(feature=>{
-      return globeCountryCode(feature)?0.012:0.003;
+      return globeCountryCode(feature)?0.014:0.006;
     })
     .polygonCapColor(feature=>{
       const code=globeCountryCode(feature);
       if(code===selected)return "#76e2bd";
       if(code)return "#6e7ff0";
-      return "rgba(60,75,100,.45)";
+      return "#2b3a52";
     })
-    .polygonSideColor(()=> "rgba(50,65,90,.55)")
-    .polygonStrokeColor(()=> "rgba(190,205,235,.35)")
-    .polygonLabel(feature=>{
-      const props=feature.properties||{};
-      const name=props.ADMIN||props.name||props.NAME||"Country";
-      const code=globeCountryCode(feature);
-
-      if(code&&byCode[code]){
-        return `
-          <div style="
-            background:#101a29;
-            border:1px solid #76e2bd;
-            border-radius:8px;
-            padding:7px 9px;
-            color:#f1f5fb;
-            font:600 11px system-ui;
-          ">
-            ${byCode[code][2]} ${escapeHTML(byCode[code][1])}
-          </div>`;
-      }
-
-      return `
-        <div style="
-          background:#101a29;
-          border:1px solid #2a3a50;
-          border-radius:8px;
-          padding:6px 8px;
-          color:#dce5f2;
-          font:600 10px system-ui;
-        ">
-          ${escapeHTML(name)}
-        </div>`;
-    })
+    .polygonSideColor(()=> "rgba(235,242,255,.55)")
+    .polygonStrokeColor(()=> "#f4f8ff")
     .onPolygonClick(feature=>{
       const code=globeCountryCode(feature);
       if(code)selectFromGlobe(code);
-    })
-    .onPolygonHover(feature=>{
-      if(!feature)return;
-
-      const code=globeCountryCode(feature);
-
-      if(code&&byCode[code]){
-        $("globeStatus").textContent=
-          `${byCode[code][2]} ${byCode[code][1]} · tap to select`;
-      }
     })
     // Dots for tiny countries with no polygon
     .pointLat(d=>d[10])
@@ -1391,11 +1348,6 @@ async function initAtlasGlobe(){
     .pointAltitude(0.02)
     .pointRadius(0.55)
     .pointColor(d=>d[0]===selected?"#76e2bd":"#ffd18a")
-    .pointLabel(d=>`
-      <div style="background:#101a29;border:1px solid #ffd18a;border-radius:8px;
-        padding:7px 9px;color:#f1f5fb;font:600 11px system-ui;">
-        ${d[2]} ${escapeHTML(d[1])}
-      </div>`)
     .onPointClick(d=>selectFromGlobe(d[0]));
 
     // Give the bare sphere a deep-ocean color so land stands out.
@@ -1414,8 +1366,7 @@ async function initAtlasGlobe(){
       altitude:2.35
     });
 
-    $("globeStatus").textContent=
-      "Globe ready · loading country borders…";
+    $("globeStatus").textContent="Loading country borders…";
 
   }catch(error){
     console.error("Atlas globe failed to initialize:",error);
@@ -1438,8 +1389,7 @@ async function initAtlasGlobe(){
     globePointPlaces=places.filter(p=>!found.has(p[0]));
     refreshGlobePoints();
 
-    $("globeStatus").textContent=
-      "Drag to spin · pinch to zoom · tap a country to select it";
+    $("globeStatus").textContent="";
   }catch(error){
     console.warn("Atlas country boundaries unavailable:",error);
     // Without borders, show every destination as a tappable dot instead.
