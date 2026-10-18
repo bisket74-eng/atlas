@@ -260,6 +260,83 @@ h3{font-size:13px;margin:0 0 12px}
 .empty{color:var(--muted);font-size:11px}
 footer{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:10px;padding:18px 3px 0}
 
+/* My Journeys overlay */
+body.jo-lock{overflow:hidden}
+.journeys-overlay{
+  position:fixed;inset:0;z-index:1000;display:none;flex-direction:column;
+  background:radial-gradient(ellipse at 20% -10%,#263858,transparent 45%),var(--bg);
+  height:100vh;height:100dvh
+}
+.journeys-overlay.open{display:flex}
+.jo-head{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top));
+  border-bottom:1px solid var(--line);flex:none
+}
+.jo-head h2{font-size:22px;letter-spacing:-.5px}
+.jo-head .eyebrow{margin-bottom:3px}
+.jo-close{
+  width:46px;height:46px;border-radius:50%;padding:0;font-size:22px;line-height:1;
+  display:grid;place-items:center;flex:none
+}
+.jo-body{
+  flex:1;min-height:0;display:grid;
+  grid-template-rows:minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr)
+}
+.jo-mapwrap{display:flex;flex-direction:column;min-height:0;padding:10px 12px 6px}
+.jo-maphead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.jo-maphead h3{margin:0;font-size:14px}
+.map-box{
+  position:relative;flex:1;min-height:180px;border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;background:#0a1626;touch-action:none;
+  user-select:none;-webkit-user-select:none
+}
+#visitedMap{display:block;width:100%;height:100%}
+#mapLand path{
+  fill:url(#foilGrad);stroke:#1a2436;stroke-width:.8px;
+  vector-effect:non-scaling-stroke;transition:fill .5s
+}
+#mapLand path.on{fill:url(#goldGrad);stroke:#fff3d6}
+#mapLand path.fresh{animation:scratchFlash .9s ease-out}
+@keyframes scratchFlash{0%{filter:brightness(2.4)}100%{filter:none}}
+.map-msg{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:10px;text-align:center;padding:16px;
+  color:var(--muted);font-size:12px;background:#0a1626
+}
+.map-msg[hidden]{display:none}
+.map-ctrls{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:6px}
+.map-ctrls .btn{width:38px;height:38px;padding:0;font-size:18px;display:grid;place-items:center;background:#202d42e6}
+.map-toast{
+  position:absolute;left:8px;right:56px;bottom:8px;display:none;align-items:center;
+  justify-content:space-between;gap:10px;padding:9px 11px;border-radius:10px;
+  background:#101a29f2;border:1px solid var(--mint);font-size:12px;font-weight:700
+}
+.map-toast.show{display:flex}
+.map-toast button{background:none;border:0;color:var(--mint);font-weight:800;font-size:12px;padding:4px 6px}
+.map-hint{font-size:10px;color:var(--muted);text-align:center;margin:7px 0 0;line-height:1.4}
+.jo-side{
+  padding:6px 12px 14px;padding-bottom:max(14px,env(safe-area-inset-bottom));
+  max-height:38vh;overflow:auto;border-top:1px solid var(--line);
+  display:grid;gap:10px
+}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 9px;
+  border:1px solid var(--line);border-radius:99px;background:#0c1421;
+  font-size:11px;font-weight:700
+}
+.chip button{background:none;border:0;color:#ff9b9b;font-size:15px;padding:0 2px;line-height:1}
+@media (orientation:landscape) and (max-height:600px){
+  .jo-body{grid-template-rows:minmax(0,1fr);grid-template-columns:minmax(0,1fr) 270px}
+  .jo-side{max-height:none;border-top:0;border-left:1px solid var(--line);align-content:start}
+  .jo-head{padding-top:max(6px,env(safe-area-inset-top));padding-bottom:6px}
+  .jo-head h2{font-size:18px}
+  .jo-head .eyebrow{display:none}
+  .jo-close{width:40px;height:40px}
+  .map-hint{display:none}
+}
+
 @media(max-width:850px){
   .layout{grid-template-columns:1fr}
 }
@@ -520,42 +597,63 @@ Drive on the right</strong>
   </section>
 </div>
 
-<!-- JOURNEYS -->
-<section class="panel" id="journeys" style="margin-top:16px">
-  <div class="pad">
-    <div class="head">
-      <div>
-        <h2>My journeys</h2>
-        <p class="sub">Your saved wishlist and visited destinations.</p>
-      </div>
-      <span class="mini">YOUR TRAVEL STORY</span>
-    </div>
-
-    <div class="journey-summary">
-      <div class="journey-group wishlist">
-        <h3>☆ Wishlist</h3>
-        <div class="journey-items" id="wishlistList"></div>
-      </div>
-
-      <div class="journey-group visited">
-        <h3>✓ Where I've been</h3>
-        <div class="journey-items" id="visitedList"></div>
-      </div>
-    </div>
-
-    <p class="api">
-      Your travel story is stored locally in this browser. Use the Wishlist and Visited buttons
-      on a destination profile to add or remove places from these lists.
-    </p>
-  </div>
-</section>
-
 <footer>
   <span>ATLAS ADVENTURES · WORKING PROTOTYPE</span>
   <span>Explore more. Remember more.</span>
 </footer>
 
 </main>
+
+<!-- MY JOURNEYS (pop-up page) -->
+<div class="journeys-overlay" id="journeysOverlay" role="dialog" aria-modal="true" aria-label="My journeys">
+  <div class="jo-head">
+    <div>
+      <p class="eyebrow">YOUR TRAVEL STORY</p>
+      <h2>My journeys</h2>
+    </div>
+    <button type="button" class="btn jo-close" id="closeJourneys" aria-label="Close my journeys">✕</button>
+  </div>
+
+  <div class="jo-body">
+    <div class="jo-mapwrap">
+      <div class="jo-maphead">
+        <h3>🪙 Scratch-off map</h3>
+        <span class="mini" id="visitedCount"></span>
+      </div>
+
+      <div class="map-box" id="mapBox">
+        <svg id="visitedMap" viewBox="0 6 360 146" preserveAspectRatio="xMidYMid meet" aria-label="World map of places you have visited"></svg>
+
+        <div class="map-msg" id="mapMsg">
+          <span id="mapMsgText">Loading map…</span>
+          <button type="button" class="btn" id="mapRetry" style="display:none">Try again</button>
+        </div>
+
+        <div class="map-ctrls">
+          <button type="button" class="btn" id="mapZoomIn" aria-label="Zoom in">＋</button>
+          <button type="button" class="btn" id="mapZoomOut" aria-label="Zoom out">−</button>
+          <button type="button" class="btn" id="mapReset" aria-label="Reset map view">⤢</button>
+        </div>
+
+        <div class="map-toast" id="mapToast"></div>
+      </div>
+
+      <p class="map-hint">Tap a country to scratch it off · drag to move · pinch to zoom · turn your phone sideways for a bigger map</p>
+    </div>
+
+    <aside class="jo-side">
+      <div class="journey-group wishlist">
+        <h3>☆ Wishlist</h3>
+        <div class="journey-items" id="wishlistList"></div>
+      </div>
+
+      <div class="journey-group visited">
+        <h3>✓ Scratched off</h3>
+        <div class="chips" id="visitedList"></div>
+      </div>
+    </aside>
+  </div>
+</div>
 
 <script>
 /* -----------------------------------------------------------
@@ -782,39 +880,26 @@ function addTrip(name,kind,date="",code=selected){
 }
 
 function renderTrips(){
-  const wishlist=$("wishlistList");
-  const visited=$("visitedList");
-  if(!wishlist||!visited)return;
+  const wl=$("wishlistList");
+  const vl=$("visitedList");
+  if(!wl||!vl)return;
 
-  wishlist.innerHTML="";
-  visited.innerHTML="";
+  wl.innerHTML="";
+  vl.innerHTML="";
 
   const wishlistTrips=trips.filter(t=>t.kind==="Wishlist");
   const visitedTrips=trips.filter(t=>t.kind==="Visited");
 
-  function renderGroup(el,items,emptyText){
-    if(!items.length){
-      el.innerHTML=`<p class="empty">${emptyText}</p>`;
-      return;
-    }
-
-    items.forEach(t=>{
+  if(!wishlistTrips.length){
+    wl.innerHTML='<p class="empty">Your wishlist is empty. Tap ＋ Wishlist on a destination to add it.</p>';
+  }else{
+    wishlistTrips.forEach(t=>{
       const row=document.createElement("div");
       row.className="journey-item";
 
-      const info=document.createElement("div");
-      info.style.flex="1";
-      info.style.minWidth="0";
-
       const name=document.createElement("div");
       name.className="journey-name";
-      name.textContent=t.name;
-
-      const meta=document.createElement("small");
-      meta.className="journey-meta";
-      meta.textContent=t.date||"Saved in this browser";
-
-      info.append(name,meta);
+      name.textContent=(byCode[t.code]?.[2]||"🌍")+" "+t.name;
 
       const del=document.createElement("button");
       del.type="button";
@@ -825,13 +910,40 @@ function renderTrips(){
         saveTrips();
       };
 
-      row.append(info,del);
-      el.append(row);
+      row.append(name,del);
+      wl.append(row);
     });
   }
 
-  renderGroup(wishlist,wishlistTrips,"Your wishlist is empty.");
-  renderGroup(visited,visitedTrips,"No visited destinations yet.");
+  if(!visitedTrips.length){
+    vl.innerHTML='<p class="empty">Nothing scratched off yet. Tap a country on the map.</p>';
+  }else{
+    visitedTrips.forEach(t=>{
+      const chip=document.createElement("span");
+      chip.className="chip";
+      chip.append((byCode[t.code]?.[2]||"🌍")+" "+t.name);
+
+      const del=document.createElement("button");
+      del.type="button";
+      del.textContent="×";
+      del.setAttribute("aria-label","Remove "+t.name);
+      del.onclick=()=>removeVisited(t.code);
+
+      chip.append(del);
+      vl.append(chip);
+    });
+  }
+
+  const total=geoCache?(geoCache.features||[]).length:0;
+  $("visitedCount").textContent=
+    visitedTrips.length+(total?" of "+total:"")+" scratched off";
+
+  updateMapFills();
+}
+
+function removeVisited(code){
+  trips=trips.filter(t=>!(t.code===code&&t.kind==="Visited"));
+  saveTrips();
 }
 
 /* -----------------------------------------------------------
@@ -1168,6 +1280,7 @@ const globeAliases={
 };
 
 let globePointPlaces=[];
+let geoCache=null;
 
 function globeCountryCode(feature){
   const props=feature.properties||{};
@@ -1289,10 +1402,12 @@ async function fetchJSONWithTimeout(url,ms){
 }
 
 async function loadCountryGeoJSON(){
+  if(geoCache)return geoCache;
   let lastError=null;
   for(const url of GLOBE_BORDER_SOURCES){
     try{
-      return await fetchJSONWithTimeout(url,20000);
+      geoCache=await fetchJSONWithTimeout(url,20000);
+      return geoCache;
     }catch(e){
       lastError=e;
     }
@@ -1409,6 +1524,298 @@ function resizeAtlasGlobe(){
     .height(container.clientHeight);
 }
 /* -----------------------------------------------------------
+   MY JOURNEYS POP-UP + SCRATCH-OFF MAP
+   Flat world map (equirectangular). Countries start as silver foil;
+   tapping one scratches it off to reveal gold.
+----------------------------------------------------------- */
+const MAPV={k:1,k0:1,cx:180,cy:79,cw:0,ch:0,fit:true};
+let mapBuilt=false;
+let mapPathEls=[];
+let mapToastTimer=null;
+const mapPtrs=new Map();
+let mapGesture=null;
+
+function mapFeatureCode(f){
+  const p=f.properties||{};
+  return globeCountryCode(f)||("X_"+(p.ADM0_A3||p.ADMIN||p.name||"unknown"));
+}
+
+function mapFeatureName(f,code){
+  const p=f.properties||{};
+  return (byCode[code]&&byCode[code][1])||p.ADMIN||p.name||p.NAME||"Country";
+}
+
+function ringPath(ring){
+  let d="";
+  for(let i=0;i<ring.length;i++){
+    const pt=ring[i];
+    d+=(i?"L":"M")+(pt[0]+180).toFixed(2)+" "+(90-pt[1]).toFixed(2);
+  }
+  return d+"Z";
+}
+
+function featurePath(f){
+  const g=f.geometry;
+  if(!g)return "";
+  const polys=
+    g.type==="Polygon"?[g.coordinates]:
+    g.type==="MultiPolygon"?g.coordinates:[];
+  return polys.map(poly=>poly.map(ringPath).join("")).join("");
+}
+
+function buildMap(data){
+  const visitedSet=new Set(
+    trips.filter(t=>t.kind==="Visited").map(t=>t.code)
+  );
+  let html="";
+
+  (data.features||[]).forEach(f=>{
+    const d=featurePath(f);
+    if(!d)return;
+    const code=mapFeatureCode(f);
+    const name=mapFeatureName(f,code);
+    html+=`<path class="${visitedSet.has(code)?"on":""}" data-code="${escapeHTML(code)}" data-name="${escapeHTML(name)}" fill-rule="evenodd" d="${d}"></path>`;
+  });
+
+  $("visitedMap").innerHTML=
+    `<defs>
+      <linearGradient id="foilGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#b4bdcc"/>
+        <stop offset=".5" stop-color="#7f8b9e"/>
+        <stop offset="1" stop-color="#9aa5b6"/>
+      </linearGradient>
+      <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ffe7b0"/>
+        <stop offset=".55" stop-color="#ffc766"/>
+        <stop offset="1" stop-color="#f09a3e"/>
+      </linearGradient>
+    </defs>
+    <g id="mapLand">${html}</g>`;
+
+  mapPathEls=Array.from($("mapLand").querySelectorAll("path"));
+  mapBuilt=true;
+  $("mapMsg").hidden=true;
+  mapResize();
+  renderTrips();
+}
+
+function updateMapFills(){
+  if(!mapBuilt)return;
+  const visitedSet=new Set(
+    trips.filter(t=>t.kind==="Visited").map(t=>t.code)
+  );
+  mapPathEls.forEach(el=>{
+    const on=visitedSet.has(el.dataset.code);
+    if(on!==el.classList.contains("on")){
+      el.classList.toggle("on",on);
+      if(on){
+        el.classList.add("fresh");
+        setTimeout(()=>el.classList.remove("fresh"),1000);
+      }
+    }
+  });
+}
+
+/* ---- pan / zoom ---- */
+function mapApply(){
+  if(!MAPV.cw)return;
+  const w=MAPV.cw/MAPV.k;
+  const h=MAPV.ch/MAPV.k;
+
+  MAPV.cx=w>=360?180:Math.min(360-w/2,Math.max(w/2,MAPV.cx));
+  MAPV.cy=h>=146?79:Math.min(152-h/2,Math.max(6+h/2,MAPV.cy));
+
+  $("visitedMap").setAttribute(
+    "viewBox",
+    `${MAPV.cx-w/2} ${MAPV.cy-h/2} ${w} ${h}`
+  );
+}
+
+function mapResize(){
+  const box=$("mapBox");
+  if(!box)return;
+  const r=box.getBoundingClientRect();
+  if(!r.width||!r.height)return;
+
+  MAPV.cw=r.width;
+  MAPV.ch=r.height;
+  MAPV.k0=Math.min(r.width/360,r.height/146);
+
+  if(MAPV.fit||MAPV.k<MAPV.k0){
+    MAPV.k=MAPV.k0;
+    MAPV.fit=true;
+    MAPV.cx=180;
+    MAPV.cy=79;
+  }
+  mapApply();
+}
+
+function zoomAt(px,py,factor){
+  const nk=Math.min(MAPV.k0*40,Math.max(MAPV.k0,MAPV.k*factor));
+  const mx=MAPV.cx+(px-MAPV.cw/2)/MAPV.k;
+  const my=MAPV.cy+(py-MAPV.ch/2)/MAPV.k;
+  MAPV.k=nk;
+  MAPV.cx=mx-(px-MAPV.cw/2)/nk;
+  MAPV.cy=my-(py-MAPV.ch/2)/nk;
+  MAPV.fit=nk<=MAPV.k0*1.001;
+  mapApply();
+}
+
+/* ---- scratching ---- */
+function showMapToast(text,actionLabel,action){
+  const t=$("mapToast");
+  t.innerHTML="";
+  const span=document.createElement("span");
+  span.textContent=text;
+  const btn=document.createElement("button");
+  btn.type="button";
+  btn.textContent=actionLabel;
+  btn.onclick=()=>{
+    t.classList.remove("show");
+    action();
+  };
+  t.append(span,btn);
+  t.classList.add("show");
+  clearTimeout(mapToastTimer);
+  mapToastTimer=setTimeout(()=>t.classList.remove("show"),3500);
+}
+
+function mapTap(x,y){
+  const el=document.elementFromPoint(x,y);
+  const path=el&&el.closest?el.closest("#mapLand path"):null;
+  if(!path)return;
+
+  const code=path.dataset.code;
+  const name=path.dataset.name;
+  const already=trips.some(t=>t.kind==="Visited"&&t.code===code);
+
+  if(already){
+    showMapToast(name+" is scratched off","Remove",()=>removeVisited(code));
+  }else{
+    addTrip(name,"Visited","",code);
+    showMapToast("Scratched off "+name,"Undo",()=>removeVisited(code));
+  }
+}
+
+function initMapGestures(){
+  const box=$("mapBox");
+
+  box.addEventListener("pointerdown",e=>{
+    if(e.target.closest(".map-ctrls,.map-toast,.map-msg"))return;
+    try{box.setPointerCapture(e.pointerId);}catch(err){}
+    mapPtrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+
+    if(!mapGesture)mapGesture={moved:0,multi:false,d:0};
+    if(mapPtrs.size>=2){
+      const pts=Array.from(mapPtrs.values());
+      mapGesture.multi=true;
+      mapGesture.d=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);
+    }
+  });
+
+  box.addEventListener("pointermove",e=>{
+    if(!mapPtrs.has(e.pointerId)||!mapGesture)return;
+    const prev=mapPtrs.get(e.pointerId);
+    const cur={x:e.clientX,y:e.clientY};
+
+    if(mapPtrs.size===1){
+      const dx=cur.x-prev.x;
+      const dy=cur.y-prev.y;
+      mapGesture.moved+=Math.abs(dx)+Math.abs(dy);
+      if(mapGesture.moved>8){
+        MAPV.cx-=dx/MAPV.k;
+        MAPV.cy-=dy/MAPV.k;
+        MAPV.fit=false;
+        mapApply();
+      }
+      mapPtrs.set(e.pointerId,cur);
+    }else if(mapPtrs.size>=2){
+      mapPtrs.set(e.pointerId,cur);
+      const pts=Array.from(mapPtrs.values());
+      const d=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);
+      const r=box.getBoundingClientRect();
+      const mx=(pts[0].x+pts[1].x)/2-r.left;
+      const my=(pts[0].y+pts[1].y)/2-r.top;
+      if(mapGesture.d>0)zoomAt(mx,my,d/mapGesture.d);
+      mapGesture.d=d;
+      mapGesture.moved=999;
+    }
+  });
+
+  const end=e=>{
+    if(!mapPtrs.has(e.pointerId))return;
+    const wasTap=
+      e.type==="pointerup"&&
+      mapPtrs.size===1&&
+      mapGesture&&!mapGesture.multi&&
+      mapGesture.moved<=8;
+
+    mapPtrs.delete(e.pointerId);
+    if(wasTap)mapTap(e.clientX,e.clientY);
+    if(mapPtrs.size===0)mapGesture=null;
+  };
+
+  box.addEventListener("pointerup",end);
+  box.addEventListener("pointercancel",end);
+
+  box.addEventListener("wheel",e=>{
+    e.preventDefault();
+    const r=box.getBoundingClientRect();
+    zoomAt(e.clientX-r.left,e.clientY-r.top,e.deltaY<0?1.2:1/1.2);
+  },{passive:false});
+
+  $("mapZoomIn").onclick=()=>zoomAt(MAPV.cw/2,MAPV.ch/2,1.6);
+  $("mapZoomOut").onclick=()=>zoomAt(MAPV.cw/2,MAPV.ch/2,1/1.6);
+  $("mapReset").onclick=()=>{
+    MAPV.k=MAPV.k0;
+    MAPV.fit=true;
+    MAPV.cx=180;
+    MAPV.cy=79;
+    mapApply();
+  };
+}
+
+/* ---- open / close ---- */
+async function ensureMap(){
+  if(mapBuilt)return;
+  $("mapMsg").hidden=false;
+  $("mapMsgText").textContent="Loading map…";
+  $("mapRetry").style.display="none";
+  try{
+    buildMap(await loadCountryGeoJSON());
+  }catch(e){
+    $("mapMsgText").textContent="The map couldn't download. Check your connection and try again.";
+    $("mapRetry").style.display="";
+  }
+}
+
+function journeysOpen(){
+  return $("journeysOverlay").classList.contains("open");
+}
+
+function openJourneys(){
+  if(journeysOpen())return;
+  $("journeysOverlay").classList.add("open");
+  document.body.classList.add("jo-lock");
+  try{history.pushState({journeys:1},"");}catch(e){}
+  renderTrips();
+  requestAnimationFrame(()=>{
+    mapResize();
+    ensureMap();
+  });
+}
+
+function closeJourneys(fromPop){
+  if(!journeysOpen())return;
+  $("journeysOverlay").classList.remove("open");
+  document.body.classList.remove("jo-lock");
+  $("mapToast").classList.remove("show");
+  if(!fromPop&&history.state&&history.state.journeys){
+    try{history.back();}catch(e){}
+  }
+}
+
+/* -----------------------------------------------------------
    EVENT HANDLERS
 ----------------------------------------------------------- */
 $("countrySelect").addEventListener("change",e=>{
@@ -1466,15 +1873,22 @@ $("wishBtn").onclick=()=>{
   addTrip(byCode[selected][1],"Wishlist");
 };
 
-$("jumpTrips").onclick=()=>{
-  const journeys=$("journeys");
-  if(journeys){
-    journeys.scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
-  }
-};
+$("jumpTrips").onclick=openJourneys;
+$("closeJourneys").onclick=()=>closeJourneys(false);
+$("mapRetry").onclick=ensureMap;
+initMapGestures();
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")closeJourneys(false);
+});
+
+window.addEventListener("popstate",()=>{
+  if(journeysOpen())closeJourneys(true);
+});
+
+window.addEventListener("orientationchange",()=>{
+  setTimeout(()=>{if(journeysOpen())mapResize();},250);
+});
 
 $("distanceInput").addEventListener("input",updateDistance);
 
@@ -1563,7 +1977,10 @@ $("loadGlobeBtn").addEventListener("click",async()=>{
   }
 });
 
-window.addEventListener("resize",resizeAtlasGlobe);
+window.addEventListener("resize",()=>{
+  resizeAtlasGlobe();
+  if(journeysOpen())mapResize();
+});
 </script>
 </body>
 </html>
