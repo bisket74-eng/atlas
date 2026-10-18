@@ -6,9 +6,6 @@
 <meta name="theme-color" content="#0d1421">
 <title>Atlas Adventures</title>
 
-<!-- Interactive 3-D globe -->
-<script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
-
 <style>
 :root{
   color-scheme:dark;
@@ -230,16 +227,30 @@ h3{font-size:13px;margin:0 0 12px}
 .api a{color:#b5b6ff}
 
 /* Plug / journey / footer */
-.tripform{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}
-.triplist{display:grid;gap:8px;margin-top:12px}
-.trip{
-  display:flex;gap:9px;align-items:center;padding:10px;
-  background:#101a29;border:1px solid var(--line);border-radius:10px
+.journey-summary{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:13px
 }
-.tripinfo{flex:1;min-width:0}
-.trip strong{display:block;font-size:12px}
-.trip small{font-size:10px;color:var(--muted)}
-.trip button{background:none;border:0;color:#ff9b9b;font-size:18px}
+.journey-group{
+  background:#101a29;border:1px solid var(--line);border-radius:12px;
+  padding:13px;min-width:0
+}
+.journey-group h3{margin:0 0 8px;font-size:12px}
+.journey-group.wishlist h3{color:#9af0d3}
+.journey-group.visited h3{color:#b5b6ff}
+.journey-items{display:grid;gap:7px}
+.journey-item{
+  display:flex;align-items:center;gap:8px;padding:8px 9px;
+  background:#0c1421;border:1px solid var(--line);border-radius:9px
+}
+.journey-item .journey-name{
+  flex:1;min-width:0;font-size:11px;font-weight:700;overflow-wrap:anywhere
+}
+.journey-item .journey-meta{
+  display:block;color:var(--muted);font-size:9px;margin-top:2px
+}
+.journey-item button{
+  background:none;border:0;color:#ff9b9b;font-size:17px;padding:2px 4px;line-height:1
+}
 .empty{color:var(--muted);font-size:11px}
 footer{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:10px;padding:18px 3px 0}
 
@@ -256,7 +267,7 @@ footer{display:flex;justify-content:space-between;gap:10px;color:var(--muted);fo
   .pad{padding:14px}
   .facts{gap:7px}
   .fact{padding:10px}
-  .tripform{grid-template-columns:1fr}
+  .journey-summary{grid-template-columns:1fr}
   .wide{grid-column:auto}
   .phrase-tools{grid-template-columns:1fr}
   #atlasGlobe{height:285px;min-height:250px}
@@ -537,28 +548,26 @@ Drive on the right</strong>
     <div class="head">
       <div>
         <h2>My journeys</h2>
-        <p class="sub">Save places you dream of, plan, or have visited.</p>
+        <p class="sub">Your saved wishlist and visited destinations.</p>
       </div>
       <span class="mini">YOUR TRAVEL STORY</span>
     </div>
 
-    <form class="tripform" id="tripForm">
-      <input class="field" id="tripName"
-             placeholder="Trip or destination name" maxlength="90" required>
-      <select class="field" id="tripKind">
-        <option>Wishlist</option>
-        <option>Planning</option>
-        <option>Visited</option>
-      </select>
-      <input class="field" id="tripDate" type="date" aria-label="Date (optional)">
-      <button class="btn primary" type="submit">＋ Save destination</button>
-    </form>
+    <div class="journey-summary">
+      <div class="journey-group wishlist">
+        <h3>☆ Wishlist</h3>
+        <div class="journey-items" id="wishlistList"></div>
+      </div>
 
-    <div class="triplist" id="tripList"></div>
+      <div class="journey-group visited">
+        <h3>✓ Where I've been</h3>
+        <div class="journey-items" id="visitedList"></div>
+      </div>
+    </div>
 
     <p class="api">
-      Your travel list is stored locally in this browser. This prototype includes 50+ popular destinations;
-      detailed safety advice, flight durations, and some country facts still need trusted live data sources.
+      Your travel story is stored locally in this browser. Use the Wishlist and Visited buttons
+      on a destination profile to add or remove places from these lists.
     </p>
   </div>
 </section>
@@ -794,45 +803,56 @@ function addTrip(name,kind,date="",code=selected){
 }
 
 function renderTrips(){
-  const el=$("tripList");
-  el.innerHTML="";
+  const wishlist=$("wishlistList");
+  const visited=$("visitedList");
+  if(!wishlist||!visited)return;
 
-  if(!trips.length){
-    el.innerHTML=
-      '<p class="empty">Your travel story starts here. Add a destination above or mark a country as visited.</p>';
-    return;
+  wishlist.innerHTML="";
+  visited.innerHTML="";
+
+  const wishlistTrips=trips.filter(t=>t.kind==="Wishlist");
+  const visitedTrips=trips.filter(t=>t.kind==="Visited");
+
+  function renderGroup(el,items,emptyText){
+    if(!items.length){
+      el.innerHTML=`<p class="empty">${emptyText}</p>`;
+      return;
+    }
+
+    items.forEach(t=>{
+      const row=document.createElement("div");
+      row.className="journey-item";
+
+      const info=document.createElement("div");
+      info.style.flex="1";
+      info.style.minWidth="0";
+
+      const name=document.createElement("div");
+      name.className="journey-name";
+      name.textContent=t.name;
+
+      const meta=document.createElement("small");
+      meta.className="journey-meta";
+      meta.textContent=t.date||"Saved in this browser";
+
+      info.append(name,meta);
+
+      const del=document.createElement("button");
+      del.type="button";
+      del.textContent="×";
+      del.setAttribute("aria-label","Remove "+t.name);
+      del.onclick=()=>{
+        trips=trips.filter(x=>x.id!==t.id);
+        saveTrips();
+      };
+
+      row.append(info,del);
+      el.append(row);
+    });
   }
 
-  trips.forEach(t=>{
-    const row=document.createElement("div");
-    row.className="trip";
-
-    const icon=document.createElement("span");
-    icon.textContent=t.kind==="Visited"?"✓":t.kind==="Planning"?"✈":"☆";
-    icon.style.color=t.kind==="Visited"?"var(--mint)":"var(--gold)";
-
-    const info=document.createElement("div");
-    info.className="tripinfo";
-
-    const strong=document.createElement("strong");
-    strong.textContent=t.name;
-
-    const small=document.createElement("small");
-    small.textContent=t.kind+(t.date?" · "+t.date:"");
-
-    info.append(strong,small);
-
-    const del=document.createElement("button");
-    del.textContent="×";
-    del.setAttribute("aria-label","Remove "+t.name);
-    del.onclick=()=>{
-      trips=trips.filter(x=>x.id!==t.id);
-      saveTrips();
-    };
-
-    row.append(icon,info,del);
-    el.append(row);
-  });
+  renderGroup(wishlist,wishlistTrips,"Your wishlist is empty.");
+  renderGroup(visited,visitedTrips,"No visited destinations yet.");
 }
 
 /* -----------------------------------------------------------
@@ -1083,16 +1103,36 @@ async function renderPhrases(){
     right.append(speak);
     box.append(row);
 
-    translatePhrase(en,target)
-      .then(value=>{
-        const strong=right.querySelector("strong");
-        if(strong)strong.textContent=value;
-      })
-      .catch(()=>{
-        const strong=right.querySelector("strong");
-        if(strong)strong.textContent="Translation unavailable online";
-      });
+    row.dataset.phrase=en;
   }
+
+  // Queue translations in small batches instead of firing 50 requests at once.
+  const rows=[...box.querySelectorAll(".phrase-row")];
+  let cursor=0;
+
+  async function translateNextBatch(){
+    const batch=rows.slice(cursor,cursor+4);
+    cursor+=4;
+
+    await Promise.all(batch.map(async row=>{
+      const en=row.dataset.phrase;
+      const strong=row.querySelector("div:nth-child(2) strong");
+      if(!strong)return;
+
+      try{
+        const value=await translatePhrase(en,target);
+        strong.textContent=value;
+      }catch(e){
+        strong.textContent="Translation unavailable online";
+      }
+    }));
+
+    if(cursor<rows.length){
+      setTimeout(translateNextBatch,0);
+    }
+  }
+
+  translateNextBatch();
 }
 
 function escapeHTML(value){
@@ -1104,6 +1144,10 @@ function escapeHTML(value){
 
 /* -----------------------------------------------------------
    INTERACTIVE GLOBE
+   The globe is deliberately isolated from the rest of the app:
+   - no synchronous CDN script in <head>
+   - a slow/failed globe can never hold up the destination controls
+   - the globe renders before country-boundary data is requested
 ----------------------------------------------------------- */
 const globeAliases={
   "Turkey":"TR",
@@ -1166,7 +1210,6 @@ function selectFromGlobe(code){
   );
 
   const p=byCode[code];
-
   $("globeStatus").textContent=
     `${p[2]} ${p[1]} selected`;
 
@@ -1178,38 +1221,77 @@ function selectFromGlobe(code){
   }
 }
 
-async function initAtlasGlobe(){
-  const container=$("atlasGlobe");
+function loadGlobeLibrary(){
+  return new Promise(resolve=>{
+    if(typeof Globe==="function"){
+      resolve(true);
+      return;
+    }
 
-  if(!container||typeof Globe==="undefined"){
-    $("globeStatus").textContent=
-      "Interactive globe unavailable; use the destination selector above.";
-    return;
-  }
+    const script=document.createElement("script");
+    script.src="https://cdn.jsdelivr.net/npm/globe.gl@2.46.2/dist/globe.gl.min.js";
+    script.async=true;
+
+    let settled=false;
+    const finish=ok=>{
+      if(settled)return;
+      settled=true;
+      resolve(ok);
+    };
+
+    script.onload=()=>finish(typeof Globe==="function");
+    script.onerror=()=>finish(false);
+    document.head.appendChild(script);
+
+    // Never let a slow CDN request hold up the rest of the page.
+    setTimeout(()=>finish(typeof Globe==="function"),4500);
+  });
+}
+
+async function loadCountryGeoJSON(){
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),6000);
 
   try{
     const response=await fetch(
-      "https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson"
+      "https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson",
+      {signal:controller.signal}
     );
 
     if(!response.ok)throw new Error("Unable to load country boundaries");
+    return await response.json();
+  }finally{
+    clearTimeout(timer);
+  }
+}
 
-    const data=await response.json();
+async function initAtlasGlobe(){
+  const container=$("atlasGlobe");
+  if(!container)return;
 
+  $("globeStatus").textContent="Starting the interactive globe…";
+
+  const ready=await loadGlobeLibrary();
+
+  if(!ready){
+    $("globeStatus").textContent=
+      "Globe unavailable — destination selector and all other controls still work.";
+    return;
+  }
+
+  // Render the globe first. Do not wait for remote country data or imagery.
+  try{
     atlasGlobe=Globe(container,{
       animateIn:true,
-      waitForGlobeReady:true
+      waitForGlobeReady:false
     })
     .width(container.clientWidth)
     .height(container.clientHeight)
     .backgroundColor("#0b1422")
-    .globeImageUrl(
-      "https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
-    )
     .showAtmosphere(true)
     .atmosphereColor("#6f8cff")
     .atmosphereAltitude(.12)
-    .polygonsData(data.features||[])
+    .polygonsData([])
     .polygonAltitude(feature=>{
       return globeCountryCode(feature)?0.012:0.003;
     })
@@ -1277,38 +1359,39 @@ async function initAtlasGlobe(){
     });
 
     $("globeStatus").textContent=
-      "Drag to spin · pinch to zoom · tap a country to select it";
-
-    window.addEventListener("resize",()=>{
-      if(!atlasGlobe)return;
-
-      atlasGlobe
-        .width(container.clientWidth)
-        .height(container.clientHeight);
-    });
+      "Globe ready · loading country borders…";
 
   }catch(error){
-    console.error("Atlas globe failed:",error);
-
-    $("atlasGlobe").innerHTML=`
-      <div style="
-        height:100%;
-        display:grid;
-        place-items:center;
-        text-align:center;
-        padding:25px;
-        color:#9baac0;
-        font-size:11px;
-      ">
-        The interactive globe couldn't load.<br>
-        You can still use the destination selector above.
-      </div>`;
-
+    console.error("Atlas globe failed to initialize:",error);
     $("globeStatus").textContent=
-      "Globe unavailable — destination selector still works.";
+      "Globe unavailable — destination selector and all other controls still work.";
+    atlasGlobe=null;
+    return;
+  }
+
+  // Country borders load independently and have their own timeout.
+  try{
+    const data=await loadCountryGeoJSON();
+    if(!atlasGlobe)return;
+
+    atlasGlobe.polygonsData(data.features||[]);
+    $("globeStatus").textContent=
+      "Drag to spin · pinch to zoom · tap a country to select it";
+  }catch(error){
+    console.warn("Atlas country boundaries unavailable:",error);
+    $("globeStatus").textContent=
+      "Globe is ready, but country borders are unavailable. The destination selector still works.";
   }
 }
 
+function resizeAtlasGlobe(){
+  const container=$("atlasGlobe");
+  if(!atlasGlobe||!container)return;
+
+  atlasGlobe
+    .width(container.clientWidth)
+    .height(container.clientHeight);
+}
 /* -----------------------------------------------------------
    EVENT HANDLERS
 ----------------------------------------------------------- */
@@ -1370,26 +1453,14 @@ $("wishBtn").onclick=()=>{
 };
 
 $("jumpTrips").onclick=()=>{
-  $("journeys").scrollIntoView({
-    behavior:"smooth"
-  });
+  const journeys=$("journeys");
+  if(journeys){
+    journeys.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+  }
 };
-
-$("tripForm").addEventListener("submit",e=>{
-  e.preventDefault();
-
-  const name=$("tripName").value.trim();
-
-  if(!name)return;
-
-  addTrip(
-    name,
-    $("tripKind").value,
-    $("tripDate").value
-  );
-
-  e.target.reset();
-});
 
 $("distanceInput").addEventListener("input",updateDistance);
 
@@ -1460,8 +1531,16 @@ try{
 fillCountries();
 renderTrips();
 renderCountry();
+
+// Core app is ready before any globe network request begins.
 loadRates(byCode[selected][5]);
-initAtlasGlobe();
+
+// Start the globe separately so a CDN/API failure cannot freeze the page.
+setTimeout(()=>{
+  initAtlasGlobe();
+},0);
+
+window.addEventListener("resize",resizeAtlasGlobe);
 </script>
 </body>
 </html>
